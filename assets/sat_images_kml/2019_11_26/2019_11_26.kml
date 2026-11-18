@@ -1,0 +1,1233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>2019_11_26.kml</name>
+	<StyleMap id="m_ylw-pushpin0">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#s_ylw-pushpin0</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#s_ylw-pushpin_hl10</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="msn_placemark_circle11">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_placemark_circle01</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sh_placemark_circle_highlight51</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="msn_placemark_circle111">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_placemark_circle00</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sh_placemark_circle_highlight5</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="msn_placemark_circle21">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_placemark_circle</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sh_placemark_circle_highlight11</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="msn_ylw-pushpin101">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_ylw-pushpin70</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sh_ylw-pushpin26</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="msn_ylw-pushpin30">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_ylw-pushpin53</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sh_ylw-pushpin10</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="s_ylw-pushpin0">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff3d7ca6</color>
+			<width>2</width>
+		</LineStyle>
+	</Style>
+	<Style id="s_ylw-pushpin_hl10">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff3d7ca6</color>
+			<width>2</width>
+		</LineStyle>
+	</Style>
+	<Style id="sh_placemark_circle_highlight11">
+		<IconStyle>
+			<color>ff2c2cc6</color>
+			<scale>1.2</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle_highlight.png</href>
+			</Icon>
+		</IconStyle>
+	</Style>
+	<Style id="sh_placemark_circle_highlight5">
+		<IconStyle>
+			<color>ff32a8e5</color>
+			<scale>1.2</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle_highlight.png</href>
+			</Icon>
+		</IconStyle>
+	</Style>
+	<Style id="sh_placemark_circle_highlight51">
+		<IconStyle>
+			<color>ff32a8e5</color>
+			<scale>1.2</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle_highlight.png</href>
+			</Icon>
+		</IconStyle>
+	</Style>
+	<Style id="sh_ylw-pushpin10">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff4d7339</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>994d7339</color>
+		</PolyStyle>
+	</Style>
+	<Style id="sh_ylw-pushpin26">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ffd1b545</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>99d1b545</color>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<Style id="sn_placemark_circle">
+		<IconStyle>
+			<color>ff2c2cc6</color>
+			<scale>1.2</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+			</Icon>
+		</IconStyle>
+	</Style>
+	<Style id="sn_placemark_circle00">
+		<IconStyle>
+			<color>ff32a8e5</color>
+			<scale>1.2</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+			</Icon>
+		</IconStyle>
+	</Style>
+	<Style id="sn_placemark_circle01">
+		<IconStyle>
+			<color>ff32a8e5</color>
+			<scale>1.2</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+			</Icon>
+		</IconStyle>
+	</Style>
+	<Style id="sn_ylw-pushpin53">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff4d7339</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>994d7339</color>
+		</PolyStyle>
+	</Style>
+	<Style id="sn_ylw-pushpin70">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ffd1b545</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>99d1b545</color>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<Folder>
+		<name>2019_11_26</name>
+		<Placemark>
+			<name>1_cage_farms_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228582649674</longitude>
+				<latitude>13.63904195747488</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989032348733139</heading>
+				<tilt>0.5815066931199144</tilt>
+				<range>205.9272447578888</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle21</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69238610057677,13.63842656859369,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>2_cage_farms_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228582649674</longitude>
+				<latitude>13.63904195747488</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989032348733139</heading>
+				<tilt>0.5815066931199144</tilt>
+				<range>205.9272447578888</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle21</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69251242417727,13.63839545562508,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>3_cage_farms_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228582649674</longitude>
+				<latitude>13.63904195747488</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989032348733139</heading>
+				<tilt>0.5815066931199144</tilt>
+				<range>205.9272447578888</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle21</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69261312270376,13.63840053822931,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>4_cage_farms_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228582649674</longitude>
+				<latitude>13.63904195747488</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989032348733139</heading>
+				<tilt>0.5815066931199144</tilt>
+				<range>205.9272447578888</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle21</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69268468718272,13.63839284814299,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>5_cage_farms_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228582649674</longitude>
+				<latitude>13.63904195747488</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989032348733139</heading>
+				<tilt>0.5815066931199144</tilt>
+				<range>205.9272447578888</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle21</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69281496907502,13.63839724456783,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>6_cage_farms_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228582649674</longitude>
+				<latitude>13.63904195747488</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989032348733139</heading>
+				<tilt>0.5815066931199144</tilt>
+				<range>205.9272447578888</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle21</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69261186181286,13.63843755747106,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>1_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2020-01-03</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228284131077</longitude>
+				<latitude>13.63904081513712</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989033051306913</heading>
+				<tilt>0.5815066931224214</tilt>
+				<range>205.9272446815669</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle11</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69126672720589,13.63836753310647,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>2_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228931357785</longitude>
+				<latitude>13.63904479879839</latitude>
+				<altitude>0</altitude>
+				<heading>-1.819543730861614</heading>
+				<tilt>2.029395380545862</tilt>
+				<range>206.8866413164781</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69130521586143,13.63836771575478,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>3_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228931357785</longitude>
+				<latitude>13.63904479879839</latitude>
+				<altitude>0</altitude>
+				<heading>-1.819543730861614</heading>
+				<tilt>2.029395380545862</tilt>
+				<range>206.8866413164781</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69135417033371,13.63835924907989,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>4_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228931357785</longitude>
+				<latitude>13.63904479879839</latitude>
+				<altitude>0</altitude>
+				<heading>-1.819543730861614</heading>
+				<tilt>2.029395380545862</tilt>
+				<range>206.8866413164781</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69136205698322,13.63837446164632,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>5_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228931357785</longitude>
+				<latitude>13.63904479879839</latitude>
+				<altitude>0</altitude>
+				<heading>-1.819543730861614</heading>
+				<tilt>2.029395380545862</tilt>
+				<range>206.8866413164781</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69139007758888,13.63836867294435,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>6_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228931357785</longitude>
+				<latitude>13.63904479879839</latitude>
+				<altitude>0</altitude>
+				<heading>-1.819543730861614</heading>
+				<tilt>2.029395380545862</tilt>
+				<range>206.8866413164781</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69144486636331,13.6383820103464,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>7_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228931357785</longitude>
+				<latitude>13.63904479879839</latitude>
+				<altitude>0</altitude>
+				<heading>-1.819543730861614</heading>
+				<tilt>2.029395380545862</tilt>
+				<range>206.8866413164781</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69150782233913,13.63844226043537,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>8_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228931357785</longitude>
+				<latitude>13.63904479879839</latitude>
+				<altitude>0</altitude>
+				<heading>-1.819543730861614</heading>
+				<tilt>2.029395380545862</tilt>
+				<range>206.8866413164781</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69173056218364,13.63834760361649,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>9_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228931357785</longitude>
+				<latitude>13.63904479879839</latitude>
+				<altitude>0</altitude>
+				<heading>-1.819543730861614</heading>
+				<tilt>2.029395380545862</tilt>
+				<range>206.8866413164781</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.6917560654945,13.63835836045735,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>10_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228931357785</longitude>
+				<latitude>13.63904479879839</latitude>
+				<altitude>0</altitude>
+				<heading>-1.819543730861614</heading>
+				<tilt>2.029395380545862</tilt>
+				<range>206.8866413164781</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.6917784759691,13.63836071438134,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>11_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228931357785</longitude>
+				<latitude>13.63904479879839</latitude>
+				<altitude>0</altitude>
+				<heading>-1.819543730861614</heading>
+				<tilt>2.029395380545862</tilt>
+				<range>206.8866413164781</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69180318183081,13.63834984585902,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>12_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228931357785</longitude>
+				<latitude>13.63904479879839</latitude>
+				<altitude>0</altitude>
+				<heading>-1.819543730861614</heading>
+				<tilt>2.029395380545862</tilt>
+				<range>206.8866413164781</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69181631292626,13.63836686908861,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>13_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228931357785</longitude>
+				<latitude>13.63904479879839</latitude>
+				<altitude>0</altitude>
+				<heading>-1.819543730861614</heading>
+				<tilt>2.029395380545862</tilt>
+				<range>206.8866413164781</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.6918514568798,13.63835465911277,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>14_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2020-01-03</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228284131079</longitude>
+				<latitude>13.63904081513713</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989033051308285</heading>
+				<tilt>0.5815066931224214</tilt>
+				<range>205.9272446830686</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69186340493302,13.63836745641269,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>15_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228284131079</longitude>
+				<latitude>13.63904081513713</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989033051308285</heading>
+				<tilt>0.5815066931224214</tilt>
+				<range>205.9272446830686</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69188984561478,13.63835824449786,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>16_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228284131079</longitude>
+				<latitude>13.63904081513713</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989033051308285</heading>
+				<tilt>0.5815066931224214</tilt>
+				<range>205.9272446830686</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69190297565333,13.63837889764072,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>17_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228284131079</longitude>
+				<latitude>13.63904081513713</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989033051308285</heading>
+				<tilt>0.5815066931224214</tilt>
+				<range>205.9272446830686</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69194865079268,13.63836696555114,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>18_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228284131079</longitude>
+				<latitude>13.63904081513713</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989033051308285</heading>
+				<tilt>0.5815066931224214</tilt>
+				<range>205.9272446830686</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69199431914301,13.63835503521076,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>19_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228284131079</longitude>
+				<latitude>13.63904081513713</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989033051308285</heading>
+				<tilt>0.5815066931224214</tilt>
+				<range>205.9272446830686</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69201652286547,13.6383658882881,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>20_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228271634555</longitude>
+				<latitude>13.63904418207257</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989033080759982</heading>
+				<tilt>0.5815066931230483</tilt>
+				<range>205.927244682777</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69201049536166,13.63838758226774,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>21_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228271634555</longitude>
+				<latitude>13.63904418207257</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989033080759982</heading>
+				<tilt>0.5815066931230483</tilt>
+				<range>205.927244682777</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69203326735361,13.63838329789122,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>22_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2020-01-03</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228284131079</longitude>
+				<latitude>13.63904081513713</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989033051307668</heading>
+				<tilt>0.5815066931230483</tilt>
+				<range>205.9272446822723</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.6920570886558,13.63839757513096,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>23_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228284131079</longitude>
+				<latitude>13.63904081513713</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989033051307668</heading>
+				<tilt>0.5815066931230483</tilt>
+				<range>205.9272446822723</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69208296226306,13.63840350238865,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>24_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228284131079</longitude>
+				<latitude>13.63904081513713</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989033051307668</heading>
+				<tilt>0.5815066931230483</tilt>
+				<range>205.9272446822723</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69305108366314,13.63836881109279,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>25_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228284131079</longitude>
+				<latitude>13.63904081513713</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989033051307668</heading>
+				<tilt>0.5815066931230483</tilt>
+				<range>205.9272446822723</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69255906582929,13.63841788600734,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>26_boat_2019_11_26</name>
+			<open>1</open>
+			<LookAt>
+				<gx:TimeStamp><when>2019-11-26</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69228284131079</longitude>
+				<latitude>13.63904081513713</latitude>
+				<altitude>0</altitude>
+				<heading>-1.989033051307668</heading>
+				<tilt>0.5815066931230483</tilt>
+				<range>205.9272446822723</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle111</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69224179371679,13.63838864907941,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>mangrove_canopy_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#msn_ylw-pushpin30</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69214918415685,13.63891189930401,0 74.69217009083208,13.63891260491312,0 74.69217158676861,13.63891943188387,0 74.69217134046453,13.63892620055716,0 74.69216935172544,13.63893291092652,0 74.69216393952725,13.63893781170508,0 74.69215690794935,13.63893926893239,0 74.69214999979627,13.63893734123358,0 74.69214501970876,13.63893039528525,0 74.69214172047393,13.63892520087008,0 74.69214364833378,13.63892018314323,0 74.69214918415685,13.63891189930401,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>02_mangrove_canopy_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#msn_ylw-pushpin30</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69245114518334,13.6394078822559,0 74.69246639514162,13.63942202278174,0 74.69246959434687,13.63943064792181,0 74.6924711056367,13.63943751324845,0 74.69246737539848,13.63944420218374,0 74.69246026843672,13.6394473699193,0 74.69245316120903,13.6394505377972,0 74.69244611290571,13.63945200383899,0 74.69243737643089,13.63945170898528,0 74.69243231249962,13.6394464264141,0 74.69242905539237,13.63943950142815,0 74.69242748628876,13.63943433747428,0 74.69242772370771,13.63942753131786,0 74.69243145511243,13.63942084356678,0 74.69243687391248,13.63941591650148,0 74.6924422331964,13.6394126909266,0 74.69244398011628,13.63941274988458,0 74.69245114518334,13.6394078822559,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>03_mangrove_canopy_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#msn_ylw-pushpin30</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69252585164172,13.63942232607034,0 74.69253458657172,13.63942262087108,0 74.69253615854426,13.63942778404016,0 74.69253417807724,13.63943453114058,0 74.69253045029708,13.63944121977831,0 74.6925267222387,13.63944790891523,0 74.69251955781391,13.63945277866407,0 74.69251251012773,13.639454244727,0 74.69250377364968,13.63945394987333,0 74.69249503717209,13.63945365501965,0 74.69248991284593,13.63945007426637,0 74.69248845954432,13.63944150630109,0 74.69249218892612,13.63943481759092,0 74.69249929476345,13.63943165030144,0 74.69250471191782,13.63942672272734,0 74.69251175862394,13.63942525713967,0 74.69252049371616,13.63942555194601,0 74.69252585164172,13.63942232607034,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>04_mangrove_canopy_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#msn_ylw-pushpin30</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69247994022366,13.63948552590831,0 74.69248325887757,13.6394907516528,0 74.69248651889306,13.63949768042794,0 74.69248977915059,13.63950460976906,0 74.69249309842151,13.63950983658495,0 74.69249635913994,13.6395167667847,0 74.69249437620672,13.63952352056994,0 74.69248901469325,13.63952675011662,0 74.69248027470762,13.63952645514328,0 74.69247322375925,13.63952792251946,0 74.69246617268111,13.6395293898746,0 74.69245929874381,13.63952574720747,0 74.69245242506193,13.63952210472493,0 74.69244735876816,13.63951681818352,0 74.69244205577594,13.63951834434532,0 74.69243494542101,13.63952151478982,0 74.69242789418426,13.63952298204412,0 74.69241915428297,13.63952268707388,0 74.69241041438197,13.63952239210369,0 74.6924034224532,13.63952215612728,0 74.69239660955519,13.63951681054318,0 74.69239684823721,13.63950999814552,0 74.69240058250082,13.63950330428091,0 74.69240600464326,13.63949837267781,0 74.69241142649022,13.63949344135115,0 74.69241684802537,13.63948851030034,0 74.69242389804974,13.639487043593,0 74.69243263623723,13.63948733850497,0 74.69243956752501,13.63948927707868,0 74.69244649894419,13.63949121564023,0 74.69245523729579,13.6394915105578,0 74.69245541463917,13.63948640270726,0 74.69245908711757,13.63948141310315,0 74.69246450691389,13.63947648275693,0 74.69247161492541,13.63947331395148,0 74.69247848710303,13.6394769545851,0 74.69248005798852,13.63948212086541,0 74.69247994022366,13.63948552590831,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>05_mangrove_canopy_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#msn_ylw-pushpin30</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69232326169031,13.63941378540549,0 74.69232826148377,13.6394207675772,0 74.69232627325617,13.63942751441353,0 74.69232253771629,13.63943420278712,0 74.69232054912653,13.63944095062852,0 74.69232030768259,13.63944775794443,0 74.69232356094064,13.63945468369032,0 74.69232157216545,13.63946143307616,0 74.69231783575343,13.63946812394016,0 74.69231078533316,13.63946959034772,0 74.69230385583089,13.63946765212096,0 74.69229692645835,13.63946571397886,0 74.69229186594195,13.63946043049796,0 74.6922903611074,13.63945356320366,0 74.69228710908824,13.63944663749963,0 74.6922890990019,13.63943988919424,0 74.69229283592968,13.63943320035892,0 74.69228765510111,13.63943132184165,0 74.69228259578914,13.63942604030949,0 74.6922827779093,13.63942093596055,0 74.69228651468941,13.63941424851901,0 74.69229193749541,13.63940932170945,0 74.69229729943349,13.63940609626435,0 74.69230609442961,13.63940468996058,0 74.69231482886461,13.63940498474558,0 74.69232356329766,13.63940527953048,0 74.69232326169031,13.63941378540549,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>06_mangrove_canopy_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#msn_ylw-pushpin30</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69233392507043,13.63950787450105,0 74.69234079615299,13.6395115165614,0 74.69234242369571,13.63951498178072,0 74.69233862676346,13.63952337989323,0 74.69233488972814,13.63953007531973,0 74.69232777677577,13.63953324624966,0 74.692322351328,13.63953817984254,0 74.69231517736777,13.63954305471016,0 74.69230818453447,13.63954281870343,0 74.69230312157525,13.63953753084224,0 74.69229811949752,13.63953053978703,0 74.69229480519647,13.63952531161169,0 74.69229510831754,13.63951679531395,0 74.69229709869416,13.63951004178133,0 74.69230246349022,13.63950681267938,0 74.69230957591904,13.63950364273548,0 74.6923150007113,13.63949871103108,0 74.69232042519965,13.63949377960289,0 74.69232729551412,13.63949742107938,0 74.69232898298203,13.63949918292971,0 74.69233392507043,13.63950787450105,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>07_mangrove_canopy_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#msn_ylw-pushpin30</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69227948388576,13.63956232087945,0 74.69228273768321,13.63956925535219,0 74.69228255541385,13.63957436800442,0 74.69227712743125,13.63957930390186,0 74.69226995052685,13.63958418106054,0 74.69226283416728,13.63958735397903,0 74.69225951980222,13.63958212255104,0 74.69225626662883,13.63957518707933,0 74.69225120417893,13.63956989732344,0 74.69225494521035,13.6395631988456,0 74.69226199984134,13.63956173079686,0 74.69226911521748,13.63955855885004,0 74.69227616951871,13.63955709088587,0 74.69227948388576,13.63956232087945,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>08_mangrove_canopy_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#msn_ylw-pushpin30</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69224461078873,13.63936345120507,0 74.69225147487892,13.63936708772701,0 74.69224773773249,13.6393737717249,0 74.69224075129468,13.63937353593403,0 74.69223569485141,13.63936825764408,0 74.69223201824531,13.6393732411953,0 74.69223002690775,13.63937998462204,0 74.69222454194177,13.63938661064769,0 74.69221737106834,13.63939147731623,0 74.69221200798857,13.63939470227773,0 74.69220652188906,13.63940132940886,0 74.6922045292844,13.63940807492901,0 74.69220428354713,13.63941487993831,0 74.69220229070508,13.63942162649171,0 74.69220734772534,13.63942690785142,0 74.69221608338137,13.63942720267804,0 74.69222481903732,13.63942749750462,0 74.69223174637749,13.63942943493463,0 74.69223680440716,13.63943471670976,0 74.69224011547682,13.63943993981152,0 74.69223987102701,13.63944674715315,0 74.69223956543883,13.63945525705092,0 74.69223932094872,13.63946206551195,0 74.69223732891598,13.63946881555125,0 74.69223533673406,13.63947556604613,0 74.69222984909717,13.6394821991278,0 74.6922261087705,13.63948889164154,0 74.69222935929783,13.6394958206527,0 74.69223267126989,13.63950104722094,0 74.69223417435853,13.63950791809931,0 74.69223386840127,13.63951643371295,0 74.69223018875623,13.63952142546204,0 74.69222307404746,13.63952459614191,0 74.69221602043885,13.6395260635077,0 74.6922070957072,13.63953087880984,0 74.69219998016798,13.63953404984407,0 74.69219798586226,13.63954080523421,0 74.69220304606826,13.63954609338452,0 74.69220273859094,13.63955461261022,0 74.69220243108481,13.63956313263167,0 74.69220218505851,13.63956994924124,0 74.69219681643085,13.63957318065081,0 74.692188012112,13.63957458990359,0 74.69218095619802,13.63957605814796,0 74.69217402370016,13.63957411779898,0 74.69216715317,13.63957047320921,0 74.69216914896145,13.63956371552599,0 74.69217457961629,13.63955878038748,0 74.69217488841595,13.63955026077672,0 74.6921768836944,13.63954350460608,0 74.69217363424558,13.63953657198568,0 74.6921667651346,13.63953292884582,0 74.69216170627992,13.63952764141007,0 74.69215489964704,13.63952229527395,0 74.69214984140811,13.63951700843223,0 74.69214659342622,13.63951007772381,0 74.6921432836489,13.63950485056085,0 74.69214353178855,13.63949803878557,0 74.69214552767914,13.63949128645734,0 74.69214752341877,13.63948453468182,0 74.69214951901102,13.63947778336213,0 74.69214982884445,13.63946927126959,0 74.69214477221131,13.63946398744218,0 74.69213965380641,13.63946040606192,0 74.69213278814287,13.63945676583927,0 74.69212754581839,13.63945658891194,0 74.69212217905702,13.63945981629293,0 74.69211481543195,13.63946979401151,0 74.6921092609978,13.63947812930798,0 74.69211275630531,13.63947824727377,0 74.69211606476429,13.63948347296,0 74.6921140678493,13.63949022469613,0 74.69210695203266,13.63949339432017,0 74.69210164620844,13.63949492016404,0 74.69209278211027,13.63949803097521,0 74.69208741344545,13.63950125988372,0 74.69207867403308,13.63950096493105,0 74.69207499024405,13.63950595596807,0 74.69207473952952,13.63951276842129,0 74.69207099267005,13.63951946343877,0 74.69207792226545,13.63952140273396,0 74.69208503975543,13.63951823208324,0 74.69209196941503,13.63952017139727,0 74.69209883674728,13.63952381404646,0 74.69210757722009,13.6395241090347,0 74.69211631769261,13.63952440402297,0 74.69212137522706,13.63952969136724,0 74.69212824342857,13.63953333436419,0 74.69213149115774,13.63954026684783,0 74.69213124250977,13.6395470817911,0 74.69212581093582,13.63955201632527,0 74.69212206521524,13.63955871418438,0 74.69211657072988,13.63956535348483,0 74.69210945203425,13.63956852581568,0 74.69210252039724,13.63956658559168,0 74.69209746235164,13.63956129612727,0 74.69209065618266,13.63955594799966,0 74.6920819141576,13.63955565295956,0 74.69208347471971,13.63956082404995,0 74.69208853237353,13.63956611350119,0 74.69209003065077,13.6395729894427,0 74.69209327767359,13.63957992491374,0 74.69208959270996,13.63958492030863,0 74.69208241007416,13.63958979799419,0 74.6920736664148,13.63958950289948,0 74.69206492275505,13.63958920780485,0 74.69205811641805,13.63958385799733,0 74.69205305909465,13.63957856755369,0 74.69205156214315,13.63957169114646,0 74.69204831680005,13.63956475624182,0 74.69204507170116,13.63955782180688,0 74.69204176384061,13.63955259184118,0 74.69203851919674,13.63954565836237,0 74.69203346346285,13.63954037002723,0 74.69202472208843,13.63954007500923,0 74.69201766576289,13.63954154274743,0 74.69201067259732,13.63954130673091,0 74.69200348935901,13.6395461820531,0 74.6919980541072,13.63955111665608,0 74.69199099705509,13.63955258454476,0 74.69198225502473,13.63955228950519,0 74.69197720062806,13.63954700078531,0 74.69197526140003,13.63955205347355,0 74.69197319476952,13.63956051460659,0 74.69196950674697,13.639565509039,0 74.69196232134531,13.6395703857237,0 74.69195526318053,13.63957185400661,0 74.69194645626621,13.63957326325366,0 74.69193939782215,13.63957473154266,0 74.69193434396426,13.63956944150206,0 74.69193466402002,13.6395609205142,0 74.69193666848456,13.6395541632478,0 74.69193692442319,13.63954734752806,0 74.69193892865312,13.63954059127376,0 74.69193918448781,13.63953377657032,0 74.6919395042555,13.63952525887065,0 74.69193976004867,13.63951844526424,0 74.69193477172735,13.63951145522906,0 74.69192790771073,13.63950781289722,0 74.69192285601422,13.63950252665652,0 74.69191780460042,13.63949724071179,0 74.69191456549251,13.63949031123976,0 74.69191482216878,13.63948350021014,0 74.69191333111887,13.63947663075302,0 74.69191358782176,13.63946982074282,0 74.69192077069832,13.63946494951615,0 74.69192788913487,13.63946178085521,0 74.69193662692426,13.63946207575359,0 74.69194361715525,13.63946231167229,0 74.69195041590758,13.63946765458414,0 74.69195540360246,13.63947464128758,0 74.69196045540791,13.63947992590835,0 74.6919673826154,13.63948186450351,0 74.69197612129942,13.63948215943165,0 74.69197805976161,13.63947711058684,0 74.69197294393807,13.63947352864127,0 74.69196608068452,13.63946988779913,0 74.69196109273092,13.63946290146894,0 74.69196646275621,13.6394596738788,0 74.69197358007264,13.63945650538672,0 74.69197732934532,13.63944981495428,0 74.69197227791641,13.63944453206416,0 74.69196722677016,13.63943924946969,0 74.69195718907754,13.63942698350154,0 74.69194670578761,13.63942662969185,0 74.69194476697417,13.63943167570883,0 74.69193939734529,13.63943490229426,0 74.69193234417365,13.6394363681791,0 74.69192529086806,13.63943783413974,0 74.69191830154953,13.63943759825134,0 74.69191325205489,13.63943231597367,0 74.69190639138547,13.63942867668061,0 74.69189765514346,13.63942838183353,0 74.69189222032335,13.63943331007656,0 74.69188846814991,13.63943999939482,0 74.69188814614829,13.63944850922128,0 74.69189138354366,13.63945543562981,0 74.69189106165246,13.63946394684303,0 74.69188562558183,13.63946887702446,0 74.69187850601878,13.63947204601473,0 74.69187145075938,13.63947351256204,0 74.69186271231172,13.63947321764187,0 74.69185397386322,13.6394729227217,0 74.69184523541391,13.6394726278015,0 74.69184018692472,13.63946734348168,0 74.6918368863102,13.63946211843842,0 74.69183889337637,13.63945536844022,0 74.69184264775578,13.6394486778742,0 74.69184290706008,13.6394418699076,0 74.69183598236242,13.63943993211227,0 74.6918288629343,13.63944310004046,0 74.69182510814477,13.63944979021118,0 74.69182135307626,13.63945648083324,0 74.69181591520119,13.63946141066862,0 74.69181047702101,13.63946634078031,0 74.69180329084485,13.63947121218428,0 74.69179785200338,13.63947614289546,0 74.69179079572065,13.63947760953634,0 74.69178387008297,13.63947567101,0 74.691780570861,13.63947044539141,0 74.69178089792949,13.63946193339467,0 74.69178290710872,13.63945518329047,0 74.69178491613572,13.63944843373877,0 74.69178867242802,13.63944174361765,0 74.69179411050904,13.63943681483887,0 74.69179948305765,13.63943358814426,0 74.69180647238512,13.63943382403314,0 74.69181527412415,13.63943241708136,0 74.69182394570123,13.63943441375521,0 74.69183106489101,13.63943124608875,0 74.69183818381428,13.63942807854069,0 74.69184530247023,13.63942491113519,0 74.69185235613216,13.63942344540153,0 74.69186109221516,13.63942374024347,0 74.69186620466586,13.63942732038363,0 74.69187312912537,13.63942925794084,0 74.69187998924008,13.63943289727917,0 74.69188704283903,13.63943143141617,0 74.69189073052046,13.63942644432697,0 74.69188568207827,13.63942116268075,0 74.69187694616062,13.63942086784435,0 74.69187008655062,13.63941722896787,0 74.69186503892084,13.6394119478254,0 74.69185992692111,13.63940836827241,0 74.69185280920406,13.63941153507313,0 74.69184569122062,13.63941470199217,0 74.69183695554383,13.63941440716361,0 74.69182996700179,13.63941417130073,0 74.69182673258942,13.6394072479649,0 74.69182699242957,13.63940044304428,0 74.69182725225014,13.63939363863153,0 74.6918240183015,13.63938671681235,0 74.69181877767687,13.63938653994097,0 74.69181334181192,13.63939146593171,0 74.69180958749607,13.63939815227845,0 74.69180415101781,13.63940307891628,0 74.69179541582589,13.63940278410357,0 74.69178862362229,13.63939744474729,0 74.69178364409917,13.63939046363243,0 74.69178215866623,13.63938360095156,0 74.69178416693235,13.63937685669173,0 74.69177912273821,13.63937157775984,0 74.69177038901073,13.63937128299525,0 74.69176165528221,13.63937098823058,0 74.69175292155269,13.63937069346581,0 74.69174787837214,13.63936541485307,0 74.69174102307851,13.6393617780493,0 74.69173779285657,13.63935485851288,0 74.69173805594444,13.63934805738454,0 74.69174181195103,13.63934137465134,0 74.69174556767685,13.63933469241688,0 74.69174583044443,13.63932789280193,0 74.69174260064476,13.63932097581927,0 74.69173755911527,13.63931570002296,0 74.69173426404366,13.63931048345572,0 74.69173278108674,13.63930362669851,0 74.69173479033211,13.63929688831251,0 74.69174022566055,13.63929196744769,0 74.69174566068429,13.63928704685829,0 74.69175277569532,13.63928388445352,0 74.69176150527083,13.63928417908162,0 74.69176842346786,13.6392861138288,0 74.69177521099304,13.63929144683997,0 74.69177844146665,13.63929836156019,0 74.69177992607099,13.63930521786389,0 74.69178141078586,13.63931207467884,0 74.69178108401495,13.63932057272746,0 74.69178082257548,13.63932737175134,0 74.69178405388992,13.63933428916458,0 74.69178560431617,13.63933944808562,0 74.69178359651714,13.63934618956599,0 74.69178333513402,13.63935299049642,0 74.69178656699354,13.63935990983255,0 74.69179335774631,13.6393652470441,0 74.69179846736247,13.63936882501758,0 74.69180538906429,13.63937076141094,0 74.69181082454324,13.63936583655121,0 74.69181955794026,13.63936613130462,0 74.69182641475555,13.63936976824581,0 74.6918314601766,13.63937504702738,0 74.69183689502555,13.63937012195615,0 74.69183890107828,13.6393633787668,0 74.69184090698106,13.63935663608065,0 74.69184459447469,13.63935165308448,0 74.69185171002145,13.63934848841172,0 74.69186044251811,13.63934878313507,0 74.69186555285792,13.63935236043348,0 74.69187053431938,13.63935933856241,0 74.691873833998,13.63936455775718,0 74.69187706938241,13.63937147784464,0 74.69187855823209,13.63937833949451,0 74.69188004719362,13.63938520163216,0 74.69188509448868,13.63939048126219,0 74.69189195335477,13.63939411907268,0 74.69189887676045,13.63939605595916,0 74.69190935839161,13.63939640971402,0 74.69191621790094,13.63940004773639,0 74.69192307766494,13.63940368591852,0 74.69192812663444,13.63940896653309,0 74.69193524274178,13.63940579984529,0 74.69194067549132,13.63940087317904,0 74.69194578870727,13.63940445241494,0 74.69195077450742,13.6394114343727,0 74.69195757155674,13.63941677436563,0 74.69196125691636,13.6394117881531,0 74.69195801772824,13.63940486514361,0 74.69195296806531,13.63939958476792,0 74.69195147628568,13.63939272164722,0 74.69195516133517,13.63938773673499,0 74.69196240344425,13.63938116927268,0 74.69196945416209,13.63937970433089,0 74.69197818795283,13.63937999909627,0 74.69198012526837,13.63937495598515,0 74.69197501227157,13.63937137790046,0 74.69196983585313,13.63936950050756,0 74.69196122993517,13.63936580472701,0 74.69195967442279,13.63936064449489,0 74.69196342225479,13.63935396110967,0 74.69197053550884,13.63935079644778,0 74.69197926791422,13.63935109116708,0 74.69198800031904,13.63935138588628,0 74.69199673272327,13.6393516806054,0 74.6920035920829,13.6393553168435,0 74.69200864189038,13.63936059462645,0 74.69201550177429,13.63936423122366,0 74.69202242503476,13.63936616744513,0 74.69203115808874,13.6393664621856,0 74.69203989114223,13.63936675692599,0 74.69204862419524,13.6393670516663,0 74.69205367554352,13.63937233009624,0 74.69205698046702,13.63937754984597,0 74.69205672925656,13.63938435276537,0 74.69205647802812,13.63939115616824,0 74.69205447987608,13.63939790114519,0 74.69204736646566,13.63940106747828,0 74.69204031575576,13.63940253274599,0 74.69203158099074,13.63940223794851,0 74.69202284622523,13.63940194315097,0 74.6920141114592,13.63940164835337,0 74.69200868081882,13.63940657501885,0 74.69200842776232,13.63941338016451,0 74.69200992182044,13.63942024475944,0 74.6920149735943,13.63942552625421,0 74.69202177288219,13.63943086698911,0 74.69202501487233,13.63943779187216,0 74.69203375135007,13.63943808672679,0 74.69203918220038,13.63943315835157,0 74.69204461274539,13.63942823027655,0 74.69204835873441,13.63942154200016,0 74.69205541009291,13.63942007640445,0 74.69206239855622,13.6394203122641,0 74.69206926161887,13.63942395110353,0 74.69207431510073,13.63942923272635,0 74.69208124129776,13.63943117024554,0 74.69208810509585,13.63943480949104,0 74.69209684132591,13.63943510433726,0 74.6921039550718,13.63943193683152,0 74.69210932137121,13.63942871047701,0 74.69211649687988,13.63942384165211,0 74.6921236097934,13.63942067456357,0 74.69213053606116,13.63942261189424,0 74.69213733833561,13.63942795234719,0 74.69214414098266,13.63943329309874,0 74.69214919674862,13.63943857517948,0 74.69215793305818,13.63943887002822,0 74.69216498391802,13.63943740413698,0 74.69217203464521,13.63943593829728,0 74.69217902356193,13.63943617417184,0 74.69217571423576,13.63943095122407,0 74.69216878728862,13.63942901374355,0 74.69216192230753,13.63942537475232,0 74.69216042257551,13.63941850996774,0 74.69216241695815,13.63941176359328,0 74.69216609633806,13.63940677782392,0 74.6921732693171,13.63940191027321,0 74.69217863336974,13.63939868505103,0 74.69218405884131,13.63939375899892,0 74.69218779881845,13.63938707344481,0 74.69218979182527,13.63938032943903,0 74.69218829143152,13.63937346803976,0 74.69218853771039,13.63936666609857,0 74.69219227696186,13.63935998255278,0 74.69219763940828,13.63935675886469,0 74.69220474808569,13.63935359421443,0 74.69221179515603,13.63935212984024,0 74.69222052722583,13.63935242454616,0 74.69222925929554,13.63935271925199,0 74.69223618383418,13.63935465516559,0 74.69223762473997,13.63936321542728,0 74.69224461078873,13.63936345120507,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>09_mangrove_canopy_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#msn_ylw-pushpin30</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69182855749909,13.63931366589814,0 74.69182525997724,13.63930844953616,0 74.69183069302164,13.63930352811958,0 74.69183612576245,13.63929860695427,0 74.69184304510054,13.63930054196034,0 74.69184983515022,13.63930587572015,0 74.69185487943835,13.63931115084514,0 74.69185462076986,13.63931794907194,0 74.69185093424588,13.63932293019556,0 74.6918438196806,13.63932609394844,0 74.69183508824129,13.63932579925987,0 74.69182816800884,13.63932386374826,0 74.69182855749909,13.63931366589814,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>10_mangrove_canopy_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#msn_ylw-pushpin30</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.6918601793984,13.63921778556917,0 74.69185688274386,13.6392125746445,0 74.69186063143923,13.63920590206994,0 74.69186606040122,13.63920098631817,0 74.69187478581516,13.63920128080711,0 74.69188351122828,13.63920157529586,0 74.69188861785521,13.63920514694212,0 74.6918955340681,13.6392070800573,0 74.69189527706779,13.63921387047815,0 74.69189502004816,13.63922066140505,0 74.69189301768283,13.63922739393231,0 74.69188926977694,13.63923406804145,0 74.69188377613405,13.63924068375015,0 74.69187841092436,13.63924390343476,0 74.69186968347724,13.63924360887863,0 74.69186464065648,13.63923833758281,0 74.69186147265798,13.63922972951325,0 74.6918601793984,13.63921778556917,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>11_mangrove_canopy_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#msn_ylw-pushpin30</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69168238589809,13.63925089170798,0 74.69169091546247,13.6392562817355,0 74.69169957776344,13.63925827485003,0 74.6916993794712,13.63926337066109,0 74.69169562345846,13.63927004768297,0 74.6916901874547,13.63927496738352,0 74.69168307153531,13.63927812950407,0 74.69167763499118,13.63928304966251,0 74.69166883889859,13.63928445407515,0 74.69166010918094,13.63928415944118,0 74.69165862914836,13.63927730455605,0 74.6916588950787,13.63927050910577,0 74.69166265249858,13.63926383200341,0 74.69166640963766,13.63925715539908,0 74.69167191215314,13.63925053821015,0 74.69167728159454,13.63924731818406,0 74.69168238589809,13.63925089170798,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>12_mangrove_canopy_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#msn_ylw-pushpin30</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69173487452474,13.6390691764702,0 74.69174030306237,13.63906426810013,0 74.69174721275516,13.63906619847944,0 74.69175412257592,13.63906812889437,0 74.69175741381932,13.63907333175733,0 74.69175708636617,13.63908180763612,0 74.69175508033626,13.63908853004533,0 74.69175133004669,13.63909519408283,0 74.69174428798769,13.63909665413726,0 74.69173724579684,13.63909811421881,0 74.69173214479939,13.63909454655177,0 74.69172536573866,13.63908922473985,0 74.69172381912928,13.63908407980951,0 74.69172757023539,13.63907741655141,0 74.69173118959905,13.6390741439745,0 74.69173487452474,13.6390691764702,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>02_mangrove_canopy_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#msn_ylw-pushpin30</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69163025282184,13.63910978434626,0 74.69163173045364,13.63911662673504,0 74.69163501923181,13.63912183246642,0 74.69163830819393,13.63912703847626,0 74.69164535256405,13.63912557786162,0 74.69165420765911,13.63912248010738,0 74.69165568627901,13.63912932340758,0 74.69165542044041,13.63913610834754,0 74.6916534099488,13.63914283490888,0 74.6916513993725,13.63914956197359,0 74.69164764388333,13.63915623063921,0 74.69164388811325,13.63916289981389,0 74.69163852043394,13.63916611680574,0 74.69163308593674,13.6391710308532,0 74.69163281919201,13.63917781892721,0 74.69162738411451,13.63918273362019,0 74.69162020372458,13.63918758970382,0 74.6916130898107,13.63919074870847,0 74.69160436447834,13.63919045421694,0 74.69159751823091,13.6391868240379,0 74.69159255134656,13.63917985856038,0 74.69158926268197,13.6391746495228,0 74.69159127594274,13.63916792052118,0 74.69159838940374,13.63916476232509,0 74.69160550259861,13.63916160424676,0 74.69161093761596,13.63915669069133,0 74.69161127202456,13.63914820761452,0 74.69161153952888,13.63914142171692,0 74.6916101293931,13.63913288118234,0 74.69161388582728,13.63912621418066,0 74.69161422004109,13.63911773393794,0 74.69161455422307,13.63910925449061,0 74.69161824320487,13.63910428494028,0 74.6916253536411,13.63910112904851,0 74.69163038619341,13.63910639277636,0 74.6916320638169,13.63910814741902,0 74.69163025282184,13.63910978434626,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>land_edge_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#m_ylw-pushpin0</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					74.69122428243475,13.63833176675711,0 74.69123845855431,13.63832551006902,0 74.69125082680549,13.63832087648141,0 74.69126145755945,13.63831618451544,0 74.69127035096449,13.63831143412853,0 74.69127743743893,13.6383083065022,0 74.6912828565001,13.63830343933587,0 74.69128994241413,13.6383003119542,0 74.69129695859043,13.63829886559023,0 74.6913040440436,13.63829573837956,0 74.69131105989369,13.63829429204967,0 74.69131807561054,13.63829284579398,0 74.69132509119621,13.6382913995647,0 74.69133377411707,13.63829169269871,0 74.6913387765688,13.63829691094522,0 74.69134558502647,13.63830050721112,0 74.69135239373698,13.63830410356134,0 74.69135746600799,13.63830764146191,0 74.69136427518659,13.6383112381233,0 74.69137275259259,13.63831657470521,0 74.69137949365145,13.63832185294847,0 74.69138630373848,13.63832545013584,0 74.69139311407855,13.63832904740762,0 74.69139992466776,13.63833264485941,0 74.6914067355081,13.63833624244344,0 74.69141347819179,13.63834152176465,0 74.69141855257249,13.63834506103819,0 74.69142362707724,13.63834860039213,0 74.69143217607318,13.63835225721108,0 74.69143905637804,13.63835417361039,0 74.69144767392656,13.63835614873423,0 74.6914578928274,13.63836154642849,0 74.6914665788575,13.63836183965111,0 74.6914770698807,13.63836050950158,0 74.69148575576148,13.63836080271767,0 74.691492704491,13.63836103729085,0 74.69150312758335,13.63836138914969,0 74.69151181352453,13.63836168236563,0 74.69152049939889,13.63836197557858,0 74.6915309224852,13.63836232743441,0 74.69153960842139,13.63836262064785,0 74.69154829429085,13.63836291385829,0 74.69155524301139,13.63836314842697,0 74.69156399596383,13.63836175967669,0 74.69157268174867,13.63836205288234,0 74.69158136759725,13.6383623460894,0 74.69159179057455,13.63836269793553,0 74.69160221354977,13.63836304978054,0 74.69160909559689,13.63836496631842,0 74.69161597776871,13.63836688293896,0 74.69162466370602,13.63836717614519,0 74.6916315460858,13.63836909275474,0 74.69164023216643,13.63836938596441,0 74.69164724725428,13.63836793848172,0 74.69165432839664,13.63836480898879,0 74.69166134315716,13.63836336158796,0 74.69166835778879,13.63836191416573,0 74.69167543827309,13.63835878494706,0 74.69168245257751,13.63835733760667,0 74.69169113794176,13.63835763078857,0 74.69169821780459,13.63835450173498,0 74.69170529740606,13.63835137274911,0 74.69170903412022,13.63834476333254,0 74.69171277055518,13.63833815445301,0 74.69171984922947,13.63833502605883,0 74.69172699313728,13.63833021645418,0 74.69173407121866,13.63832708835103,0 74.69174295115535,13.63832233781378,0 74.69174822659055,13.63832083253886,0 74.69175710580302,13.63831608235025,0 74.69176418273339,13.6383129547677,0 74.69177119432045,13.63831150828324,0 74.69177994237322,13.63831012039643,0 74.69178528205225,13.6383069344686,0 74.69179229318399,13.63830548804434,0 74.6918027124583,13.63830583974746,0 74.69180959391743,13.63830775511661,0 74.69182001328588,13.63830810682098,0 74.69182683040655,13.63831170310031,0 74.69183197566879,13.63831355995607,0 74.69184052983877,13.63831721510223,0 74.69184741202899,13.63831913063171,0 74.69185423003168,13.63832272735963,0 74.69186104828813,13.63832632417211,0 74.69186786679479,13.63832992116479,0 74.6918747496821,13.6383318369333,0 74.69188343352786,13.63833213004881,0 74.69189038060385,13.63833236454064,0 74.69189732767933,13.63833259903198,0 74.69190948506021,13.63833300939061,0 74.69191816890276,13.63833330250297,0 74.69192685274456,13.63833359561456,0 74.69193727335377,13.63833394734742,0 74.69194595719397,13.63833424045728,0 74.69195296766735,13.63833279364297,0 74.69196165142588,13.63833308674875,0 74.69197039842342,13.63833169857787,0 74.69197914526006,13.63833031038418,0 74.69198782885579,13.63833060348227,0 74.69199477573194,13.63833083796018,0 74.69200339639193,13.63833281235961,0 74.69200854371087,13.63833466950649,0 74.69201896421627,13.63833502122734,0 74.69202584849334,13.63833693703138,0 74.69203279556051,13.63833717151298,0 74.69204495294355,13.63833758185512,0 74.6920519000098,13.63833781633535,0 74.69205884707577,13.63833805081508,0 74.69206932999812,13.63833672119625,0 74.69207801374918,13.63833701429162,0 74.69208669749978,13.6383373073862,0 74.69209711799999,13.63833765909868,0 74.69210580174973,13.63833795219156,0 74.69211268682743,13.63833986801624,0 74.69212137065692,13.63834016111043,0 74.69213179125184,13.63834051282243,0 74.69214394861203,13.63834092315171,0 74.69215436920601,13.63834127486131,0 74.69216305303401,13.63834156795181,0 74.69217347362729,13.63834191965939,0 74.69218215746288,13.63834221274847,0 74.69219263923743,13.63834088307832,0 74.69220138408434,13.63833949481544,0 74.69220833101711,13.63833972928026,0 74.69221881235617,13.63833839960718,0 74.69222582009719,13.63833695277595,0 74.69223121266886,13.63833208487601,0 74.69223828079171,13.63832895696711,0 74.69224528796695,13.63832751030232,0 74.69225049778015,13.63832768613571,0 74.69226097795145,13.63832635666804,0 74.69226966089289,13.63832664971942,0 74.69227834383629,13.63832694277011,0 74.69228876336589,13.63832729442983,0 74.69229924308493,13.63832596502184,0 74.69230618937416,13.63832619945814,0 74.69231493227846,13.63832481146241,0 74.69232199845857,13.63832168385571,0 74.69232906437722,13.6383185563642,0 74.69233433371281,13.63831705129079,0 74.69234313564942,13.6383139825748,0 74.69235714649489,13.63831108982756,0 74.69236409214088,13.63831132423803,0 74.69237457009649,13.63830999505698,0 74.69238157510189,13.63830854874504,0 74.69238857997524,13.63830710241139,0 74.69240426645406,13.63830594915045,0 74.69241647998044,13.63830467871052,0 74.69242869328279,13.63830340824473,0 74.69243737485967,13.63830370123502,0 74.69244611525598,13.6383023136406,0 74.69245138293212,13.63830080887809,0 74.69245653306066,13.63830266522397,0 74.69246521455817,13.63830295820903,0 74.69247545671325,13.63830835171069,0 74.69248060725603,13.63831020819379,0 74.69249443979334,13.63831235775484,0 74.69250474151613,13.63831607094381,0 74.69251342357849,13.63831636394368,0 74.69251857466469,13.63831822056769,0 74.69252719873604,13.63832019442734,0 74.69253582296595,13.6383221683706,0 74.69254624173229,13.63832251997691,0 74.69255145111572,13.63832269577965,0 74.69256366408165,13.63832142503632,0 74.69257419802844,13.63831841492131,0 74.69258831937722,13.63831216054114,0 74.69259537965183,13.63830903352334,0 74.69260070337882,13.63830584807439,0 74.69260782048327,13.63830104077728,0 74.69261493719452,13.63829623369836,0 74.69262199632274,13.63829310730947,0 74.69263067710651,13.63829340025505,0 74.69263397819488,13.63829855866449,0 74.69264063793993,13.63830719572752,0 74.69264752612915,13.63830911071678,0 74.69265452822545,13.63830766447262,0 74.69265985076302,13.63830447905631,0 74.69266696609677,13.63829967188086,0 74.69267234487833,13.63829480638305,0 74.6926794028184,13.6382916800258,0 74.69268304492907,13.63828675638817,0 74.6926920645253,13.63827696851326,0 74.69269576247879,13.63827036572772,0 74.69270113956672,13.63826550184947,0 74.6927045548907,13.63826729887932,0 74.6927095934463,13.63827251433261,0 74.6927145759593,13.6382794101222,0 74.69272135116643,13.63828468483226,0 74.69272633443708,13.63829158156576,0 74.69273143042641,13.63829511795609,0 74.69273820666781,13.63830039354017,0 74.69274666349008,13.63830740860895,0 74.69275170429157,13.63831262628308,0 74.69275853765318,13.63831622209497,0 74.69276889983895,13.63831825439988,0 74.69277590101541,13.63831680802189,0 74.69278290206444,13.63831536162228,0 74.69279348679866,13.63831067113638,0 74.69280227920189,13.63830760291009,0 74.69280748792379,13.63830777867623,0 74.69281448829449,13.63830633243759,0 74.69282843337052,13.6383051206219,0 74.69283716961293,13.63830373301933,0 74.69285285040289,13.63830257983216,0 74.69286505861515,13.63830130949497,0 74.6928754755866,13.63830166100372,0 74.69288236545999,13.63830357578497,0 74.69288925546176,13.63830549060125,0 74.69289620024043,13.63830572494329,0 74.69290835357239,13.6383061350396,0 74.69292224313487,13.63830660372055,0 74.69293260599628,13.63830863579877,0 74.69294302326858,13.63830898731046,0 74.69295338642362,13.63831101937986,0 74.6929637497709,13.63831305153374,0 74.69297237708484,13.6383150250913,0 74.69298447705017,13.63831711585607,0 74.69299663102878,13.63831752596341,0 74.69300531238783,13.63831781889445,0 74.69301741284134,13.63831990975088,0 74.69302951345814,13.63832200059479,0 74.69304161436713,13.6383240914784,0 74.69305371543646,13.63832618244507,0 74.69306239719205,13.63832647538465,0 74.69307970768925,13.63832874210772,0 74.69309007300116,13.63833077451732,0 74.69309875485895,13.63833106745723,0 74.69310917312957,13.63833141898548,0 74.69311611864464,13.63833165333706,0 74.693124853109,13.63833026538292,0 74.69313521884916,13.6383322978026,0 74.69314016597983,13.63834087862146,0 74.69314700715263,13.63834447523693,0 74.69315563739481,13.63834644934689,0 74.69316605645059,13.63834680089646,0 74.69317647550891,13.638347152445,0 74.69318347354655,13.63834570564816,0 74.69319578462495,13.63834107242199,0 74.69321330425223,13.63833661521201,0 74.69322203791886,13.63833522714206,0 74.69323082291386,13.63833215824498,0 74.69323776832022,13.6383323925839,0 74.693248186432,13.63833274409141,0 74.69325686822658,13.63833303701464,0 74.69326544749033,13.63833669178355,0 74.69327755109667,13.63833878290404,0 74.69328613098517,13.63834243792766,0 74.69329302574238,13.63834435334752,0 74.69330513006291,13.63834644456635,0 74.69330686649771,13.63834650315276,0 74.69331897106163,13.6383485944574,0 74.6933293899677,13.63834894598408,0 74.69333633590675,13.63834918033462,0 74.69334496779881,13.63835115445469,0 74.69335538680895,13.63835150598222,0 74.69336754235727,13.6383519160975,0 74.69336947992713,13.63834525005645,0 74.69336973128273,13.63833684493566,0 74.69337340493897,13.6383302385398,0 74.69338035011492,13.63833047286016,0 74.69338734539573,13.63832902638691,0 74.69339607684384,13.63832763851947,0 74.69340128560007,13.63832781425414,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>water_2019_11_26</name>
+			<open>1</open>
+			<styleUrl>#msn_ylw-pushpin101</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69122358076177,13.63834858352255,0 74.6912398453902,13.63833397605448,0 74.69124693335534,13.6383308476059,0 74.69125582790761,13.63832609646389,0 74.69126117831199,13.63832290961854,0 74.69126826541986,13.63831978152926,0 74.69127535226175,13.63831665360341,0 74.69128243884164,13.63831352574539,0 74.69128952515753,13.63831039800296,0 74.69129487450208,13.63830721174485,0 74.69130022358043,13.63830402565021,0 74.6913073785462,13.63829921736833,0 74.69131446380449,13.63829609015067,0 74.69131981223738,13.63829290442238,0 74.69132849517463,13.63829319755727,0 74.69133537243505,13.63829511283792,0 74.69134218076722,13.63829870903776,0 74.69134892035841,13.63830398630176,0 74.6913556603227,13.63830926385751,0 74.6913606639074,13.63831448307345,0 74.69136747339674,13.63831807999373,0 74.69137428313711,13.63832167704618,0 74.69138116183233,13.63832359286795,0 74.6913860977679,13.63833049432019,0 74.69138943437132,13.6383339745092,0 74.69139805065763,13.63833594925389,0 74.69140486159159,13.6383395469178,0 74.69141167277473,13.63834314476177,0 74.69141855257249,13.63834506103819,0 74.69142543249849,13.63834697730155,0 74.69143411782608,13.63834727050415,0 74.69144099795751,13.63834918680424,0 74.69144787821337,13.63835110318694,0 74.69145475859754,13.63835301955659,0 74.69146163910811,13.63835493596102,0 74.69146838393307,13.6383602162825,0 74.69147700205231,13.63836219151591,0 74.69148388308417,13.63836410809153,0 74.69149256912458,13.63836440131221,0 74.69149958560034,13.63836295388465,0 74.69150827162262,13.63836324710352,0 74.69151695757809,13.6383635403194,0 74.69152738076173,13.63836389217874,0 74.69153439684682,13.63836244471944,0 74.69154134556932,13.63836267928911,0 74.69155016580082,13.63835960861806,0 74.69155885150754,13.63835990182233,0 74.69156753727798,13.63836019502803,0 74.69157622298174,13.63836048823074,0 74.69158136759725,13.6383623460894,0 74.69158998660018,13.63836432126288,0 74.6915968685974,13.63836623787901,0 74.69160188020174,13.63837146005279,0 74.69160876256448,13.6383733767568,0 74.69161744882484,13.63837366997416,0 74.69162613514905,13.63837396319294,0 74.69163482140671,13.63837425640876,0 74.69164190304147,13.63837112673129,0 74.6916489181805,13.6383696791711,0 74.69165760425855,13.63836997237922,0 74.69166281585255,13.63837014830196,0 74.69166989677024,13.6383670187383,0 74.69168031982775,13.63836737057809,0 74.69168559728227,13.63836586450035,0 74.69169441467315,13.63836279373877,0 74.69170316607149,13.63836140501948,0 74.69171018017903,13.63835995768747,0 74.69171385125712,13.63835502945293,0 74.69171237674441,13.63834824387876,0 74.69171611312468,13.63834163474811,0 74.69172499430334,13.63833688341223,0 74.69173213813383,13.63833207371125,0 74.69173915080221,13.63833062684299,0 74.69174449185239,13.63832744010492,0 74.6917532409968,13.63832605199282,0 74.6917602532059,13.63832460528045,0 74.69176726528623,13.63832315854665,0 74.69177427723412,13.63832171188699,0 74.69178135404144,13.63831858411237,0 74.69178843058404,13.63831545650093,0 74.69179550686565,13.6383123289571,0 74.69180238851538,13.6383142444097,0 74.69180927029012,13.6383161599449,0 74.69181608752828,13.63831975654017,0 74.69182470630967,13.6383217307997,0 74.69183326074359,13.63832538621866,0 74.69184001429049,13.63833066446342,0 74.69184683259859,13.63833426163784,0 74.69185551660799,13.63833455476118,0 74.69186252805542,13.63833310792312,0 74.69186953937424,13.63833166106362,0 74.69187828731388,13.63833027290086,0 74.69188697107887,13.6383305660134,0 74.69189565484307,13.63833085912514,0 74.69190266572083,13.63832941235889,0 74.69191128561657,13.6383313867243,0 74.69191996937852,13.63833167983385,0 74.69193032628108,13.63833371285897,0 74.69193901012187,13.63833400596945,0 74.69194769396191,13.63833429907916,0 74.69195811456909,13.63833465080977,0 74.69196853517529,13.63833500253925,0 74.69198069254797,13.6383354128889,0 74.69199111315217,13.63833576461596,0 74.69199973401798,13.63833773911596,0 74.69200841793398,13.63833803222287,0 74.69201710184942,13.63833832532901,0 74.69202578576427,13.63833861843438,0 74.6920344696786,13.63833891153897,0 74.69204135424235,13.63834082741376,0 74.69204830143747,13.63834106189853,0 74.69205692298908,13.63834303647864,0 74.69206734387714,13.63834338820716,0 74.69207429113546,13.63834362269222,0 74.69208471202245,13.63834397441888,0 74.69209339609445,13.63834426752359,0 74.69210208016608,13.63834456062754,0 74.6921107642373,13.63834485373071,0 74.69211944830816,13.63834514683312,0 74.69212986919275,13.63834549855499,0 74.69213855326288,13.63834579165571,0 74.6921472373327,13.63834608475567,0 74.69215765821609,13.63834643647461,0 74.6921646669159,13.63834498944509,0 74.69217328954048,13.63834696405095,0 74.69218197361737,13.63834725714813,0 74.69219065768591,13.63834755024427,0 74.69219934175423,13.63834784333965,0 74.69220635006711,13.63834639629425,0 74.69221677085216,13.63834674800371,0 74.69222551571808,13.63834535964593,0 74.69223252365832,13.63834391264848,0 74.69223959221338,13.63834078436594,0 74.69224666051235,13.63833765615098,0 74.69225372854531,13.63833452805114,0 74.69226067522014,13.63833476250364,0 74.69226935856362,13.63833505556857,0 74.69227804190911,13.6383353486328,0 74.69228846192121,13.63833570030878,0 74.69229546882308,13.63833425353783,0 74.69230241543347,13.63833448798522,0 74.69230768550449,13.63833298262673,0 74.69231642872052,13.63833159446897,0 74.69232343516832,13.63833014777413,0 74.69233038158684,13.63833038221308,0 74.69233744767642,13.63832725441544,0 74.69234625004648,13.63832418534028,0 74.69235337526499,13.63831937684376,0 74.69236044046926,13.63831624949821,0 74.69236576898608,13.63831306361698,0 74.69237451060999,13.6383116758528,0 74.69237971984464,13.63831185165977,0 74.6923901383182,13.63831220327301,0 74.69240055678799,13.63831255488498,0 74.6924109752581,13.63831290649585,0 74.69241797998953,13.63831146009302,0 74.69242498458978,13.63831001376421,0 74.69243198906213,13.63830856741383,0 74.6924390522889,13.63830544049356,0 74.69244773394654,13.63830573348564,0 74.6924564156126,13.63830602647721,0 74.69246509727087,13.63830631946773,0 74.69247198401759,13.63830823451385,0 74.6924788123724,13.63831183036133,0 74.69248575789267,13.63831206475876,0 74.69249258662954,13.63831566074271,0 74.6925012686913,13.63831595374364,0 74.69250989252166,13.63831792756554,0 74.69251857466469,13.63831822056769,0 74.69252725680816,13.63831851356907,0 74.69253593895209,13.63831880656969,0 74.6925463575255,13.63831915816942,0 74.69255503967054,13.63831945116836,0 74.69256372181611,13.63831974416653,0 74.69257240396222,13.63832003716393,0 74.69257946485752,13.6383169098573,0 74.69258658302815,13.63831210194475,0 74.69259364333482,13.63830897492817,0 74.69260070337882,13.63830584807439,0 74.69260602691051,13.63830266269509,0 74.69261308646615,13.63829953602479,0 74.6926217675707,13.63829982898216,0 74.69263044867594,13.63830012193876,0 74.69263912978184,13.63830041489458,0 74.69264416749716,13.6383056322819,0 74.6926510556539,13.63830754728652,0 74.69265805765454,13.6383061010221,0 74.69266511631382,13.63830297430287,0 74.69267049524781,13.63829810857591,0 74.69267761002331,13.63829330175384,0 74.69268298831076,13.63828843661173,0 74.69269004579168,13.63828531053458,0 74.69269710301343,13.63828218452459,0 74.69270236754072,13.63828068012161,0 74.69270948070938,13.6382758742683,0 74.69271648087575,13.63827442860652,0 74.69272336843321,13.63827634291541,0 74.69272835154779,13.63828323902148,0 74.69273339118574,13.63828845535019,0 74.69273663885424,13.63829529371602,0 74.69273994285874,13.63830045212838,0 74.69274319097937,13.63830729142831,0 74.69274817566223,13.6383141897789,0 74.6927550649812,13.63831610490922,0 74.69276195442993,13.63831802002678,0 74.69276884400684,13.63831993517936,0 74.69277752584939,13.63832022814785,0 74.69278441563412,13.63832214338543,0 74.69279141679952,13.63832069689585,0 74.69280009864467,13.63832098986238,0 74.69280709959995,13.63831954344337,0 74.69281410042626,13.63831809705052,0 74.69282278211334,13.63831839000953,0 74.69283157430471,13.63831532147649,0 74.69283678322167,13.63831549724775,0 74.69284725616139,13.63831416810931,0 74.69285257514272,13.6383109825599,0 74.69285957516377,13.63830953632259,0 74.69286657505752,13.63830809006363,0 74.69287525622121,13.63830838299975,0 74.69288567358011,13.63830873452078,0 74.69289435468124,13.63830902745304,0 74.69290650830308,13.63830943755957,0 74.69291692566723,13.63830978907733,0 74.6929273430332,13.63831014059401,0 74.69293776040098,13.6383104921096,0 74.69294644150966,13.63831078503733,0 74.69295333230191,13.6383127000175,0 74.69296027728103,13.63831293436178,0 74.69296885058483,13.63831658857556,0 74.69297921436615,13.63831862083616,0 74.6929878958028,13.63831891377149,0 74.6929965235838,13.63832088743643,0 74.69300688782019,13.63832291972422,0 74.69301730578179,13.63832327125172,0 74.69302425109072,13.63832350560279,0 74.69303119640057,13.63832373995338,0 74.69303635199506,13.63832559656593,0 74.69304661027802,13.6383309907478,0 74.69305355584824,13.63833122510584,0 74.69306218472785,13.63833319898981,0 74.69307086674132,13.63833349193769,0 74.6930830216411,13.63833390206612,0 74.69309517647876,13.63833431219093,0 74.6931038585635,13.63833460513823,0 74.69311254058465,13.6383348980826,0 74.6931212226727,13.63833519102845,0 74.6931299046972,13.63833548397137,0 74.69313690276988,13.63833403736588,0 74.69314558478223,13.63833433030687,0 74.69314537539344,13.63834105439317,0 74.69314690248017,13.63834783761602,0 74.69315195521725,13.63835305717718,0 74.69315874482503,13.63835833562261,0 74.69316390247637,13.63836019281262,0 74.69317942817625,13.63836408313739,0 74.693188111499,13.63836437612059,0 74.69319505818459,13.63836461050752,0 74.69320205670115,13.63836316341484,0 74.69320910685441,13.63836003488128,0 74.69321789337249,13.6383569650572,0 74.69322667950181,13.63835389534329,0 74.69323546537146,13.63835082579173,0 74.69324414798243,13.63835111874493,0 74.6932545671572,13.63835147028916,0 74.69326324983763,13.63835176324299,0 74.69327540551524,13.63835217337453,0 74.69328587574955,13.63835084364141,0 74.69329629483924,13.63835119517814,0 74.6933031391207,13.63835479207858,0 74.69331182189271,13.63835508503129,0 74.69331881883068,13.63835363812372,0 74.69332576496069,13.63835387248177,0 74.69333454879173,13.63835080292612,0 74.69334159586307,13.63834767489696,0 74.69335032869327,13.63834628670921,0 74.69335916203691,13.63834153639964,0 74.69336620826611,13.63833840871236,0 74.69337325423588,13.63833528113985,0 74.6933802497752,13.63833383458293,0 74.69338724518644,13.63833238805208,0 74.69339424047101,13.63833094149951,0 74.69340292197904,13.63833123439926,0 74.69335322642139,13.63988563586429,0 74.69228676782986,13.63984964110839,0 74.69229099938568,13.6398292486892,0 74.69229130319134,13.63982070394056,0 74.69229160696857,13.63981215999167,0 74.69229535142615,13.63980544361119,0 74.69229734494097,13.63979866860028,0 74.69229758770825,13.63979183506272,0 74.69229789114308,13.63978329382372,0 74.69229638342212,13.63977640231107,0 74.69229662619588,13.63976957043805,0 74.69229699032331,13.63975932356297,0 74.69229554352876,13.63975072629382,0 74.69229572560923,13.63974560376855,0 74.69229433968144,13.63973530051628,0 74.69229277177342,13.63973011979261,0 74.69229307533138,13.63972158431591,0 74.69229150757619,13.63971640436472,0 74.69229006137641,13.63970781111264,0 74.69229018283929,13.63970439764879,0 74.69228710862724,13.6396923335029,0 74.69228560205705,13.63968544880815,0 74.69228403481942,13.63968027088771,0 74.69228258925305,13.639671681012,0 74.6922810830192,13.63966479791044,0 74.69227957689701,13.6396579153236,0 74.69227638247682,13.63964926850017,0 74.69227487665987,13.63964238702448,0 74.6922750592128,13.63963727055404,0 74.69227186536159,13.63962862566513,0 74.692272108857,13.6396218048089,0 74.69227060342328,13.63961492543722,0 74.69227090782718,13.6396064006877,0 74.69226765380257,13.63959946340139,0 74.69226252941742,13.63959587696261,0 74.69225565652678,13.63959223159125,0 74.69225240331592,13.63958529535303,0 74.69225270852006,13.6395767733899,0 74.69225644963686,13.6395700743564,0 74.69225319678975,13.63956313983681,0 74.6922480126055,13.63956125873095,0 74.69224108012948,13.63955931870107,0 74.6922340865776,13.63955908267044,0 74.69222715429433,13.639557142679,0 74.69222028347805,13.63955349878054,0 74.69221335151998,13.63955155889573,0 74.69220648115407,13.6395479152037,0 74.69219961104481,13.63954427164781,0 74.6921994264677,13.63954938297928,0 74.69220092871926,13.63955625757285,0 74.69220062112747,13.63956477770227,0 74.69219525261931,13.63956800897311,0 74.69218982229049,13.63957294460063,0 74.6921826430729,13.63957782149066,0 74.69217733557556,13.63957934885588,0 74.69217046479096,13.63957570406625,0 74.69216540465113,13.63957041419725,0 74.69216209326474,13.63956518363502,0 74.69216583759389,13.63955848534688,0 74.69217126818933,13.63955355049321,0 74.69216976705839,13.63954667611331,0 74.69216826604129,13.63953980219858,0 74.6921650169751,13.63953286984594,0 74.69216176815338,13.63952593796272,0 74.69215677154367,13.63951894765023,0 74.69215346132674,13.63951371999485,0 74.69214846535382,13.63950673059544,0 74.69214340772193,13.6395014445854,0 74.69214009818836,13.6394962179082,0 74.69214040849373,13.63948770408106,0 74.69214071877177,13.63947919100027,0 74.69214102902076,13.6394706787141,0 74.69213952969127,13.63946381050829,0 74.69213628303402,13.6394568837911,0 74.6921292932599,13.63945664788771,0 74.6921239265312,13.6394598752698,0 74.69211837283393,13.63946820963641,0 74.69211637617315,13.63947496023536,0 74.69211612704945,13.63948177032246,0 74.69211581561726,13.63949028368284,0 74.69211038529342,13.63949521510582,0 74.69210501705814,13.63949844390134,0 74.69209796320112,13.63949991084514,0 74.69209084668435,13.6395030808278,0 74.69208379249508,13.63950454790451,0 74.69207673817554,13.63950601496024,0 74.69206962099564,13.6395091851755,0 74.69206937007576,13.63951599787661,0 74.69207629952663,13.63951793710326,0 74.69208335431152,13.63951646984019,0 74.69209034642905,13.639516705822,0 74.69209914902935,13.63951529757911,0 74.69210601630309,13.63951894003529,0 74.69211288383141,13.63952258267588,0 74.69211975161613,13.6395262254525,0 74.69212849216987,13.63952652044354,0 74.69213355010247,13.63953180784826,0 74.69213504976817,13.63953868115933,0 74.69213473912313,13.63954719980067,0 74.69213274221342,13.63955395629901,0 74.69212731047847,13.63955889121021,0 74.69212012997696,13.63956376738811,0 74.6921146975918,13.63956870285132,0 74.69210764112303,13.63957017101379,0 74.69210077189435,13.63956652658036,0 74.69209571389769,13.6395612371176,0 74.69209065618266,13.63955594799966,0 74.692083725174,13.63955400801993,0 74.69207504592217,13.63955200906952,0 74.69207473244926,13.6395605290017,0 74.69207448164764,13.6395673455786,0 74.69207766532229,13.63957598502104,0 74.69208097459027,13.63958121627716,0 74.69207722656429,13.63958791630606,0 74.69207916327724,13.63958286171693,0 74.69207897527983,13.63958797532445,0 74.69207179221347,13.63959285313851,0 74.69206648313225,13.63959438080204,0 74.69206148812383,13.63958738514063,0 74.69205992794488,13.63958221253278,0 74.69205668210745,13.63957527684641,0 74.69205162506039,13.63956998689028,0 74.69204837974702,13.63956305206564,0 74.69204332326306,13.63955776279781,0 74.69203645562082,13.63955411875182,0 74.6920295882331,13.63955047489035,0 74.69202440628055,13.63954859395587,0 74.69201572774215,13.63954659509342,0 74.69200698604001,13.63954630006461,0 74.69199986589111,13.63954947177383,0 74.691992872398,13.63954923574648,0 74.69198413051468,13.63954894071178,0 74.69197726423235,13.6395452969664,0 74.69197370391363,13.63954688277276,0 74.69197163726837,13.63955534342723,0 74.69196613710268,13.63956198271471,0 74.6919607002942,13.63956691822226,0 74.69195364224791,13.63956838639684,0 74.69194652016745,13.63957155893462,0 74.6919377131708,13.63957296817901,0 74.69192897007467,13.63957267310441,0 74.69192391655587,13.63956738317077,0 74.69192067598054,13.63956044842527,0 74.69192099666147,13.63955192820659,0 74.69192637009768,13.6395486973542,0 74.69193187138956,13.63954205904489,0 74.6919338757521,13.63953530317738,0 74.69193413176835,13.6395284888623,0 74.69193445176292,13.63951997164802,0 74.69193464374483,13.6395148617109,0 74.69192959167123,13.63950957507551,0 74.69192272781517,13.63950593281271,0 74.6919158000499,13.63950399377004,0 74.69190900086905,13.63949864874319,0 74.69190401420926,13.63949166011586,0 74.69190252349351,13.63948479003321,0 74.691907959547,13.63947985899193,0 74.69191339529732,13.63947492817859,0 74.69192051427106,13.63947175915363,0 74.69192763298018,13.63946859019871,0 74.69193637109593,13.63946888510792,0 74.69194510921101,13.63946918001712,0 74.69195054356157,13.63946424987411,0 74.69195597760736,13.63945932000734,0 74.69195972760986,13.63945262929622,0 74.69196678111693,13.63945116313623,0 74.6919738980951,13.63944799495103,0 74.69197589983555,13.63944124617595,0 74.69197265958756,13.63943432096927,0 74.69196579781256,13.63943068163961,0 74.6919570615752,13.63943038679282,0 74.69194994494629,13.63943355435353,0 74.69194289193871,13.63943502023626,0 74.69193583879991,13.63943648612221,0 74.69192710223408,13.63943619126445,0 74.69191836566753,13.63943589640665,0 74.69191144059407,13.63943395875799,0 74.69190457989434,13.63943031940033,0 74.69189765514346,13.63942838183353,0 74.69189053740153,13.63943154935719,0 74.69189021551271,13.63944005836803,0 74.69188989359266,13.63944856819719,0 74.69189494290625,13.63945385139885,0 74.69189818064581,13.63946077820056,0 74.69189785906275,13.63946928990126,0 74.69189067534145,13.63947416138634,0 74.69188355567357,13.63947733056409,0 74.69187481706379,13.63947703563855,0 74.69186607845322,13.63947674071299,0 74.69186089995399,13.63947486121606,0 74.69185222617342,13.63947286373766,0 74.69184530022582,13.63947092532834,0 74.69183830953102,13.63947068939432,0 74.69183151365762,13.63946534619605,0 74.69183526852177,13.6394586549309,0 74.69184070575189,13.63945372526511,0 74.69183552811832,13.63945184616202,0 74.69182840821435,13.63945501456829,0 74.69182122301198,13.63945988533616,0 74.69181585011609,13.63946311302211,0 74.69181209442048,13.63946980464165,0 74.69180833844204,13.63947649680951,0 74.69180283437943,13.63948313044113,0 74.69179746043605,13.63948635898368,0 74.69179053441523,13.63948442023707,0 74.69178367391311,13.63948077889814,0 74.69178044002383,13.63947385044164,0 74.69177895403266,13.63946698153373,0 74.69178096334099,13.63946023105195,0 74.69178297249707,13.63945348112271,0 74.69178847643015,13.63944684960225,0 74.69179559681535,13.63944368151484,0 74.69180271693581,13.63944051349748,0 74.69181145392101,13.63944080836932,0 74.69181850855942,13.63943934237417,0 74.69182562805064,13.63943617452686,0 74.69183274727533,13.63943300679795,0 74.69183986623263,13.63942983921162,0 74.69184698492442,13.63942667171949,0 74.69185403863546,13.63942520597987,0 74.69186277479983,13.6394255008245,0 74.69187151096342,13.63942579566908,0 74.69186808108098,13.63942397611698,0 74.69186122150688,13.63942033713871,0 74.69185429748076,13.63941839975479,0 74.6918473088096,13.63941816388768,0 74.69183863782521,13.63941616757566,0 74.6918317790545,13.63941252887822,0 74.69182673258942,13.6394072479649,0 74.69182524542434,13.63940038408285,0 74.69182013445214,13.63939680492093,0 74.69181469832067,13.63940173147488,0 74.69180926188335,13.639406658329,0 74.69180382514203,13.63941158543493,0 74.69179845332616,13.6394148113512,0 74.69179159530232,13.6394111726783,0 74.69178829703114,13.63940595076557,0 74.69178506429422,13.63939902796932,0 74.69178532568016,13.63939222360822,0 74.69178558704633,13.63938541975491,0 74.6917822894042,13.63938019929302,0 74.69177549839036,13.63937486121515,0 74.69176676449945,13.63937456644516,0 74.69175803060753,13.63937427167509,0 74.69174929671456,13.63937397690492,0 74.69174425354217,13.63936869807763,0 74.69173921065065,13.63936341956965,0 74.69173766130565,13.63935825925526,0 74.69173792440347,13.6393514578732,0 74.69173825324708,13.6393429568773,0 74.69174026272059,13.63933621557911,0 74.69174052568863,13.63932941584378,0 74.69174078863682,13.63932261661565,0 74.69173930534023,13.63931575895881,0 74.69173426404366,13.63931048345572,0 74.69172734519424,13.63930854821093,0 74.69172230441934,13.63930327310566,0 74.69171538593835,13.63930133799977,0 74.69170853361224,13.6392977036422,0 74.69170342753958,13.63929412832411,0 74.69169657569077,13.63929049423586,0 74.69168965789858,13.63928855937437,0 74.69168274023372,13.63928662457289,0 74.69167401043661,13.6392863299365,0 74.69166528057272,13.63928603529774,0 74.69166024212657,13.6392807613862,0 74.69165520389531,13.63927548779118,0 74.69165553646086,13.63926699373928,0 74.69166097323492,13.63926207442057,0 74.69166808897049,13.63925891288913,0 74.69167345873399,13.63925569255667,0 74.69168050769898,13.63925422971739,0 74.69168735790893,13.63925786242032,0 74.69168883884753,13.63926471581313,0 74.69169031983077,13.63927156971458,0 74.69169005507271,13.63927836520328,0 74.69169516046968,13.63928193990422,0 74.69170201197196,13.63928557368813,0 74.69170886373,13.63928920758304,0 74.69171390372135,13.6392944819013,0 74.69171887812877,13.63930145586305,0 74.69172579664199,13.63930339096996,0 74.6917328468887,13.63930192731595,0 74.69173996273658,13.63929876439207,0 74.69174539797062,13.63929384342895,0 74.69175244763798,13.63929237994603,0 74.69176117762061,13.63929267458753,0 74.69176803066802,13.63929630871452,0 74.69177307248333,13.63930158340201,0 74.69177630305862,13.63930849886274,0 74.69178503377128,13.63930879352798,0 74.6917920835904,13.63930732982007,0 74.69179751756528,13.63930240843444,0 74.69180295123653,13.63929748730007,0 74.69181013058133,13.63929262539287,0 74.69181562861664,13.63928600577251,0 74.69182280713675,13.63928114450398,0 74.69182823943868,13.63927622458535,0 74.69183367143627,13.63927130494197,0 74.69183742222323,13.63926462800088,0 74.69184117273005,13.6392579515577,0 74.69184485821997,13.63925297401537,0 74.69184686268163,13.63924623952993,0 74.69184886699354,13.63923950554655,0 74.69184919045225,13.63923101515692,0 74.69185119450923,13.6392242822936,0 74.69185494366133,13.6392176088595,0 74.6918603731376,13.63921269244772,0 74.69186748294779,13.63920953279761,0 74.6918745280486,13.63920807082261,0 74.69188325378708,13.63920836532212,0 74.69189197952475,13.63920865982143,0 74.69189527706779,13.63921387047815,0 74.69189502004816,13.63922066140505,0 74.69189301768283,13.63922739393231,0 74.69188926977694,13.63923406804145,0 74.69188384050315,13.63923898558851,0 74.69187666543499,13.63924384452355,0 74.69187129999317,13.63924706430298,0 74.69186444700856,13.63924343214487,0 74.69186295977795,13.63923658057377,0 74.69185972729846,13.63922967060628,0 74.69185281051482,13.63922773701621,0 74.69185255188964,13.63923452903028,0 74.69185229324499,13.63924132155063,0 74.69185196991245,13.63924981289498,0 74.69184653908577,13.6392547313651,0 74.69184278884936,13.63926140756367,0 74.69183903833375,13.63926808423598,0 74.69183528753706,13.63927476143039,0 74.69182985548346,13.63927968126216,0 74.69182791491907,13.63928471924308,0 74.6918311472062,13.63929163338849,0 74.69183619059648,13.63929690772262,0 74.69184621347792,13.63930915672428,0 74.691838645639,13.63932421737141,0 74.69183159566532,13.63932568138441,0 74.69182829784351,13.63932046434617,0 74.69182506515089,13.63931354803017,0 74.69182881713509,13.63930686795714,0 74.69183082279528,13.63930012945278,0 74.6918311472062,13.63929163338849,0 74.69182610409865,13.63928635932493,0 74.69181737453039,13.63928606469793,0 74.69181026073022,13.63928922714327,0 74.69180482751848,13.63929414779286,0 74.69179939400225,13.63929906871783,0 74.69179227933407,13.63930223164186,0 74.69178509908615,13.63930709409013,0 74.69177966461076,13.63931201574472,0 74.69177759150182,13.63932045485384,0 74.6917756490201,13.63932549515069,0 74.69177538737031,13.63933229454851,0 74.69177687213757,13.6393391533721,0 74.69177835701443,13.63934601273144,0 74.69177984200188,13.63935287260243,0 74.6917849510332,13.63935645011206,0 74.69178999496691,13.63936172817775,0 74.69179691633117,13.63936366445719,0 74.691804033303,13.63936049932368,0 74.69180940340962,13.63935727538455,0 74.69181444802622,13.63936255347265,0 74.69181942790817,13.63936953243884,0 74.69182634980379,13.63937146883847,0 74.69183003801555,13.63936648500859,0 74.69183379090065,13.63935980102905,0 74.69183929005388,13.63935317649468,0 74.69184472402354,13.63934825263296,0 74.69185183943414,13.6393450881069,0 74.69186057176782,13.63934538282486,0 74.6918674285148,13.63934901891368,0 74.69187072792211,13.63935423752788,0 74.69187396300981,13.63936115684332,0 74.69187545166051,13.6393680177243,0 74.69187694042212,13.63937487911714,0 74.69187842929472,13.6393817410219,0 74.69188166515194,13.63938866239569,0 74.69188671258732,13.6393939421968,0 74.69189363594445,13.63939587908168,0 74.69190237063762,13.63939617387745,0 74.69191110533006,13.63939646867315,0 74.69191984002175,13.63939676346879,0 74.69192857471278,13.63939705826436,0 74.69193543457955,13.63940069629851,0 74.69194416943236,13.63940099109938,0 74.69195296806531,13.63939958476792,0 74.69196001959477,13.63939811952786,0 74.69196719828449,13.63939325226413,0 74.69196745285377,13.63938644856712,0 74.69196240344425,13.63938116927268,0 74.6919626581756,13.63937436647061,0 74.6919611662436,13.63936750522682,0 74.69195967442279,13.63936064449489,0 74.6919599292271,13.63935384321972,0 74.69196367690955,13.63934716033756,0 74.69197072629967,13.63934569598677,0 74.69197945846065,13.63934599069793,0 74.69198812718824,13.63934798553639,0 74.69199685942951,13.63934828025007,0 74.69200365537382,13.63935361658439,0 74.69201051490897,13.63935725291599,0 74.6920173747007,13.6393608893589,0 74.69202610751049,13.63936118409128,0 74.69203484031982,13.63936147882356,0 74.69204176362977,13.63936341500725,0 74.69204862419524,13.6393670516663,0 74.69205367554352,13.63937233009624,0 74.69205691766686,13.6393792505101,0 74.69205841324144,13.63938611251043,0 74.69205990892755,13.63939297502279,0 74.69205616396475,13.63939966117211,0 74.69204905052034,13.63940282754342,0 74.69204199975952,13.63940429286543,0 74.69203494886679,13.63940575821479,0 74.69202789784212,13.63940722359151,0 74.6920208466864,13.6394086889714,0 74.69201373218185,13.6394118557128,0 74.69201179542755,13.63941690084456,0 74.69201691035096,13.63942048062145,0 74.69202564601365,13.63942077544893,0 74.69203438167585,13.63942107027636,0 74.69203593977133,13.63942623385968,0 74.69203743495385,13.63943309938228,0 74.69204248782735,13.6394383815814,0 74.69204617118626,13.6394333942287,0 74.69204991722115,13.63942670559653,0 74.69205360013106,13.63942171889656,0 74.69206077700011,13.63941685042764,0 74.69206776533279,13.63941708628291,0 74.69207288125072,13.63942066605352,0 74.6920797445087,13.63942430489944,0 74.69208479828384,13.63942958653206,0 74.69209340931297,13.63943328470692,0 74.69210027340196,13.63943692402572,0 74.69210720009907,13.63943886168878,0 74.69211431378497,13.6394356940296,0 74.69211967999099,13.63943246754476,0 74.69212685534237,13.63942759854802,0 74.69213378189897,13.63942953601553,0 74.6921405845182,13.63943487686155,0 74.69214932066488,13.63943517170485,0 74.69215637147364,13.6394337058755,0 74.69216348397377,13.63943053845507,0 74.69216541657029,13.63942549268305,0 74.69216391670784,13.63941862789409,0 74.69216416395911,13.63941182255427,0 74.69216615812753,13.63940507668114,0 74.69216983726437,13.63940009130918,0 74.69217532473373,13.63939346422422,0 74.69218243528745,13.63939029823973,0 74.69218436691936,13.6393852547477,0 74.69218467496775,13.63937675131385,0 74.69218841457281,13.63937006701781,0 74.69219209236624,13.63936508357775,0 74.69219926294382,13.63936021832863,0 74.69220637172678,13.6393570535791,0 74.69221510404105,13.63935734829329,0 74.69222383635523,13.6393576430074,0 74.69223069986575,13.63936127931945,0 74.69223756363149,13.63936491579125,0 74.69224448870186,13.63936685194494,0 74.69224785976328,13.63937037072909,0 74.69224243683767,13.63937529543767,0 74.69223538919982,13.63937676022995,0 74.69222840263154,13.6393765244346,0 74.69222123226778,13.63938139054855,0 74.69221412283767,13.6393845561656,0 74.69221038391315,13.63939124150103,0 74.69220839156344,13.63939798629138,0 74.69220639906496,13.6394047315851,0 74.69220440641764,13.63941147738226,0 74.69220066656767,13.6394181647202,0 74.69220584629745,13.63942004300987,0 74.69221271184247,13.6394236817414,0 74.69221963894041,13.6394256190997,0 74.69222650493506,13.63942925803705,0 74.69223361585935,13.6394260908178,0 74.692238673849,13.63943137240083,0 74.69224379319476,13.63943495257984,0 74.69225252917668,13.63943524741732,0 74.69225963981518,13.63943207999761,0 74.69226668933015,13.63943061425167,0 74.69227379950479,13.63942744700704,0 74.69227753675999,13.63942075907297,0 74.69228464633467,13.6394175921653,0 74.6922900692942,13.63941266517024,0 74.69229549194904,13.63940773845091,0 74.69230085376986,13.63940451308959,0 74.69230796224748,13.63940134678038,0 74.69231669651742,13.6394016415598,0 74.69232356329766,13.63940527953048,0 74.6923250689662,13.63941214311651,0 74.69232482772927,13.63941894827763,0 74.69232994825268,13.63942252794823,0 74.69233868350119,13.63942282276064,0 74.69234573182194,13.63942135719662,0 74.69235278000713,13.63941989165978,0 74.69235988804388,13.63941672485118,0 74.69236687598224,13.63941696069219,0 74.69237567074141,13.63941555419695,0 74.69238259884406,13.63941749133438,0 74.69238778007517,13.63941936954718,0 74.69239826208151,13.63941972331188,0 74.69240699708706,13.63942001811577,0 74.69241398509992,13.63942025395914,0 74.69242272010599,13.63942054876297,0 74.69242976744279,13.63941908326064,0 74.69243850236793,13.63941937806165,0 74.69244723729345,13.63941967286264,0 74.6924543434376,13.63941650609233,0 74.69246144931591,13.63941333946429,0 74.69246849596369,13.63941187409726,0 74.69247355991703,13.63941715464214,0 74.69248043001386,13.63942079310613,0 74.69248916494131,13.63942108790699,0 74.69249789986921,13.63942138270783,0 74.69250494644132,13.63941991721095,0 74.69251373983536,13.6394185107004,0 74.69251909768678,13.63941528507648,0 74.69252602693901,13.63941722215715,0 74.69253295632173,13.63941915924982,0 74.69253802222315,13.63942444017122,0 74.69253778893022,13.63943124598392,0 74.69253237259984,13.63943617377696,0 74.69252695596636,13.63944110184575,0 74.69251979181553,13.63944597122238,0 74.6925143159757,13.63945260175353,0 74.69250889833081,13.6394575307659,0 74.69250860530009,13.63946604120018,0 74.69250662337886,13.63947279120071,0 74.69250289377112,13.63947948267772,0 74.69249741627772,13.6394861157214,0 74.69249199714936,13.63949104656769,0 74.69248657771757,13.63949597769006,0 74.69248459464271,13.63950272989386,0 74.69248785491969,13.63950965961764,0 74.69249111544215,13.63951658981069,0 74.69249082148457,13.63952510583115,0 74.69248540100776,13.63953003882807,0 74.69247829106257,13.63953320966855,0 74.6924695507509,13.63953291468414,0 74.69246081043963,13.63953261969979,0 74.69245207012878,13.63953232471548,0 74.692445196327,13.63952868192562,0 74.69244013004665,13.63952339500253,0 74.69243500473709,13.63951981154266,0 74.69242789418426,13.63952298204412,0 74.69241915428297,13.63952268707388,0 74.69241041438197,13.63952239210369,0 74.69240348206257,13.63952045290673,0 74.69239847679687,13.639513463272,0 74.69239696756986,13.6395065921859,0 74.69240070176099,13.63949989852505,0 74.69240787152599,13.63949502609481,0 74.6924150408813,13.63949015393712,0 74.69242209098664,13.63948868724918,0 74.69243082925564,13.63948898216392,0 74.69243956752501,13.63948927707868,0 74.69244661733795,13.63948781036416,0 74.69245203768564,13.63948287965488,0 74.69245571019002,13.63947789024257,0 74.69246112997965,13.63947296008703,0 74.69246986743441,13.63947325497407,0 74.69247673957933,13.63947689560657,0 74.69248361198122,13.63948053637511,0 74.69249234976343,13.6394808312733,0 74.69249776857843,13.63947590098908,0 74.69250149830957,13.63946920972234,0 74.69250348038352,13.63946246002996,0 74.6925072096231,13.63945576976435,0 74.69250214368593,13.63945048705373,0 74.69249527209148,13.63944684748208,0 74.69249370108807,13.63944168320161,0 74.69249911870303,13.6394367550468,0 74.69250110051469,13.63943000776223,0 74.69249417097882,13.63942807041752,0 74.69248543572498,13.63942777560555,0 74.69247670047162,13.63942748079357,0 74.69246977122913,13.63942554349057,0 74.69246476615004,13.63941856113978,0 74.69246115413685,13.63942184589953,0 74.69246615917447,13.63942882850318,0 74.69247122353515,13.63943411001547,0 74.69247098773299,13.63944091663264,0 74.69246562818482,13.63944414321578,0 74.69245689211698,13.63944384837598,0 74.69244815604947,13.63944355353617,0 74.69243941998234,13.63944325869634,0 74.69243411904402,13.63944478358403,0 74.69243086190055,13.63943785869981,0 74.69243109919871,13.63943105226074,0 74.69242597664118,13.63942747235488,0 74.69241724130883,13.63942717753997,0 74.69241025304316,13.63942694168803,0 74.69240151770317,13.6394266468728,0 74.69239278237164,13.63942635205782,0 74.69238404704038,13.63942605724282,0 74.69237531170934,13.63942576242779,0 74.69236838335154,13.63942382512275,0 74.69235964810241,13.63942353031045,0 74.69235091285348,13.6394232354981,0 74.69234217760476,13.63942294068573,0 74.69233524961732,13.63942100342492,0 74.69232814092106,13.63942417042603,0 74.69232615265274,13.63943091749107,0 74.69232591143154,13.6394377240514,0 74.69232741745402,13.63944459008951,0 74.6923271762612,13.63945139769254,0 74.69232693505211,13.63945820575545,0 74.69231976436848,13.63946307624536,0 74.69231259328322,13.63946794700799,0 74.69230891687425,13.63947293600144,0 74.69230867495223,13.63947974574294,0 74.69231204925998,13.63948326872069,0 74.6923205459525,13.63949037415227,0 74.69232379997906,13.63949730310582,0 74.69232886238288,13.63950258865537,0 74.69233211693123,13.6395095185664,0 74.69233362377737,13.6395163899538,0 74.69233687874691,13.63952332089801,0 74.69233314165039,13.63953001632244,0 74.69232940427293,13.63953671229547,0 74.6923222909541,13.63953988341937,0 74.69231523780927,13.6395413510719,0 74.6923064968493,13.63954105606625,0 74.69229962525458,13.63953741284214,0 74.69229637140353,13.63953048078924,0 74.69229486582262,13.63952360829821,0 74.69229685628093,13.63951685430733,0 74.69230059449028,13.63951015976369,0 74.69230601973884,13.63950522769266,0 74.6923131320345,13.63950205775947,0 74.69231686932004,13.63949536437923,0 74.6923118074414,13.63949007922943,0 74.69230674584645,13.63948479437567,0 74.69230343213735,13.63947956879911,0 74.69230017917721,13.63947264110615,0 74.69229505777385,13.63946905954617,0 74.69229174467439,13.63946383480084,0 74.6922920478365,13.63945532423351,0 74.6922905430373,13.63944845732209,0 74.6922872911033,13.63944153197834,0 74.6922840394123,13.6394346071758,0 74.69227891936332,13.63943102701251,0 74.6922718091508,13.63943419440727,0 74.69226650674922,13.63943571915728,0 74.69225945703509,13.6394371849919,0 74.69225246818331,13.6394369491197,0 74.6922454182728,13.63943841497946,0 74.69224348780966,13.6394434613714,0 74.69224318239688,13.63945197093282,0 74.69224287695471,13.63946048131262,0 74.69224088507335,13.63946723122978,0 74.69223714547331,13.63947392262241,0 74.69223515322872,13.63948067349702,0 74.69223316083557,13.63948742492425,0 74.69223291606275,13.63949423579404,0 74.69223261006968,13.63950275013295,0 74.69223236525396,13.63950956219579,0 74.69223037244191,13.63951631572517,0 74.69222319664151,13.63952118947988,0 74.69221608180206,13.63952436015538,0 74.69220896669842,13.63952753090092,0 74.69220353796996,13.63953246433635,0 74.69220154381993,13.63953921960431,0 74.69220666553174,13.6395428039611,0 74.69221540673676,13.63954309897447,0 74.69222233839024,13.63954503868971,0 74.69222746063399,13.63954862325566,0 74.69223439259626,13.63955056307695,0 74.69224126354773,13.63955420685257,0 74.69224819583118,13.63955614678035,0 74.69225525026035,13.63955467890075,0 74.69226230455718,13.6395532110486,0 74.69226929784824,13.63955344707058,0 74.69227629113958,13.63955368309261,0 74.69228328443006,13.63955391911464,0 74.69228828660832,13.63956091190895,0 74.69228804379952,13.63956772819599,0 74.69228430393353,13.63957442701659,0 74.69228056378867,13.63958112628934,0 74.6922768233635,13.63958782611129,0 74.69227314351227,13.63959282177303,0 74.69226777561106,13.63959605402045,0 74.69226578319125,13.63960281393673,0 74.6922655394844,13.63960963338203,0 74.69226698376761,13.63961821746837,0 74.6922684890925,13.63962509714016,0 74.69226999453183,13.63963197727784,0 74.69227324922203,13.63963891701153,0 74.69227475495167,13.63964579818035,0 74.69227626079396,13.63965267986373,0 74.69227595656344,13.63966120892768,0 74.69227752341322,13.63966638578102,0 74.69227902952628,13.6396732690548,0 74.69228041412735,13.6396835653586,0 74.69228017086058,13.63969039082028,0 74.69228336617492,13.63969904150671,0 74.69228487277418,13.63970592722492,0 74.69228637948794,13.63971281340977,0 74.69228788631268,13.63971970015836,0 74.69228939325194,13.63972658737372,0 74.69229090030397,13.63973347510444,0 74.69229059662437,13.63974201169615,0 74.69229035365957,13.63974884156389,0 74.69229361118342,13.63975579003577,0 74.69229336831327,13.63976262093029,0 74.69229487581231,13.63976951136283,0 74.69229632272456,13.63977811039565,0 74.69229601922481,13.63978665115236,0 74.69229571569842,13.63979519265974,0 74.69229372215995,13.63980196741372,0 74.69229347923429,13.63980880171431,0 74.69229148546074,13.63981557748498,0 74.69229124243319,13.63982241280686,0 74.69228924842861,13.63982918959461,0 74.69228894451429,13.63983773509178,0 74.69228864056974,13.63984628143755,0 74.69228851898364,13.63984970020962,0 74.69116041325165,13.63982018663868,0 74.69119691224807,13.63907138814136,0 74.69161335101997,13.63913978419916,0 74.69161730792362,13.63912802807562,0 74.69161408635911,13.63912112594633,0 74.69161442055396,13.63911264617724,0 74.69161817640725,13.63910598067416,0 74.69162528691098,13.63910282472138,0 74.6916321304858,13.63910645164932,0 74.69163535245166,13.63911335266546,0 74.69164213001633,13.63911867594739,0 74.69164904099281,13.63912060744534,0 74.69165776290485,13.63912090182406,0 74.69166493956271,13.63911604942608,0 74.69166869356577,13.63910938373549,0 74.6916741252558,13.63910447310031,0 74.69167955657602,13.63909956274336,0 74.69168498765781,13.63909465265698,0 74.69169209637927,13.63909149715005,0 74.69169746073929,13.63908828290054,0 74.69170450297682,13.63908682297942,0 74.6917115450824,13.63908536308542,0 74.69171858705609,13.63908390321852,0 74.69172227254064,13.63907893516413,0 74.69172770176738,13.63907402625442,0 74.69173480882792,13.63907087151344,0 74.69174184999233,13.63906941190373,0 74.69175056932583,13.63906970619536,0 74.69175386050065,13.63907490915388,0 74.69175185442569,13.63908163105009,0 74.69175333629111,13.63908847118119,0 74.69174790741044,13.63909338086099,0 74.69174073408276,13.63909823195369,0 74.69173375751072,13.63909799648387,0 74.69172503676195,13.63909770214524,0 74.69171812605117,13.63909577113175,0 74.69171309142924,13.63909050809602,0 74.69170624705595,13.63908688184499,0 74.69169913879853,13.63909003717183,0 74.69169551849856,13.63909331035555,0 74.69168827749324,13.63909985708878,0 74.69168284635197,13.63910476745167,0 74.69167734872411,13.63911137391231,0 74.69167010629739,13.63911792198326,0 74.69165018680198,13.63913593170417,0 74.69164817618068,13.63914265826131,0 74.69164616534366,13.6391493853174,0 74.69164589912013,13.63915617175094,0 74.69164388811325,13.63916289981389,0 74.69163845380245,13.63916781367758,0 74.69163301925221,13.63917272783032,0 74.69162758433241,13.6391776422436,0 74.6916204041495,13.63918249803702,0 74.69161503549518,13.63918571575636,0 74.69160624340169,13.63918711852429,0 74.69159751823091,13.6391868240379,0 74.6915924842809,13.63918155570288,0 74.69159161128988,13.63915943636759,0 74.69159536897656,13.63915276738258,0 74.69160248176392,13.63914960973398,0 74.6916079165112,13.63914469683416,0 74.69161502873169,13.63914153948314,0 74.69161704065482,13.6391348129688,0 74.69161516241124,13.63913814672176,0 74.69162032936016,13.63914001972939,0 74.69119530959111,13.63906793884818,0 74.69121412649302,13.63865868561004,0 74.69126083009898,13.63866702224262,0 74.69126765107914,13.6386706326999,0 74.69127454214167,13.6386725554802,0 74.69128136356278,13.63867616616312,0 74.69128825494295,13.63867808902301,0 74.69129521609024,13.63867832400768,0 74.69130384799463,13.638680305676,0 74.69131073970641,13.63868222863221,0 74.69131763154493,13.63868415162353,0 74.69132452351118,13.63868607462597,0 74.69133322522742,13.63868636836361,0 74.6913418577968,13.63868835017651,0 74.69134868096347,13.6386919613901,0 74.69135209264087,13.63869376705886,0 74.6913624660984,13.63869580776076,0 74.69137109926841,13.63869778974802,0 74.69138321358449,13.63869988925086,0 74.69139706856457,13.63870204756516,0 74.6914040304686,13.63870228256907,0 74.69141092379742,13.63870420591771,0 74.69142122978954,13.63870793519195,0 74.69143160454627,13.63870997615057,0 74.69144017060057,13.63871364687846,0 74.69145054581779,13.6387156879448,0 74.69146092122531,13.63871772904797,0 74.69147129682314,13.63871977018797,0 74.69148160468822,13.63872350002071,0 74.6914902401288,13.6387254825139,0 74.6915023570284,13.63872758252993,0 74.69150744373538,13.63873113639535,0 74.69152116676979,13.63873667307055,0 74.69152966810078,13.63874203376969,0 74.69153997818539,13.6387457644479,0 74.6915502213555,13.63875118441051,0 74.6915588586254,13.63875316740611,0 74.69156916982094,13.6387568984953,0 74.69158128934703,13.63875899914831,0 74.69158986028943,13.63876267165893,0 74.69159856518846,13.63876296548465,0 74.69160546234522,13.63876488995327,0 74.69161235962929,13.63876681445715,0 74.69161925704159,13.63876873897228,0 74.69162615458028,13.63877066354669,0 74.69163653437819,13.63877270569145,0 74.6916434322044,13.63877463031328,0 74.6916538123526,13.6387766725312,0 74.69165896938348,13.6387785384808,0 74.69167289829211,13.63877900863087,0 74.69167805548123,13.63878087461639,0 74.69169191852596,13.63878303446123,0 74.69170223360695,13.63878676661107,0 74.69171087371075,13.63878875025648,0 74.69171603148921,13.6387906164172,0 74.69172641307152,13.63879265892886,0 74.69173157115438,13.63879452516199,0 74.69174014623601,13.63879819893088,0 74.69174885263502,13.63879849279787,0 74.69175749361412,13.63880047668215,0 74.69176613475277,13.63880246060265,0 74.69177645216118,13.63880619342868,0 74.69178857642099,13.63880829500689,0 74.69179541176042,13.63881191049055,0 74.6918022473524,13.63881552613203,0 74.69180740667797,13.63881739275674,0 74.69181604899751,13.63881937699646,0 74.69182127334618,13.63881955333113,0 74.6918298511533,13.63882322800234,0 74.69184023541767,13.6388252711296,0 74.69185055534386,13.63882900480052,0 74.69186261721444,13.63883279739074,0 74.69187474383995,13.63883489948104,0 74.69188338750193,13.63883688403266,0 74.69189370880085,13.63884061812372,0 74.69190241693114,13.63884091204011,0 74.69191273877369,13.63884464627384,0 74.69192131930853,13.63884832186026,0 74.69192996396181,13.63885030666257,0 74.69194028679344,13.63885404124198,0 74.69195061000796,13.6388577759593,0 74.69196099711995,13.63885981972779,0 74.69197132100558,13.63886355465494,0 74.69198519226794,13.63886571612342,0 74.6919937750219,13.63886939247204,0 74.69199725875674,13.63886951005277,0 74.69200913648228,13.63887837815769,0 74.69201778324796,13.6388803635294,0 74.69202456231692,13.63888567314211,0 74.69203308382549,13.63889104183483,0 74.69204166858425,13.63889471912906,0 74.69204851153596,13.63889833776096,0 74.69205709690058,13.63890201531447,0 74.69206568258366,13.63890569301618,0 74.69207258885469,13.63890762012559,0 74.69207949525432,13.63890954725849,0 74.69208633941712,13.63891316643315,0 74.69209324613635,13.63891509368275,0 74.69210009074581,13.63891871304873,0 74.69210705996043,13.63891894826449,0 74.69211570938418,13.63892093442508,0 74.6921208122492,13.63892449520618,0 74.69213126636177,13.6389248480384,0 74.69213817388336,13.63892677549019,0 74.6921450815328,13.63892870298957,0 74.69215186578866,13.63893401521459,0 74.69215865043088,13.63893932774182,0 74.69216574362717,13.63893617807386,0 74.69217115572467,13.63893127738636,0 74.69217140204249,13.63892450833565,0 74.69216816379991,13.63891762219563,0 74.692161256386,13.63891569492535,0 74.69215422563306,13.63891715177683,0 74.69214713294051,13.63892030075038,0 74.69214010185966,13.63892175768485,0 74.69213139026157,13.63892146366385,0 74.69212267866317,13.63892116964246,0 74.69211396706442,13.6389208756207,0 74.69210525546536,13.63892058159855,0 74.69209841069677,13.63891696215241,0 74.69209156618261,13.63891334284049,0 74.69208478430126,13.63890803173199,0 74.69207787791728,13.63890610461923,0 74.69207097166108,13.63890417755402,0 74.69206412810171,13.63890055871378,0 74.6920572221655,13.63889863175319,0 74.69205212114569,13.6388950719136,0 74.6920453409941,13.63888976179375,0 74.69203849841888,13.63888614350105,0 74.69203339807862,13.6388825841242,0 74.69202836082142,13.63887733348881,0 74.69202145605085,13.6388754069749,0 74.6920144883716,13.63887517180731,0 74.69200577879248,13.63887487784812,0 74.69199887429541,13.63887295136192,0 74.69199203315443,13.63886933368166,0 74.69198519226794,13.63886571612342,0 74.69197648309178,13.63886542217627,0 74.69196957918636,13.63886349586596,0 74.69196267540852,13.6388615696031,0 74.69195577175903,13.63885964336368,0 74.69194886823703,13.63885771717172,0 74.69194196484344,13.63885579100317,0 74.69193506157727,13.63885386488209,0 74.69192815843904,13.63885193879643,0 74.69192125542914,13.63885001273418,0 74.69191254689574,13.63884971880536,0 74.69190564409358,13.63884779279288,0 74.69189880550726,13.63884417599968,0 74.69189009721478,13.63884388207775,0 74.69188319481268,13.63884195615997,0 74.69187629253794,13.63884003028961,0 74.69186945474934,13.63883641377323,0 74.69186261721444,13.63883279739074,0 74.69185577993316,13.63882918114212,0 74.69184887836013,13.63882725551398,0 74.69184197691531,13.63882532990919,0 74.69183507559822,13.63882340433979,0 74.6918281744079,13.63882147882979,0 74.69182127334618,13.63881955333113,0 74.69181617869152,13.63881599635013,0 74.6918076014568,13.6388123219245,0 74.69180076589184,13.6388087064339,0 74.69179386553134,13.63880678117726,0 74.69178696529845,13.63880485595598,0 74.691778258694,13.6388045620842,0 74.69177316521456,13.63880100564346,0 74.69176445877028,13.63880071177625,0 74.69175575232497,13.63880041790857,0 74.69174885263502,13.63879849279787,0 74.69174188754202,13.6387982577052,0 74.69173498804363,13.63879633263165,0 74.69172815432938,13.63879271770173,0 74.69172125514949,13.63879079273233,0 74.69171442187948,13.63878717800495,0 74.69170745717128,13.63878694292348,0 74.6917006242841,13.63878332830969,0 74.69169191852596,13.63878303446123,0 74.69168501999847,13.63878110969283,0 74.69167631438447,13.63878081584834,0 74.69166948226299,13.63877720144681,0 74.69166258413465,13.63877527676073,0 74.69165387869474,13.63877498292068,0 74.6916469807727,13.63877305829614,0 74.69163827547676,13.63877276446005,0 74.69163144431157,13.63876915033947,0 74.69162273910965,13.63876885650555,0 74.69161229290485,13.6387685039055,0 74.69160358776536,13.63876821007267,0 74.69159488255912,13.63876791623712,0 74.69158798537022,13.63876599172825,0 74.69158108830953,13.63876406723062,0 74.69157586533315,13.63876389093349,0 74.69156729456986,13.63876021834112,0 74.69156039788994,13.63875829397326,0 74.69155350133818,13.63875636961662,0 74.69154667224484,13.63875275606244,0 74.69153984340333,13.63874914266578,0 74.69153489056501,13.63874221005175,0 74.69152987054831,13.63873696686358,0 74.69152471582326,13.63873510167583,0 74.69151788802051,13.6387314889398,0 74.69150918441706,13.63873119515171,0 74.69150048087737,13.63873090136528,0 74.69149358583439,13.63872897752593,0 74.69148675879568,13.63872536500163,0 74.69147805542904,13.63872507121947,0 74.69146935212615,13.63872477743897,0 74.69146245755978,13.63872285370783,0 74.6914555631204,13.63872093001187,0 74.69144866880706,13.63871900637509,0 74.69144177462164,13.63871708274949,0 74.69143494891875,13.63871347061865,0 74.6914281234673,13.63870985864518,0 74.69142129826922,13.63870624678106,0 74.69141433623868,13.63870601177386,0 74.69140744281377,13.63870408841493,0 74.69139880900801,13.63870210631507,0 74.69139191585374,13.63870018300288,0 74.69138502282537,13.63869825974983,0 74.69137812992484,13.63869633650792,0 74.69136942781431,13.63869604276021,0 74.69136253511995,13.63869411955559,0 74.69135571163504,13.63869050826967,0 74.69134881925767,13.63868858516872,0 74.69134192700706,13.63868666210289,0 74.69133322522742,13.63868636836361,0 74.69132452351118,13.63868607462597,0 74.69131763154493,13.63868415162353,0 74.69130899935546,13.63868216988415,0 74.69130384799463,13.638680305676,0 74.69129521609024,13.63867832400768,0 74.69128839435012,13.63867471327649,0 74.69128150309761,13.6386727904594,0 74.69127461197174,13.63867086767739,0 74.69126779086361,13.63866725721634,0 74.69126090005437,13.63866533453788,0 74.69125219921018,13.6386650408239,0 74.69124530860566,13.63866311820663,0 74.69123841812876,13.63866119560044,0 74.69123152777847,13.63865927302933,0 74.69122470784183,13.63865566297993,0 74.69121600732737,13.63865536927419,0 74.69121064623491,13.6386585681259,0 74.69122358076177,13.63834858352255,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<atom:link rel="app" href="https://www.google.com/earth/about/versions/#earth-pro" title="Google Earth Pro 7.3.7.1327"></atom:link>
+	</Folder>
+</Document>
+</kml>

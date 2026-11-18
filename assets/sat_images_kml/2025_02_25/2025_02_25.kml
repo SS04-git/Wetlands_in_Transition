@@ -1,0 +1,1184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>2025_02_25.kml</name>
+	<StyleMap id="m_ylw-pushpin00">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#s_ylw-pushpin</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#s_ylw-pushpin_hl1</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="msn_placemark_circle100">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_placemark_circle000</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sh_placemark_circle_highlight90</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="msn_placemark_circle4">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_placemark_circle70</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sh_placemark_circle_highlight6</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="msn_placemark_circle7">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_placemark_circle30</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sh_placemark_circle_highlight20</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="msn_ylw-pushpin100">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_ylw-pushpin51</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sh_ylw-pushpin80</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="msn_ylw-pushpin120">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_ylw-pushpin18</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sh_ylw-pushpin22</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="s_ylw-pushpin">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff3d7ca6</color>
+			<width>2</width>
+		</LineStyle>
+	</Style>
+	<Style id="s_ylw-pushpin_hl1">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff3d7ca6</color>
+			<width>2</width>
+		</LineStyle>
+	</Style>
+	<Style id="sh_placemark_circle_highlight20">
+		<IconStyle>
+			<color>ff2c2cc6</color>
+			<scale>1.2</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle_highlight.png</href>
+			</Icon>
+		</IconStyle>
+	</Style>
+	<Style id="sh_placemark_circle_highlight6">
+		<IconStyle>
+			<color>ff2c2cc6</color>
+			<scale>1.2</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle_highlight.png</href>
+			</Icon>
+		</IconStyle>
+	</Style>
+	<Style id="sh_placemark_circle_highlight90">
+		<IconStyle>
+			<color>ff32a8e5</color>
+			<scale>1.2</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle_highlight.png</href>
+			</Icon>
+		</IconStyle>
+	</Style>
+	<Style id="sh_ylw-pushpin22">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ffd1b545</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>99d1b545</color>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<Style id="sh_ylw-pushpin80">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff4d7339</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>994d7339</color>
+		</PolyStyle>
+	</Style>
+	<Style id="sn_placemark_circle000">
+		<IconStyle>
+			<color>ff32a8e5</color>
+			<scale>1.2</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+			</Icon>
+		</IconStyle>
+	</Style>
+	<Style id="sn_placemark_circle30">
+		<IconStyle>
+			<color>ff2c2cc6</color>
+			<scale>1.2</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+			</Icon>
+		</IconStyle>
+	</Style>
+	<Style id="sn_placemark_circle70">
+		<IconStyle>
+			<color>ff2c2cc6</color>
+			<scale>1.2</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+			</Icon>
+		</IconStyle>
+	</Style>
+	<Style id="sn_ylw-pushpin18">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ffd1b545</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>99d1b545</color>
+			<outline>0</outline>
+		</PolyStyle>
+	</Style>
+	<Style id="sn_ylw-pushpin51">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>ff4d7339</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>994d7339</color>
+		</PolyStyle>
+	</Style>
+	<Folder>
+		<name>2025_02_25</name>
+		<Placemark>
+			<name>1_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225110509647</longitude>
+				<latitude>13.63912905378561</latitude>
+				<altitude>0</altitude>
+				<heading>-2.20645517928331</heading>
+				<tilt>1.670356697984202</tilt>
+				<range>206.4651599288011</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69137006408044,13.63845174934695,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>2_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225293216013</longitude>
+				<latitude>13.63908297049173</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206454748456112</heading>
+				<tilt>1.670356697983984</tilt>
+				<range>206.4651599343202</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69140501459123,13.63846699172275,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>3_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225293216013</longitude>
+				<latitude>13.63908297049173</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206454748456795</heading>
+				<tilt>1.67035669798442</tilt>
+				<range>206.4651599336518</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69144208626163,13.63845501790912,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>4_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225293216013</longitude>
+				<latitude>13.63908297049173</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206454748456112</heading>
+				<tilt>1.670356697983984</tilt>
+				<range>206.4651599343202</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69153082836242,13.63848339992624,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>5_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225293216013</longitude>
+				<latitude>13.63908297049173</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206454748456112</heading>
+				<tilt>1.670356697983984</tilt>
+				<range>206.4651599343202</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69167120477417,13.63848698556758,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>6_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225293216013</longitude>
+				<latitude>13.63908297049173</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206454748456795</heading>
+				<tilt>1.67035669798442</tilt>
+				<range>206.4651599336518</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69172546117321,13.63847732147131,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>7_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225293216013</longitude>
+				<latitude>13.63908297049173</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206454748456112</heading>
+				<tilt>1.670356697983984</tilt>
+				<range>206.4651599343202</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69176049326445,13.63847028173612,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>8_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225293216013</longitude>
+				<latitude>13.63908297049173</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206454748456112</heading>
+				<tilt>1.670356697983984</tilt>
+				<range>206.4651599343202</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69179354816774,13.63846817955192,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>9_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225293216013</longitude>
+				<latitude>13.63908297049173</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206454748456112</heading>
+				<tilt>1.670356697983984</tilt>
+				<range>206.4651599343202</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69182204315753,13.63848929190739,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>10_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225293216013</longitude>
+				<latitude>13.63908297049173</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206454748456112</heading>
+				<tilt>1.670356697983984</tilt>
+				<range>206.4651599343202</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.6918472195218,13.63847018935543,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>11_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225293216013</longitude>
+				<latitude>13.63908297049173</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206454748456795</heading>
+				<tilt>1.67035669798442</tilt>
+				<range>206.4651599336518</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.691868380092,13.63846263329681,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>12_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225719296045</longitude>
+				<latitude>13.63863174745734</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206585472578407</heading>
+				<tilt>1.67027091274327</tilt>
+				<range>89.05497839699244</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69187398719247,13.63848191450949,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>13_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225719296045</longitude>
+				<latitude>13.63863174745734</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206585472578407</heading>
+				<tilt>1.67027091274327</tilt>
+				<range>89.05497839699244</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69189216723562,13.63846516385049,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>14_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225719296045</longitude>
+				<latitude>13.63863174745734</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206585472578407</heading>
+				<tilt>1.67027091274327</tilt>
+				<range>89.05497839699244</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69189922277849,13.63848794780463,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>15_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69217914170387</longitude>
+				<latitude>13.63862882501127</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206603876834794</heading>
+				<tilt>1.670270912743925</tilt>
+				<range>89.05497840235363</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69191546327067,13.63846313316402,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>16_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69217914170387</longitude>
+				<latitude>13.63862882501127</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206603876834794</heading>
+				<tilt>1.670270912743925</tilt>
+				<range>89.05497840235363</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69193437966959,13.63846021350341,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>17_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225719296045</longitude>
+				<latitude>13.63863174745734</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206585472578407</heading>
+				<tilt>1.67027091274327</tilt>
+				<range>89.05497839699244</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69199947533784,13.63846700460001,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>18_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69217914170387</longitude>
+				<latitude>13.63862882501127</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206603876834794</heading>
+				<tilt>1.670270912743925</tilt>
+				<range>89.05497840235363</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69201305780395,13.63844720792638,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>19_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69217914170387</longitude>
+				<latitude>13.63862882501127</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206603876834794</heading>
+				<tilt>1.670270912743925</tilt>
+				<range>89.05497840235363</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69204246528119,13.63844396184637,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>20_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69217914170387</longitude>
+				<latitude>13.63862882501127</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206603876834794</heading>
+				<tilt>1.670270912743925</tilt>
+				<range>89.05497840235363</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69206083614482,13.63845262066114,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>21_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69217914170387</longitude>
+				<latitude>13.63862882501127</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206603876834794</heading>
+				<tilt>1.670270912743925</tilt>
+				<range>89.05497840235363</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69210921117025,13.63844428796776,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>22_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69217914170387</longitude>
+				<latitude>13.63862882501127</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206603876834794</heading>
+				<tilt>1.670270912743925</tilt>
+				<range>89.05497840235363</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69216625990843,13.63846164291944,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>23_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69217914170387</longitude>
+				<latitude>13.63862882501127</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206603876834794</heading>
+				<tilt>1.670270912743925</tilt>
+				<range>89.05497840235363</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69219302630439,13.63844887494341,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>24_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69217914170387</longitude>
+				<latitude>13.63862882501127</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206603876834794</heading>
+				<tilt>1.670270912743925</tilt>
+				<range>89.05497840235363</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69223696530243,13.63845704112432,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>25_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69217914170387</longitude>
+				<latitude>13.63862882501127</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206603876834794</heading>
+				<tilt>1.670270912743925</tilt>
+				<range>89.05497840235363</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69253990157623,13.63845679276025,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>26_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69217914170387</longitude>
+				<latitude>13.63862882501127</latitude>
+				<altitude>0</altitude>
+				<heading>-2.206603876834794</heading>
+				<tilt>1.670270912743925</tilt>
+				<range>89.05497840235363</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69255702893001,13.63846105505045,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>25_boat_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69216175764952</longitude>
+				<latitude>13.63906729277718</latitude>
+				<altitude>0</altitude>
+				<heading>-2.20660797602019</heading>
+				<tilt>1.670297941932394</tilt>
+				<range>214.1917364442788</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle100</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69314342133566,13.63849275482079,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>1_cage_farms_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2024-02-17</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69215926258589</longitude>
+				<latitude>13.63874467888269</latitude>
+				<altitude>0</altitude>
+				<heading>6.728103857452504</heading>
+				<tilt>0.3152725033556345</tilt>
+				<range>220.7777154313485</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle7</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69121291281637,13.63865437254686,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>2_cage_farms_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225145683379</longitude>
+				<latitude>13.63911964239716</latitude>
+				<altitude>0</altitude>
+				<heading>-3.130378851339171</heading>
+				<tilt>0.9203029580626932</tilt>
+				<range>210.5781884214109</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle4</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69230114504114,13.63848931278734,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>3_cage_farms_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225145683379</longitude>
+				<latitude>13.63911964239716</latitude>
+				<altitude>0</altitude>
+				<heading>-3.130378851339171</heading>
+				<tilt>0.9203029580626932</tilt>
+				<range>210.5781884214109</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle4</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.692379762882,13.63848146768351,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>4_cage_farms_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225145683379</longitude>
+				<latitude>13.63911964239716</latitude>
+				<altitude>0</altitude>
+				<heading>-3.130378851339171</heading>
+				<tilt>0.9203029580626932</tilt>
+				<range>210.5781884214109</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle4</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69261750618072,13.63848723316998,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>5_cage_farms_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225145683379</longitude>
+				<latitude>13.63911964239716</latitude>
+				<altitude>0</altitude>
+				<heading>-3.130378851339171</heading>
+				<tilt>0.9203029580626932</tilt>
+				<range>210.5781884214109</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle4</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69254303926331,13.63855028681515,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>6_cage_farms_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225145683379</longitude>
+				<latitude>13.63911964239716</latitude>
+				<altitude>0</altitude>
+				<heading>-3.130378851339171</heading>
+				<tilt>0.9203029580626932</tilt>
+				<range>210.5781884214109</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle4</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69270640238111,13.63851943997216,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>7_cage_farms_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225145683379</longitude>
+				<latitude>13.63911964239716</latitude>
+				<altitude>0</altitude>
+				<heading>-3.130378851339171</heading>
+				<tilt>0.9203029580626932</tilt>
+				<range>210.5781884214109</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle4</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.692810139225,13.6385404173711,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>8_cage_farms_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225145683379</longitude>
+				<latitude>13.63911964239716</latitude>
+				<altitude>0</altitude>
+				<heading>-3.130378851339171</heading>
+				<tilt>0.9203029580626932</tilt>
+				<range>210.5781884214109</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle4</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.6929701397908,13.63853860995061,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>9_cage_farms_2025_02_25</name>
+			<LookAt>
+				<gx:TimeStamp><when>2025-02-25</when>
+</gx:TimeStamp>
+				<gx:ViewerOptions>
+					<gx:option name="historicalimagery"></gx:option>
+					<gx:option enabled="0" name="sunlight"></gx:option>
+					<gx:option enabled="0" name="streetview"></gx:option>
+				</gx:ViewerOptions>
+				<longitude>74.69225145683379</longitude>
+				<latitude>13.63911964239716</latitude>
+				<altitude>0</altitude>
+				<heading>-3.130378851339171</heading>
+				<tilt>0.9203029580626932</tilt>
+				<range>210.5781884214109</range>
+				<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+			</LookAt>
+			<styleUrl>#msn_placemark_circle4</styleUrl>
+			<Point>
+				<gx:drawOrder>1</gx:drawOrder>
+				<coordinates>74.69305012965555,13.63853770624647,0</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>mangrove_canopy_2025_02_25</name>
+			<styleUrl>#msn_ylw-pushpin100</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69158313865397,13.63911942354664,0 74.69159905063387,13.6391026648942,0 74.69163437856477,13.63911134652808,0 74.69166027781704,13.63909989307978,0 74.69167978687231,13.63912286171084,0 74.69166604586934,13.63914959742457,0 74.69170804327801,13.63911644202616,0 74.69171924089373,13.63908961583816,0 74.69174023957858,13.63907303814106,0 74.69176378162581,13.63905655092112,0 74.69180165286745,13.63906532300796,0 74.69176191958819,13.63910598381796,0 74.69173527554619,13.63913721043255,0 74.69177466605123,13.63917326108641,0 74.69180338794665,13.63915448316487,0 74.69183108571137,13.63916289333182,0 74.69185369675705,13.63917112254491,0 74.69187612157387,13.63918429504406,0 74.69191362040098,13.63920295367352,0 74.691930772276,13.63922088850135,0 74.69196516912822,13.63925428651874,0 74.69200483892223,13.63928292217519,0 74.6920470520876,13.6393116483168,0 74.69209069144776,13.63937012464285,0 74.69209937533473,13.6394100328638,0 74.692142891912,13.63940415595465,0 74.69215408947871,13.63937732974028,0 74.69215793622459,13.63934281719311,0 74.69216196916449,13.63930336136632,0 74.69217598937453,13.63926921071824,0 74.69219729701835,13.63931204291217,0 74.69222660717026,13.6393452599375,0 74.69223774135911,13.63938773025383,0 74.69226599770852,13.63938131050323,0 74.69229614575156,13.63939228275149,0 74.6923146010068,13.63937561453901,0 74.69233870157109,13.63934429739382,0 74.69236422835675,13.63934273045171,0 74.69235783828231,13.63937715254783,0 74.6923802631273,13.63939032501153,0 74.69240551063116,13.63939617300642,0 74.69245355538538,13.63940530688816,0 74.69245947997204,13.63938324300917,0 74.69255473165722,13.63942375556232,0 74.69255569245823,13.63946586402064,0 74.69252479962273,13.63947466495746,0 74.69252355955051,13.63943997144142,0 74.6924871145128,13.63946094968471,0 74.69246149461442,13.63946498825061,0 74.69244490124075,13.63943222355165,0 74.69238556586023,13.6394523875476,0 74.69235392827237,13.63948096166432,0 74.69235327660432,13.63949826318743,0 74.69236977686866,13.6395334995393,0 74.69235885862075,13.63955291082146,0 74.69231853705139,13.63954157669495,0 74.69231512603749,13.63949690611738,0 74.69230079677702,13.63947164682375,0 74.69228345866664,13.63945865527477,0 74.69226661580093,13.63950013043081,0 74.69224223590632,13.63953886254671,0 74.69222765709789,13.63958784314801,0 74.69219149129587,13.63960140644113,0 74.69219242227841,13.63957668995524,0 74.6921938187518,13.63953961521869,0 74.69215982393396,13.63956315556083,0 74.69214428440552,13.63957002767648,0 74.69211680248674,13.63962349924426,0 74.692076387816,13.63961463673795,0 74.69206177928081,13.63959679236367,0 74.69205027272595,13.63956420856589,0 74.69202964642949,13.63957089973485,0 74.69199593086802,13.63958702513031,0 74.69196531728186,13.63958841109804,0 74.6919510811658,13.63956068013494,0 74.69194739095617,13.639523424448,0 74.69191026448901,13.63949487923817,0 74.69188200807298,13.63950129897883,0 74.69185223241628,13.63948044013049,0 74.69181851679906,13.63949656550419,0 74.69178995149726,13.63944357522676,0 74.69178880468874,13.6394064100285,0 74.69180819106798,13.63936502536289,0 74.69181910938512,13.63934561410713,0 74.69183257107035,13.63932629331068,0 74.69185366288787,13.63930724394113,0 74.69188973558961,13.63929615235771,0 74.69188868184756,13.63925651557676,0 74.69185363327733,13.63924041906369,0 74.6918345897197,13.63920509223371,0 74.69177243158508,13.63923258056612,0 74.69176048913415,13.63927917991107,0 74.69174572398245,13.63933310374136,0 74.69169767918436,13.63932396978429,0 74.69167007447884,13.63931308795424,0 74.69165649011724,13.63926805547448,0 74.69163031151999,13.63928692386874,0 74.6916125078853,13.63928629053321,0 74.69161616852779,13.63925672125193,0 74.69159101407891,13.639248401556,0 74.69156576651905,13.63924255348406,0 74.69158977417804,13.6392137080223,0 74.69158862737714,13.6391765428456,0 74.69156800105104,13.6391832339655,0 74.691548026456,13.63917262355099,0 74.69156384534811,13.63915833654168,0 74.69158313865397,13.63911942354664,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>02_mangrove_canopy_2025_02_25</name>
+			<styleUrl>#msn_ylw-pushpin100</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69234521080672,13.63957717494573,0 74.69238739428091,13.63953907611182,0 74.69239645063169,13.63956909778661,0 74.6923671702058,13.63960270567544,0 74.69231565107535,13.63961819778499,0 74.69227967146732,13.63962681777202,0 74.69225488941713,13.63960861151365,0 74.69227182539625,13.63956466468482,0 74.69230771189267,13.63955851633975,0 74.69234521080672,13.63957717494573,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>03_mangrove_canopy_2025_02_25</name>
+			<styleUrl>#msn_ylw-pushpin100</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69189461066222,13.63903150548786,0 74.69188794122114,13.63907334248627,0 74.69185196163966,13.63908196240163,0 74.69183592697665,13.63903436782668,0 74.69181914750604,13.63900654639494,0 74.6918355249219,13.63897742952013,0 74.69187048039096,13.63899599771165,0 74.69189461066222,13.63903150548786,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>04_mangrove_canopy_2025_02_25</name>
+			<styleUrl>#msn_ylw-pushpin100</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.6921505932842,13.63892923847628,0 74.69217140568719,13.63891760403756,0 74.69218573489556,13.63894286331541,0 74.69220335224742,13.63894843990652,0 74.69217444427132,13.6389721611498,0 74.6921469327489,13.63895880772947,0 74.6921505932842,13.63892923847628,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>05_mangrove_canopy_2025_02_25</name>
+			<styleUrl>#msn_ylw-pushpin100</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69258615316134,13.63933329983938,0 74.69258975042538,13.63937302711392,0 74.69255913688011,13.6393744131135,0 74.69254037249549,13.63933167138878,0 74.69254139651963,13.63930448330495,0 74.69256211584988,13.63929532047009,0 74.69258615316134,13.63933329983938,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>06_mangrove_canopy_2025_02_25</name>
+			<styleUrl>#msn_ylw-pushpin100</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69242780894876,13.63954793859713,0 74.69241611612567,13.63952029812838,0 74.69244003050507,13.63949392425899,0 74.69247036478909,13.63949995318186,0 74.69250333553077,13.63950360097291,0 74.6925124849995,13.63953115096861,0 74.69249393664691,13.63955029084313,0 74.69246416092187,13.63952943202327,0 74.69242780894876,13.63954793859713,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>land_edge_2025_02_25</name>
+			<styleUrl>#m_ylw-pushpin00</styleUrl>
+			<LineString>
+				<tessellate>1</tessellate>
+				<coordinates>
+					74.69118835008256,13.63842141912832,0 74.69131386897783,13.63842968792184,0 74.69144812462643,13.63843829726534,0 74.69152112019241,13.63844789776776,0 74.69160650826646,13.63845460338669,0 74.69173784687641,13.63845127522053,0 74.69185201329987,13.6384405248636,0 74.69195552476324,13.63843273975085,0 74.69201712892281,13.63842332453193,0 74.69208722578847,13.63841930507176,0 74.69219905003918,13.6384202868374,0 74.69228790532341,13.63842712342491,0 74.69242945487656,13.63842757559534,0 74.69256562631413,13.63843119300157,0 74.69275389316761,13.63844358899518,0 74.69286719931148,13.63845137768543,0 74.69303641470711,13.63845965649755,0 74.69314607933325,13.63847236676386,0 74.69325428533111,13.6384765813298,0 74.69333964621514,13.6384849699513,0 74.69337953079192,13.63849496440806,0 
+				</coordinates>
+			</LineString>
+		</Placemark>
+		<Placemark>
+			<name>water_2025_02_25</name>
+			<styleUrl>#msn_ylw-pushpin120</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							74.69175351993862,13.63906008110763,0 74.69114157999088,13.63932411111909,0 74.69115664278907,13.63903340821089,0 74.69117029641849,13.63880377286659,0 74.69117486508318,13.63871556397872,0 74.69118765150151,13.63843490342608,0 74.69163618955444,13.63845575990795,0 74.69201872648925,13.63842676232209,0 74.69242764277824,13.6384291923877,0 74.69286533419518,13.63845468025553,0 74.69338117298231,13.63849840513624,0 74.69335436811755,13.63931589954,0 74.69259859377841,13.63931390653617,0 74.69187193341989,13.63908691377716,0 74.69189743812657,13.63906739702814,0 74.69190666897536,13.63901822305392,0 74.69183655756473,13.63897453364467,0 74.69180923048914,13.63899565048732,0 74.69180982104507,13.63902127926769,0 74.69182445805831,13.63904746785351,0 74.6918250526351,13.63907312191312,0 74.69253766187087,13.63929437515981,0 74.69253687097756,13.63931493414743,0 74.69255562649934,13.63937748285072,0 74.6925654056385,13.63939848607498,0 74.69255568042117,13.63942217673836,0 74.69253038016612,13.63939196522856,0 74.69246433149617,13.63936705390746,0 74.69244022638101,13.63939704714329,0 74.69238921876853,13.63939334104262,0 74.69236031121156,13.63936643747558,0 74.69237183719379,13.6393428390783,0 74.69234543157455,13.63934181036165,0 74.69232368212936,13.6393564208445,0 74.69229411329003,13.6393896358931,0 74.69227854323194,13.63938215410915,0 74.69223634781359,13.63937879156437,0 74.69222044498569,13.63933694108599,0 74.69220743217585,13.63931068128059,0 74.69218113885844,13.6392650486386,0 74.69216605766026,13.63928847622078,0 74.69215926469317,13.63932425493412,0 74.69215738854462,13.63936884135608,0 74.69214038046334,13.63939568047191,0 74.69210126367913,13.63940275377421,0 74.69207917431544,13.63934174207161,0 74.69203877414401,13.63929724529569,0 74.69196681837755,13.63924983950128,0 74.69192810461917,13.6392089068835,0 74.69186473460131,13.63916875552879,0 74.6918094963755,13.63914434928155,0 74.6917732514969,13.639166903614,0 74.69174447218798,13.63914181593538,0 74.69178778217744,13.63908021627383,0 74.69179941026538,13.63905674283525,0 74.69172790832282,13.63908130252613,0 74.69169558308006,13.63913306566381,0 74.69167920829082,13.63914440797757,0 74.69167545466514,13.63911175021432,0 74.69165293537296,13.63910403089351,0 74.69162306914801,13.63910286728389,0 74.69158928256736,13.63911010351897,0 74.6915650525234,13.63913824876911,0 74.69154743047501,13.63917523118336,0 74.69158745992361,13.63918535566688,0 74.69158456116477,13.63920923194603,0 74.69156390688535,13.63923585699164,0 74.69160883281319,13.63925475819514,0 74.69160201118964,13.63928709459331,0 74.69162280693345,13.63929477098777,0 74.69165929338605,13.63926873309163,0 74.69165832958531,13.63928928874171,0 74.69166728556021,13.6393239776748,0 74.69170745947063,13.63933241352624,0 74.69174156628756,13.63935779686068,0 74.69175315730601,13.63933591169172,0 74.69175841056844,13.6392983374183,0 74.69178625880355,13.63922908882096,0 74.69183315014952,13.63920520750441,0 74.69184445530105,13.63922792763499,0 74.69187496259659,13.63925483531558,0 74.69188138634321,13.639268807623,0 74.69188061968413,13.63928593536483,0 74.69183722500976,13.63930999170703,0 74.69180871969102,13.63935525761963,0 74.69178660955784,13.63941457507221,0 74.69179209283419,13.63944920762741,0 74.69181603943386,13.63950525794122,0 74.69185407699362,13.63948434140741,0 74.69188627135421,13.63951488781375,0 74.69191525154578,13.63949878417495,0 74.69195091856491,13.63953119659394,0 74.69194809426563,13.63955522814925,0 74.69196752971177,13.63959567064045,0 74.69205019705257,13.63956438055587,0 74.69205724320595,13.63960607055598,0 74.69209335402786,13.63962992446299,0 74.69212711496061,13.63962605878775,0 74.69215054545749,13.63957346512594,0 74.69219277685643,13.63953544726561,0 74.69219512899515,13.63960626363371,0 74.69222930301169,13.63959206187558,0 74.69224921623612,13.63953764605661,0 74.69228743786073,13.63946678409432,0 74.6923143839193,13.63949882921129,0 74.69232498710778,13.63954232180062,0 74.69235130526552,13.63954679504066,0 74.692364754382,13.63951974221068,0 74.69235845979979,13.63950054633766,0 74.69236491963258,13.63947152413567,0 74.69243684235633,13.63943818684804,0 74.69246734865601,13.63947035034094,0 74.69251965338212,13.63944141301811,0 74.69251702919134,13.63946367979069,0 74.69251373981638,13.63950315097518,0 74.69245759386862,13.63949407463864,0 74.69243094761072,13.63949820320297,0 74.69241222875279,13.63952503802721,0 74.69241819431589,13.63955284903752,0 74.69240699719286,13.63956793215736,0 74.69237831195494,13.639534056961,0 74.69234334972866,13.63956890189869,0 74.69231744434447,13.6395540965775,0 74.69226226737261,13.63956401832656,0 74.69224638256588,13.63960653429641,0 74.6922546410015,13.63962066664421,0 74.69229128763686,13.63963245469832,0 74.69233957501864,13.63961879613411,0 74.69239538624824,13.63959335554024,0 74.69241113881107,13.63955257416593,0 74.69246303137524,13.63953563398337,0 74.69247151349151,13.63954458259135,0 74.69248502085124,13.63956062510122,0 74.6925105809505,13.63953920995321,0 74.69253057591537,13.63952447926743,0 74.6925282407497,13.63949338275773,0 74.69255357760758,13.63947715245435,0 74.69257799328777,13.6394385251074,0 74.69257929929796,13.6394041841507,0 74.69259788663815,13.63937912921831,0 74.69259676909994,13.63931555151369,0 74.69335266137321,13.6393141179373,0 74.69332465335789,13.6399059101173,0 74.69197346169835,13.63984935992513,0 74.69179992409885,13.6398416464694,0 74.69163052655936,13.63973119670518,0 74.69144713692421,13.63957021903437,0 74.69113973024494,13.6393257573448,0 74.69175351993862,13.63906008110763,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<atom:link rel="app" href="https://www.google.com/earth/about/versions/#earth-pro" title="Google Earth Pro 7.3.7.1327"></atom:link>
+	</Folder>
+</Document>
+</kml>
