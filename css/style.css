@@ -19,6 +19,7 @@ footer{position:relative;z-index:2;min-height:110px;padding:25px 5vw;display:fle
 .intro,.scroll-stop{scroll-snap-align:start;scroll-snap-stop:always}
 .scroll-runway{position:relative;z-index:1}
 .scroll-stop{height:100svh}
+.zoom-stop{height:170svh}
 #map-plate{position:fixed;inset:0;z-index:3;background:#000;opacity:0;pointer-events:none;overflow:hidden}
 #history-backdrop{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center;transform:scale(1.015);will-change:transform}
 #video-dimmer{position:absolute;z-index:1;inset:0;background:#02080b;opacity:0;pointer-events:none;will-change:opacity}

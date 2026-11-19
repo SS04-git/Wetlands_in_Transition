@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 import { loadObservations } from './kmlOverlay.js';
 
 const TARGET = { lat: 13.6391, lon: 74.6923 };
@@ -12,47 +13,16 @@ camera.position.set(0, 0, 3.6);
 const globe = new THREE.Group();
 scene.add(globe);
 
-const loader = new THREE.TextureLoader();
-loader.crossOrigin = 'anonymous';
-const imageRoot = 'https://unpkg.com/three-globe@2.31.0/example/img/';
-const topo = loader.load(imageRoot + 'earth-topology.png');
-const water = loader.load(imageRoot + 'earth-water.png');
-
-// Keep the original shaded-relief texture and its blue drainage detail.
-const earthMaterial = new THREE.ShaderMaterial({
-  uniforms: { uTopo: { value: topo }, uWater: { value: water } },
-  vertexShader: `
-    varying vec2 vUv; varying vec3 vN; varying vec3 vP; varying vec3 vV;
-    void main(){ vUv=uv; vP=position; vN=normalize(normalMatrix*normal);
-      vec4 mv=modelViewMatrix*vec4(position,1.); vV=normalize(-mv.xyz);
-      gl_Position=projectionMatrix*mv; }`,
-  fragmentShader: `
-    uniform sampler2D uTopo,uWater; varying vec2 vUv; varying vec3 vN; varying vec3 vP; varying vec3 vV;
-    float h31(vec3 p){ return fract(sin(dot(p,vec3(127.1,311.7,74.7)))*43758.5453); }
-    float vn(vec3 p){ vec3 i=floor(p),f=fract(p); f=f*f*(3.-2.*f);
-      return mix(mix(mix(h31(i),h31(i+vec3(1,0,0)),f.x),mix(h31(i+vec3(0,1,0)),h31(i+vec3(1,1,0)),f.x),f.y),
-                 mix(mix(h31(i+vec3(0,0,1)),h31(i+vec3(1,0,1)),f.x),mix(h31(i+vec3(0,1,1)),h31(i+vec3(1,1,1)),f.x),f.y),f.z); }
-    void main(){
-      float h=texture2D(uTopo,vUv).r; float sea=texture2D(uWater,vUv).r; float land=1.-smoothstep(.3,.7,sea);
-      vec3 n=normalize(vN+vec3(-dFdx(h),-dFdy(h),0.)*60.);
-      vec3 L=normalize(vec3(-.55,.45,.75));
-      float d=clamp(dot(n,L),0.,1.); d=.18+.95*d;
-      vec3 ground=mix(vec3(.08,.43,.12),vec3(.32,.61,.19),smoothstep(.22,.58,h));
-      ground=mix(ground,vec3(.62,.58,.34),smoothstep(.70,.91,h));
-      vec3 ocean=mix(vec3(.01,.09,.24),vec3(.025,.29,.62),smoothstep(.16,.88,sea));
-      vec3 col=mix(ocean,ground,land)*(.3+.92*max(dot(n,L),0.));
-      float r=0.,a=.5; vec3 q=normalize(vP)*14.;
-      for(int i=0;i<4;i++){ r+=a*(1.-abs(2.*vn(q)-1.)); q*=2.1; a*=.5; }
-      float low=1.-smoothstep(.25,.6,h);
-      float rv=smoothstep(.80,.93,r)*land*low;
-      float lake=smoothstep(.62,.68,vn(normalize(vP)*5.))*land*low;
-      vec3 blue=mix(vec3(.55,.78,.98),vec3(.02,.2,.72),clamp(rv+lake,0.,1.));
-      col=mix(col,blue*(.55+.6*d),clamp(rv*.85+lake,0.,1.));
-      float fr=pow(1.-max(dot(n,vV),0.),3.); col+=vec3(.25,.45,.75)*fr*.35;
-      col=pow(max(col,vec3(0.)),vec3(.88));
-      gl_FragColor=vec4(col,1.); }`
-});
-globe.add(new THREE.Mesh(new THREE.SphereGeometry(1, 128, 128), earthMaterial));
+scene.add(new THREE.HemisphereLight(0xdce8ff, 0x17243a, 1.15));
+const sunLight = new THREE.DirectionalLight(0xffffff, 2.2);
+sunLight.position.set(-3, 2.5, 4);
+scene.add(sunLight);
+new GLTFLoader().load('assets/earth.opt.glb', ({ scene: earth }) => {
+  // The GLB sphere is centered at the origin and its mesh node has a 1.1276 scale.
+  // Counter that scale so the Earth stays aligned with the existing unit-radius cloud shells.
+  earth.scale.setScalar(1 / 1.1276455);
+  globe.add(earth);
+}, undefined, error => console.error('Earth model could not be loaded:', error));
 
 // Multiple transparent cloud shells create depth as the camera enters the atmosphere.
 const cloudLayers=[];
@@ -112,11 +82,12 @@ const startOrientation=new THREE.Quaternion();
 const interpolated=new THREE.Quaternion(), spin=new THREE.Quaternion();
 const spinAxis=new THREE.Vector3(0,1,0);
 let landingTarget=0,zoomTarget=0;
+const ZOOM_SCROLL_VIEWPORTS=1.7;
 let flightStarted=false;
 function updateScroll(){
   const vh=Math.max(1,innerHeight);
   landingTarget=THREE.MathUtils.clamp(scrollY/vh,0,1);
-  zoomTarget=THREE.MathUtils.clamp((scrollY-vh)/vh,0,1);
+  zoomTarget=THREE.MathUtils.clamp((scrollY-vh)/(vh*ZOOM_SCROLL_VIEWPORTS),0,1);
   if(scrollY>8&&!flightStarted){ startOrientation.copy(globe.quaternion); flightStarted=true; }
   if(scrollY===0) flightStarted=false;
 }
@@ -127,6 +98,7 @@ let landingMotion=0,zoomMotion=0;
 const mapPlate=document.querySelector('#map-plate');
 const historyBackdrop=document.querySelector('#history-backdrop');
 const videoDimmer=document.querySelector('#video-dimmer');
+const videoStop=document.querySelector('.video-stop');
 const mist=document.querySelector('#mist');
 const mistLayers=[...mist.querySelectorAll('.mist-layer')];
 const timelineSection=document.querySelector('#timeline-section');
@@ -147,39 +119,13 @@ const MAP_OPTIONS=[
   {number:6,title:'The Estuary and the Monsoon',compare:['2022_05_07','2025_02_25'],layers:['water','muddy_shallows','bed_ground','mangrove_canopy']},
   {number:7,title:'Cyclones and Storms',layers:['water','muddy_shallows','land_edge'],motif:'storm'}
 ];
-const VIDEO_FADE_SECONDS=3;
-let backdropRevealStarted=false,backdropGateLocked=false,videoFadeStarted=false,videoMuted=false,backdropFadeTween=null,previousOverflowY='',timelineVisible=false;
+let backdropRevealStarted=false,videoMuted=false,videoPlaying=false,timelineVisible=false;
 function showTimeline(visible){
   if(visible===timelineVisible)return;
   timelineVisible=visible;
   gsap.killTweensOf(timelineSection);
   if(visible){timelineSection.style.visibility='visible';gsap.to(timelineSection,{opacity:1,duration:.45,ease:'power1.out'});}
   else{timelineSection.style.opacity='0';timelineSection.style.visibility='hidden';}
-}
-function scrollInstant(y){
-  const behavior=document.documentElement.style.scrollBehavior;
-  document.documentElement.style.scrollBehavior='auto';
-  window.scrollTo(0,y);
-  document.documentElement.style.scrollBehavior=behavior;
-  ScrollTrigger.update();
-}
-function finishVideo(){
-  if(!backdropRevealStarted||videoFadeStarted)return;
-  videoFadeStarted=true;
-  backdropFadeTween=gsap.to(videoDimmer,{
-    opacity:.78,duration:VIDEO_FADE_SECONDS,ease:'sine.inOut',
-    onComplete:()=>{
-      historyBackdrop.pause();
-      videoMuted=true;
-      backdropGateLocked=false;
-      document.documentElement.style.overflowY=previousOverflowY;
-      ScrollTrigger.refresh();
-    }
-  });
-}
-function fadeNearVideoEnd(){
-  const duration=historyBackdrop.duration;
-  if(Number.isFinite(duration)&&duration-historyBackdrop.currentTime<=Math.min(VIDEO_FADE_SECONDS,duration))finishVideo();
 }
 function revealTimelineOnScroll(){
   if(!videoMuted)return;
@@ -339,10 +285,10 @@ const halfFovTangent=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));
 const cloudStart=THREE.MathUtils.clamp((1.02*halfFovTangent*3.38-.82)/(.18+1.02*halfFovTangent*1.5),.35,.65);
 const cloudTimeline=gsap.timeline({scrollTrigger:{trigger:'.zoom-stop',start:'top top',end:'bottom top',scrub:.65,invalidateOnRefresh:true}});
 cloudTimeline
-  .to(cloudState,{opacity:.84,depth:.12,drift:.25,duration:.12,ease:'none'},cloudStart)
-  .to(cloudState,{opacity:1,depth:.48,drift:1.05,duration:.12,ease:'none'},cloudStart+.12)
-  .to(cloudState,{opacity:1,depth:1,drift:2.35,duration:.9-(cloudStart+.24),ease:'none'},cloudStart+.24)
-  .to(cloudState,{opacity:0,depth:1.15,drift:3.1,duration:.1,ease:'none'},.9);
+  .to(cloudState,{opacity:.84,depth:.12,drift:.25,duration:.1,ease:'none'},cloudStart)
+  .to(cloudState,{opacity:1,depth:.48,drift:1.05,duration:.1,ease:'none'},cloudStart+.1)
+  .to(cloudState,{opacity:1,depth:1,drift:2.35,duration:.76-(cloudStart+.2),ease:'none'},cloudStart+.2)
+  .to(cloudState,{opacity:0,depth:1.15,drift:3.1,duration:.04,ease:'none'},.96);
 function render(now){
   const dt=Math.min(.05,(now-previous)/1000); previous=now;
   const settle=1-Math.exp(-dt*7);
@@ -383,30 +329,39 @@ function render(now){
   mapPlate.style.opacity=String(mapReveal);
   if(mapReveal>.015&&!backdropRevealStarted){
     backdropRevealStarted=true;
-    backdropGateLocked=true;
-    previousOverflowY=document.documentElement.style.overflowY;
-    document.documentElement.style.overflowY='hidden';
-    const galleryTrigger=ScrollTrigger.getById('atlas-horizontal');
-    scrollInstant(galleryTrigger?.start??timelineSection.offsetTop);
     historyBackdrop.muted=true;
     historyBackdrop.loop=false;
-    historyBackdrop.addEventListener('ended',finishVideo,{once:true});
-    historyBackdrop.addEventListener('error',finishVideo,{once:true});
-    historyBackdrop.addEventListener('timeupdate',fadeNearVideoEnd);
-    historyBackdrop.play().catch(error=>{console.warn('Kundapur video could not play:',error);finishVideo();});
+    historyBackdrop.pause();
+    videoPlaying=false;
+    try{historyBackdrop.currentTime=0;}catch{}
   }else if(mapReveal<.002&&backdropRevealStarted){
     backdropRevealStarted=false;
-    backdropFadeTween?.kill();
-    historyBackdrop.removeEventListener('ended',finishVideo);
-    historyBackdrop.removeEventListener('error',finishVideo);
-    historyBackdrop.removeEventListener('timeupdate',fadeNearVideoEnd);
+    videoMuted=false;
     historyBackdrop.pause();
+    videoPlaying=false;
     try{historyBackdrop.currentTime=0;}catch{}
     gsap.set(videoDimmer,{opacity:0});
-    videoFadeStarted=false;
-    videoMuted=false;
-    if(backdropGateLocked){backdropGateLocked=false;document.documentElement.style.overflowY=previousOverflowY;}
     showTimeline(false);
+  }
+  if(backdropRevealStarted){
+    const videoStart=videoStop.getBoundingClientRect().top+scrollY;
+    const videoProgress=THREE.MathUtils.clamp((scrollY-videoStart)/Math.max(1,videoStop.offsetHeight),0,1);
+    const fade=THREE.MathUtils.smoothstep(videoProgress,.84,1);
+    videoDimmer.style.opacity=String(fade*.78);
+    const wasVideoMuted=videoMuted;
+    videoMuted=videoProgress>=.999;
+    if(videoMuted){
+      historyBackdrop.pause();
+      videoPlaying=false;
+    }else if(videoProgress>0&&!videoPlaying){
+      if(historyBackdrop.ended){try{historyBackdrop.currentTime=0;}catch{}}
+      videoPlaying=true;
+      historyBackdrop.play().catch(error=>{
+        videoPlaying=false;
+        console.warn('Kundapur video could not play:',error);
+      });
+    }
+    if(wasVideoMuted!==videoMuted)revealTimelineOnScroll();
   }
   if(globeActive)renderer.render(scene,camera);
   requestAnimationFrame(render);
