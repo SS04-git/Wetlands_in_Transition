@@ -73,7 +73,7 @@ export function createState() {
     space: 1, approach: 0,
     cloudP: 0, cloudOp: 0, tint: 0,
     estuary: 0, murk: 0, currentOp: 0, travel: 0, atmo: 0, dust: 0, tunnel: 0,
-    model: 0, modelView: 0, modelSep: 0,
+    model: 0, modelSep: 0, modelManual: 0, modelModel: 0, modelDiff: 0, modelTrans: 0, modelGrowth: 0,
     ground: 0, groundScatter: 30, classes: 0, classSep: 0, classScatter: 0, classSpin: 0, highlight: -1,
     classDim: 0.28, hiSize: 0.35,
     blob: 0, specimen: 0,
@@ -217,15 +217,23 @@ export function buildTimeline(S, { stackHeight, mangroveCentre, onProgress }) {
   to({ monsoonFocus: 16, az: 160 }, 32.4, 2.8, 'none');
   to({ dist: 500, el: 20, shiftX: 0.15 }, 32.4, 2.8, 'sine.inOut');
 
-  // ---------- Manual and automated tracing (tools/ml/classify.py) ----------
-  // One date at a time: the hand-traced classes, then the model's classification rising above
-  // them, then only the places where the two disagree.
-  swap(CURRENTS[5], { monsoon: 0, classes: 0, model: 1, modelView: 0, modelSep: 0, tx: 0, ty: 0, tz: 0, az: -24, el: 58, dist: 560, shiftX: 0.16, shiftY: 0.1 });
+  // ---------- Manual and automated tracing (tools/ml/classify.py, change.py) ----------
+  // What is changing, how reliably it can be identified, what might happen next. The date shown
+  // is chosen on the chapter's date timeline; the change and scenario views combine all 17 dates.
+  swap(CURRENTS[5], { monsoon: 0, classes: 0, model: 1, modelManual: 1, modelModel: 0, modelDiff: 0, modelTrans: 0, modelGrowth: 0, modelSep: 0, tx: 0, ty: 0, tz: 0, az: -24, el: 58, dist: 560, shiftX: 0.16, shiftY: 0.1 });
+  // Three questions, in order. 1 What is changing: the traced classes of the selected date, then
+  // how often every cell changed class across all 17 dates.
   to({ el: 36, dist: 470, az: -10 }, 36.5, 0.7);
-  to({ modelView: 1, modelSep: 1 }, 37.35, 0.8);
-  to({ az: 16, dist: 430, el: 30 }, 37.4, 1.0, 'sine.inOut');
-  to({ modelView: 2, modelSep: 0.45 }, 38.45, 0.7);
-  to({ el: 50, dist: 520, az: 4, shiftX: 0.15, shiftY: 0.12 }, 38.9, 0.8);
+  to({ modelManual: 0, modelTrans: 1 }, 36.95, 0.45);
+  // 2 How reliably: the model's version rises above the tracing, then only the disagreement.
+  to({ modelTrans: 0, modelManual: 1, modelModel: 1, modelSep: 1 }, 37.65, 0.5);
+  to({ az: 16, dist: 430, el: 30 }, 37.65, 0.9, 'sine.inOut');
+  to({ modelManual: 0, modelModel: 0, modelDiff: 1, modelSep: 0.45 }, 38.25, 0.45);
+  // 3 What might happen next: the one class with a significant trend, mangrove canopy, by the date
+  // it was first traced; the camera moves in on it, then returns to the closing view.
+  to({ modelDiff: 0, modelGrowth: 1, modelSep: 0 }, 38.85, 0.45);
+  to({ tx: mangroveCentre.x, tz: mangroveCentre.z, dist: 300, el: 38, az: -10, shiftX: 0.15, shiftY: 0.06 }, 38.9, 0.6);
+  to({ tx: 0, tz: 0, el: 50, dist: 520, az: 4, shiftX: 0.15, shiftY: 0.12 }, 39.7, 0.6);
 
   // ---------- Finale: everything settles back into one estuary ----------
   to({ model: 0, monsoon: 0, classes: 1, ground: 0.5, classSep: 0.6, classSpin: Math.PI * 2 }, 40.4, 1.0);

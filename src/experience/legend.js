@@ -49,6 +49,8 @@ export function createLegend(root, { manifest, planCategories, MAP_CLASSES, PLAN
         `<li><i class="sw sw--area" style="--a:${LAND_COLOUR}"></i><span>Land beyond the traced land edge</span></li>`) +
       group('Disagreement view', `<li><i class="sw sw--area" style="--a:#6d7a80"></i><span>Model agrees with the tracing</span></li>
         <li><i class="sw sw--ball" style="background:conic-gradient(${CLASS_LOOK.water.a}, ${CLASS_LOOK.bed_ground.a}, ${CLASS_LOOK.mangrove_canopy.a}, ${LAND_COLOUR}, ${CLASS_LOOK.water.a})"></i><span>Model differs: a larger dot, in the class the model chose</span></li>`, 'lg-group--wide') +
+      group('All 17 dates, traced by hand', `<li><i class="sw sw--area" style="--a:${CLASS_LOOK.water.a}"></i><span>Changes of class: one ball per change between consecutive dates, in the cell's most frequent class</span></li>
+        <li><i class="sw sw--ball" style="background:linear-gradient(90deg, ${CLASS_LOOK.mangrove_canopy.b}, #c9dcb4)"></i><span>Mangrove canopy: one ball per date traced; deep = first traced early, pale = recently</span></li>`, 'lg-group--wide') +
       '<p class="lg-note">Land is not a traced class: it is the side of the traced land edge away from the water. Land edge, boats, cage farms and buildings were not modelled.</p>' : '',
   };
   const TITLES = { model: 'Model · Legend' };

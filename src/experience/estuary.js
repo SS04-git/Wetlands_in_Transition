@@ -600,26 +600,68 @@ export class Estuary {
     u.uP.value = p; u.uTravel.value = p * 2600; u.uPR.value = pr ?? 1;
   }
 
-  // ---------- Manual and automated tracing (tools/ml/classify.py) ----------
-  // For one date at a time: the hand-traced classes, the classification of the same image by a model
-  // that never saw that date, and the cells where the two disagree. Same dots, same class look.
+  // ---------- Manual and automated tracing, change and scenarios (tools/ml/classify.py, change.py) ----------
+  // Date-dependent layers (one observation at a time): the hand-traced classes, the classification
+  // of the same image by a model that never saw that date, and the cells where the two disagree.
+  // All-date layers: how often each cell's traced class changed between consecutive observations,
+  // and where the mangrove canopy was first traced. Same dots, same class look.
   buildModel() {
     const M = this.data.model;
     this.modelMeta = M;
     const g = this.group('model');
     this.modelParts = {};
-    for (const k of ['manual', 'model', 'outside', 'agree', 'disagree']) {
+    for (const k of ['manual', 'model', 'outside', 'agree', 'disagree', 'trans', 'growth']) {
       const holder = new THREE.Group(); g.add(holder);
-      this.modelParts[k] = { holder, m: this.mat(k === 'agree' ? { rgb: true, size: 0.75 } : { size: k === 'disagree' ? 1.3 : 0.95 }) };
+      const opts = k === 'agree' || k === 'growth' ? { rgb: true, size: k === 'growth' ? 0.95 : 0.75 } : { size: k === 'disagree' ? 1.3 : k === 'trans' ? 0.8 : 0.95 };
+      this.modelParts[k] = { holder, m: this.mat(opts) };
     }
     this.modelDate = null;
+    this.modelClass = null;
     if (!M) return;
-    this.addLabel({ getWorldPosition: (v) => this.modelParts.manual.holder.localToWorld(v.set(118, 4, 0)) }, 'Traced by hand', 'model', true);
-    this.labels.at(-1).part = 'manual';
-    this.addLabel({ getWorldPosition: (v) => this.modelParts.model.holder.localToWorld(v.set(118, 4, 0)) }, 'Model', 'model', true);
-    this.labels.at(-1).part = 'model';
-    this.addLabel({ getWorldPosition: (v) => this.modelParts.disagree.holder.localToWorld(v.set(118, 4, 0)) }, 'Disagreement', 'model', true);
-    this.labels.at(-1).part = 'disagree';
+    if (M.transitions) this.buildChangeLayers(M.transitions);
+    const label = (part, text, x = 118, y = 4) => {
+      this.addLabel({ getWorldPosition: (v) => this.modelParts[part].holder.localToWorld(v.set(x, y, 0)) }, text, 'model', true);
+      this.labels.at(-1).part = part;
+    };
+    label('manual', 'Traced by hand');
+    label('model', 'Model');
+    label('disagree', 'Disagreement');
+    label('trans', 'Changes of class, all 17 dates', 95, 20);
+    label('growth', 'Mangrove canopy, by first date traced', 95, 16);
+  }
+
+  /** Columns of balls from change.py: one ball per change of traced class (transitions layer), and
+   *  one ball per date traced as mangrove canopy, shaded by the first date it was traced (growth). */
+  buildChangeLayers(T) {
+    const EST = ['water', 'muddy_shallows', 'bed_ground', 'mangrove_canopy'];
+    const step = 1.15;
+    const tp = [], tc = [];
+    const gp = [], gc = [];
+    // ramp within the mangrove family, stretched over the first-traced dates that occur
+    const deep = new THREE.Color(CLASS_LOOK.mangrove_canopy.b).lerp(new THREE.Color(CLASS_LOOK.mangrove_canopy.a), 0.3);
+    const pale = new THREE.Color(CLASS_LOOK.mangrove_canopy.a).lerp(new THREE.Color('#eef7dc'), 0.78);
+    const tmp = new THREE.Color();
+    let fMin = 255, fMax = 0;
+    for (let i = 0; i < T.n; i++) if (T.firstMangrove[i] !== 255) { fMin = Math.min(fMin, T.firstMangrove[i]); fMax = Math.max(fMax, T.firstMangrove[i]); }
+    for (let i = 0; i < T.n; i++) {
+      const x = T.pos[3 * i], z = T.pos[3 * i + 2];
+      const dom = T.dominant[i];
+      const ci = dom < EST.length ? this.idx[EST[dom]] : this.idx.water;
+      for (let s = 0; s < T.transitions[i]; s++) { tp.push(x, (s + 0.5) * step, z); tc.push(ci); }
+      if (T.firstMangrove[i] !== 255) {
+        // early canopy deep, recent canopy pale (sRGB bytes for the rgb dot mode)
+        tmp.copy(deep).lerp(pale, fMax > fMin ? (T.firstMangrove[i] - fMin) / (fMax - fMin) : 0);
+        const c = tmp.clone().convertLinearToSRGB();
+        for (let s = 0; s < T.mangroveDates[i]; s++) { gp.push(x, (s + 0.5) * step, z); gc.push(Math.round(c.r * 255), Math.round(c.g * 255), Math.round(c.b * 255)); }
+      }
+    }
+    const add = (part, pos, cls, rgb) => {
+      const n = pos.length / 3;
+      if (n) this.modelParts[part].holder.add(makeDots({ n, pos: Float32Array.from(pos), cls: Uint8Array.from(cls ?? new Array(n).fill(this.idx.mangrove_canopy)), rgb: rgb ? Uint8Array.from(rgb) : null }, this.modelParts[part].m));
+      this.modelParts[part].count = n;
+    };
+    add('trans', tp, tc, null);
+    add('growth', gp, null, gc);
   }
 
   setModelDate(id) {
@@ -651,28 +693,37 @@ export class Estuary {
     }
   }
 
+  /** Single out one class in the model chapter (null = all). The class stays at full strength. */
+  setModelClass(key) {
+    this.modelClass = key ?? null;
+  }
+
   updateModel(S) {
     const g = this.groups.model;
     g.visible = S.model > 0.002 && !!this.modelMeta;
     if (!g.visible) { this.modelOps = {}; return; }
-    const m = S.modelView, sm = THREE.MathUtils.smoothstep;
-    const diff = sm(m, 1.2, 1.8);
     const ops = {
-      manual: S.model * (1 - diff),
-      model: S.model * sm(m, 0.15, 0.85) * (1 - diff),
-      outside: S.model * sm(m, 0.15, 0.85) * (1 - diff) * 0.3,
-      agree: S.model * diff * 0.55,
-      disagree: S.model * diff,
+      manual: S.model * S.modelManual,
+      model: S.model * S.modelModel,
+      outside: S.model * S.modelModel * 0.3,
+      agree: S.model * S.modelDiff * 0.55,
+      disagree: S.model * S.modelDiff,
+      trans: S.model * S.modelTrans,
+      growth: S.model * S.modelGrowth,
     };
     this.modelOps = ops;
+    // class filter: the chosen class at full strength, the others faint
+    const sel = this.modelClass === 'land' ? 10 : this.modelClass ? this.idx[this.modelClass] : -1;
+    const alpha = new Array(MAX_CLASSES).fill(1).map((_, i) => (sel < 0 || i === sel ? 1 : 0.12));
     for (const [k, part] of Object.entries(this.modelParts)) {
-      part.m.uniforms.uOpacity.value = ops[k];
+      part.m.uniforms.uOpacity.value = ops[k] * (k === 'growth' && sel >= 0 && sel !== this.idx.mangrove_canopy ? 0.12 : 1);
+      if (k !== 'agree' && k !== 'growth') part.m.uniforms.uClassAlpha.value = alpha;
       part.holder.visible = ops[k] > 0.004;
     }
     const lift = S.modelSep * 46;
     this.modelParts.model.holder.position.y = lift;
     this.modelParts.outside.holder.position.y = lift;
-    this.modelParts.disagree.holder.position.y = 4 + diff * 10;
+    this.modelParts.disagree.holder.position.y = 4 + S.modelDiff * 10;
   }
 
   addLabel(obj, text, chapter, raw = false) {

@@ -25,6 +25,7 @@
 
   <nav class="gauge" id="gauge" aria-label="Chapters"></nav>
   <details class="legend" id="legend" open><summary>Legend</summary><div class="lg-body"></div></details>
+  <nav class="datestrip" id="datestrip" aria-label="Observation date"></nav>
 
   <div class="beats">
     <!-- ===== Opening ===== -->
@@ -203,34 +204,50 @@
       <button type="button" class="open-map" data-map="6">Open Map 6</button>
     </section>
 
-    <!-- ===== Manual and automated tracing (tools/ml/classify.py); figures filled from model/metrics.json ===== -->
-    <section class="beat" data-in="36.5" data-out="37.25">
-      <p class="kicker">Manual and automated tracing</p>
-      <h2>Can a model trace what was traced by hand?</h2>
-      <p>A classifier learnt the traced classes from the satellite images and the hand-traced polygons. Each date shown here was classified by a model that never saw it: it learnt only from the other sixteen dates.</p>
-      <p class="note">Random forest (scikit-learn) on the colour and texture of every 0.5 m cell. Below, the tracing; above, the model's version of the same image.</p>
+    <!-- ===== Manual and automated tracing: three questions (tools/ml/classify.py, change.py).
+         Every figure is filled at runtime from public/data/model/metrics.json and change.json. ===== -->
+    <section class="beat beat--interactive beat--model" data-in="36.5" data-out="37.55">
+      <p class="kicker">Model · 1 · What is changing?</p>
+      <h2>The canopy spreads; water and bed keep trading places.</h2>
+      <p>Area of each class on the 17 dates, inside the rectangle that every date covers. <span class="ml-key ml-key--obs"></span>traced by hand, <span class="ml-key ml-key--mod"></span>read by the model from the same image. Select a class to single it out.</p>
+      <div class="ml-trends" id="ml-trends" role="group" aria-label="Classes"></div>
+      <p class="note" id="ml-trans-note"></p>
     </section>
-    <section class="beat beat--readout" data-in="37.35" data-out="38.35">
-      <p class="kicker">Model · Held-out date</p>
-      <p class="readout" id="model-date"></p>
-      <p class="data" id="model-date-detail"></p>
-      <p class="note">Shown first: the date with the median accuracy of the seventeen, neither the best nor the worst.</p>
-    </section>
-    <section class="beat beat--interactive beat--model" data-in="38.45" data-out="40.3">
-      <p class="kicker">Model · Where they differ</p>
+    <section class="beat beat--interactive beat--model" data-in="37.65" data-out="38.2">
+      <p class="kicker">Model · 2 · How reliably can it be identified?</p>
       <div class="switch" role="group" aria-label="View">
-        <button type="button" data-model-view="0">Traced by hand</button>
-        <button type="button" data-model-view="1">Both</button>
-        <button type="button" data-model-view="2">Differences</button>
+        <button type="button" data-model-view="manual">Traced by hand</button>
+        <button type="button" data-model-view="model">Model</button>
+        <button type="button" data-model-view="both">Both</button>
+        <button type="button" data-model-view="diff">Differences</button>
       </div>
-      <div class="stepper" role="group" aria-label="Date">
-        <button type="button" id="model-prev" aria-label="Previous date">&larr;</button>
-        <span id="model-step-date"></span>
-        <button type="button" id="model-next" aria-label="Next date">&rarr;</button>
-      </div>
+      <p class="readout readout--small" id="model-date"></p>
+      <p class="data" id="model-date-detail"></p>
       <table class="metrics" id="model-table"></table>
       <p class="data" id="model-summary"></p>
+    </section>
+    <section class="beat beat--interactive beat--model" data-in="38.25" data-out="38.8">
+      <p class="kicker">Model · 2 · Where it goes wrong</p>
+      <table class="metrics confusion" id="ml-confusion"></table>
+      <p class="data" id="ml-confusion-note"></p>
       <p class="note" id="model-note"></p>
+    </section>
+    <section class="beat beat--interactive beat--model" data-in="38.9" data-out="39.6">
+      <p class="kicker">Model · 3 · What might happen next?</p>
+      <h2>If the canopy keeps growing.</h2>
+      <p id="ml-scen-lede"></p>
+      <div class="ml-scen" id="ml-scen"></div>
+    </section>
+    <section class="beat beat--interactive beat--model" data-in="39.65" data-out="40.3">
+      <p class="kicker">Model · 3 · Scenarios, not predictions</p>
+      <table class="metrics" id="ml-scen-table"></table>
+      <p class="data" id="ml-scen-check"></p>
+      <ul class="ml-kinds">
+        <li><b>Measured</b> the hand tracings and the images</li>
+        <li><b>Modelled</b> the classifications, every accuracy figure and the fitted trend</li>
+        <li><b>Hypothetical</b> the three scenarios: the fitted rate continued at 1×, 1.5× and 0.5×</li>
+      </ul>
+      <p class="note" id="ml-scen-note"></p>
     </section>
 
     <!-- ===== Conclusion ===== -->

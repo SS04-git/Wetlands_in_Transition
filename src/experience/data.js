@@ -79,7 +79,20 @@ async function loadModel(ids) {
   const metrics = await json('model/metrics.json');
   const dates = {};
   await Promise.all(ids.map((id) => buffer(`model/${id}.bin`).then((b) => { dates[id] = parseModel(b); })));
-  return { metrics, classes: metrics.method.classes, dates };
+  // change.py: quantified change, trends and scenarios; per-cell transitions (optional files)
+  const change = await json('model/change.json').catch(() => null);
+  const transitions = await buffer('model/transitions.bin').then(parseTransitions).catch(() => null);
+  return { metrics, classes: metrics.method.classes, dates, change, transitions };
+}
+
+/** model/transitions.bin (change.py): uint32 n, int16[2n] dm, uint8[n] transitions, pairs, dominant, first mangrove date, mangrove dates */
+function parseTransitions(buf) {
+  const n = new DataView(buf, 0, 4).getUint32(0, true);
+  const xy = new Int16Array(buf, 4, 2 * n);
+  const at = (k) => new Uint8Array(buf, 4 + 4 * n + k * n, n);
+  const pos = new Float32Array(3 * n);
+  for (let i = 0; i < n; i++) { pos[3 * i] = xy[2 * i] / 10; pos[3 * i + 2] = -xy[2 * i + 1] / 10; }
+  return { n, pos, transitions: at(0), pairs: at(1), dominant: at(2), firstMangrove: at(3), mangroveDates: at(4) };
 }
 
 export const formatDate = (iso) => new Date(`${iso}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });

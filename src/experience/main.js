@@ -9,6 +9,8 @@ import { CloudTunnel } from './tunnels.js';
 import { Estuary, MAP_CLASSES, PLAN_COLOURS, LAND_COLOUR } from './estuary.js';
 import { publishCssColours, lookColor, RAIN_LOOK, CLASS_LOOK } from './classLook.js';
 import { createLegend } from './legend.js';
+import { createDateStrip } from './datestrip.js';
+import { renderTrends, renderConfusion, renderScenario, renderScenarioTable } from './mlcharts.js';
 import { CHAPTERS, TOTAL, SPECIMEN_ORDER, createState, buildTimeline, scrollToTime, scrollYForTime } from './story.js';
 import { createGauge } from './nav.js';
 
@@ -118,7 +120,8 @@ function onChapter(idx) {
   document.body.classList.toggle('light', c.id === 'clouds');
   if (c.id !== 'map2') userThreshold = null;
   if (c.id !== 'map4') userLived = null;
-  if (c.id !== 'model') userModelView = null;
+  if (c.id !== 'model') { userModelView = null; if (modelClass) setModelClass(null); }
+  dateStrip?.show(c.id === 'model');
   window.__THREE_DEVTOOLS__?.dispatchEvent(new CustomEvent('observe', { detail: idx < 3 ? space.scene : estuary.scene }));
 }
 
@@ -156,46 +159,93 @@ function bindControls() {
   $('#plan-legend').innerHTML = data.points.plan_categories.map((c, i) => `<li><i style="background:${PLAN_COLOURS[i]}"></i>${c.name}<b>${c.share}%</b><span class="note">&nbsp;${HA[c.name]}</span></li>`).join('');
 }
 
-// ---- Manual and automated tracing: every figure comes from model/metrics.json ----
+// ---- Model chapter: three questions. Every figure comes from model/metrics.json and change.json ----
 const pct = (v) => (v == null ? '–' : `${Math.round(v * 100)}%`);
 const MODEL_LABEL = (k) => (k === 'land' ? 'Land beyond the edge' : data.manifest.classByKey[k].label);
+const MODEL_COLOUR = (k) => (k === 'land' ? LAND_COLOUR : lookColor(k));
+const MODEL_SHORT = { water: 'Wat', muddy_shallows: 'Mud', bed_ground: 'Bed', mangrove_canopy: 'Man', tree_cover: 'Tre', track: 'Trk', land: 'Lnd' };
+// the user's view choice, as layer strengths (same fields the scroll animates)
+const MODEL_VIEWS = {
+  manual: { modelManual: 1, modelModel: 0, modelDiff: 0, modelTrans: 0, modelGrowth: 0, modelSep: 0 },
+  model: { modelManual: 0, modelModel: 1, modelDiff: 0, modelTrans: 0, modelGrowth: 0, modelSep: 0 },
+  both: { modelManual: 1, modelModel: 1, modelDiff: 0, modelTrans: 0, modelGrowth: 0, modelSep: 1 },
+  diff: { modelManual: 0, modelModel: 0, modelDiff: 1, modelTrans: 0, modelGrowth: 0, modelSep: 0.45 },
+};
+let modelClass = null, dateStrip = null, lastAutoView = null;
+
+/** the stage the scroll is in: which layer dominates */
+function autoModelView() {
+  const v = { manual: S.modelManual * (1 - S.modelModel), both: Math.min(S.modelManual, S.modelModel), model: S.modelModel * (1 - S.modelManual), diff: S.modelDiff, trans: S.modelTrans, growth: S.modelGrowth };
+  return Object.entries(v).sort((a, b) => b[1] - a[1])[0][0];
+}
+
 function bindModel() {
-  const M = data.model.metrics;
-  const ids = data.manifest.dates.map((d) => d.id);
+  const M = data.model.metrics, ch = data.model.change;
+  const dates = data.manifest.dates;
   // the date with the median overall accuracy is shown first (neither the best nor the worst)
-  const byAcc = ids.filter((id) => M.per_date[id]).sort((a, b) => M.per_date[a].all.overall_accuracy - M.per_date[b].all.overall_accuracy);
-  modelDate = byAcc[Math.floor((byAcc.length - 1) / 2)];
-  estuary.setModelDate(modelDate);
-  const step = (dir) => { const i = ids.indexOf(modelDate); modelDate = ids[(i + dir + ids.length) % ids.length]; estuary.setModelDate(modelDate); updateModelText(); };
-  $('#model-prev').addEventListener('click', () => step(-1));
-  $('#model-next').addEventListener('click', () => step(1));
-  document.querySelectorAll('[data-model-view]').forEach((b) => b.addEventListener('click', () => { userModelView = +b.dataset.modelView; }));
-  // pooled results over all 17 held-out dates
+  const byAcc = dates.map((d) => d.id).filter((id) => M.per_date[id]).sort((a, b) => M.per_date[a].all.overall_accuracy - M.per_date[b].all.overall_accuracy);
+  const agreement = Object.fromEntries(dates.map((d) => [d.id, M.per_date[d.id]?.all.overall_accuracy ?? null]));
+  dateStrip = createDateStrip($('#datestrip'), { dates, agreement, onSelect: setModelDate });
+  document.querySelectorAll('[data-model-view]').forEach((b) => b.addEventListener('click', () => { userModelView = b.dataset.modelView; lastAutoView = autoModelView(); }));
+
+  // Q2: pooled results over all 17 held-out dates
   const P = M.pooled.classes;
   const head = '<thead><tr><th>Class</th><th>IoU</th><th>Precision</th><th>Recall</th><th>F1</th><th>Dates</th></tr></thead>';
   const rows = data.model.classes.filter((k) => P[k]).map((k) => {
-    const r = P[k], col = k === 'land' ? LAND_COLOUR : lookColor(k);
-    return `<tr><td><i class="key" style="background:${col}"></i>${MODEL_LABEL(k)}</td><td>${r.iou.toFixed(2)}</td><td>${pct(r.precision)}</td><td>${pct(r.recall)}</td><td>${r.f1.toFixed(2)}</td><td>${r.dates_traced}</td></tr>`;
+    const r = P[k];
+    return `<tr><td><i class="key" style="background:${MODEL_COLOUR(k)}"></i>${MODEL_LABEL(k)}</td><td>${r.iou.toFixed(2)}</td><td>${pct(r.precision)}</td><td>${pct(r.recall)}</td><td>${r.f1.toFixed(2)}</td><td>${r.dates_traced}</td></tr>`;
   }).join('');
   $('#model-table').innerHTML = `<caption>All 17 dates, each held out from its own model</caption>${head}<tbody>${rows}</tbody>`;
-  const E = M.land_edge;
-  $('#model-summary').innerHTML = `Overall agreement ${pct(M.pooled.overall_accuracy)} of traced cells (${pct(M.pooled_interior.overall_accuracy)} more than 2 m inside a traced boundary), against ${pct(M.baseline_overall_accuracy)} for a colour-only baseline.` +
-    (E ? `<br>Land edge: the model's land / water boundary lies a median ${E.median_of_medians_m.toFixed(1)} m from the traced edge; ${pct(E.within_5m)} of the traced edge is within 5 m.` : '');
-  // what the confusion matrix says about the hardest classes (fractions of traced cells)
+  $('#model-summary').innerHTML = `Overall agreement ${pct(M.pooled.overall_accuracy)} of traced cells (${pct(M.pooled_interior.overall_accuracy)} more than 2 m inside a traced boundary), against ${pct(M.baseline_overall_accuracy)} for a colour-only baseline.`;
+  renderConfusion($('#ml-confusion'), { metrics: M, label: MODEL_LABEL, colour: MODEL_COLOUR, short: (k) => MODEL_SHORT[k] ?? k });
   const C = M.confusion, ci = (k) => C.classes.indexOf(k);
   const share = (from, to) => { const row = C.rows_manual_cols_model[ci(from)]; const tot = row.reduce((a, b) => a + b, 0); return tot ? row[ci(to)] / tot : 0; };
-  $('#model-summary').innerHTML += `<br>Muddy shallows, the class defined by what cannot be clearly identified, is split by the model between water (${pct(share('muddy_shallows', 'water'))}) and bed ground (${pct(share('muddy_shallows', 'bed_ground'))}). Tree cover and track, traced on only two dates, are read as land.`;
-  $('#model-note').textContent = 'Every figure here is computed by tools/ml/classify.py from the tracings and images, on dates the model never saw. The images are approximately registered and their tide state is unknown, so part of any disagreement lies in the reference, not the model. Boats, cage farms and buildings were not modelled.';
-  updateModelText();
+  const E = M.land_edge;
+  $('#ml-confusion-note').innerHTML = `Muddy shallows, the class defined by what cannot be clearly identified, is split between bed ground (${pct(share('muddy_shallows', 'bed_ground'))}) and water (${pct(share('muddy_shallows', 'water'))}). Mangrove canopy is found ${pct(share('mangrove_canopy', 'mangrove_canopy'))} of the time and confused with water (${pct(share('mangrove_canopy', 'water'))}). Tree cover and track, traced on only two dates, are read as land.` +
+    (E ? `<br>Land edge: the model's land / water boundary lies a median ${E.median_of_medians_m.toFixed(1)} m from the traced edge; ${pct(E.within_5m)} of the traced edge is within 5 m.` : '');
+  $('#model-note').textContent = 'Each date is classified by a model trained only on the other sixteen. The images are approximately registered and their tide state is unknown, so part of any disagreement lies in the reference, not the model. Boats, cage farms and buildings were not modelled.';
+
+  if (ch) {
+    // Q1: repeated transitions (observed, all dates)
+    const T = ch.transitions, tm = T.consecutive_transition_cells, K = T.matrix_classes;
+    const wb = tm[K.indexOf('water')][K.indexOf('bed_ground')] + tm[K.indexOf('bed_ground')][K.indexOf('water')];
+    const off = tm.reduce((s, r, i) => s + r.reduce((a, v, j) => a + (i === j ? 0 : v), 0), 0);
+    $('#ml-trans-note').textContent = `In the rectangle, ${pct(T.share_changed_4_or_more)} of cells changed traced class four or more times between consecutive dates; ${pct(wb / off)} of all changes are between water and bed ground, the pair that the unknown tide moves. The columns show these changes, one ball per change.`;
+    // Q3: scenarios
+    const A = ch.analysis.mangrove_canopy, o = A.observed, s17 = A.observed_since_2017, hc = A.hindcast;
+    $('#ml-scen-lede').innerHTML = `Mangrove canopy is the only class with a significant trend: about ${Math.round(o.slope_m2_per_year)} m² a year in the traced record (95% range ${Math.round(o.slope_low)} to ${Math.round(o.slope_high)}; Kendall τ ${o.kendall_tau.toFixed(2)}, p &lt; 0.001), ${Math.round(A.model.slope_m2_per_year)} m² a year in the model's own readings, and ${Math.round(s17.slope_m2_per_year)} m² a year since December 2017. Beyond 2025 the lines are hypothetical rates, not forecasts.`;
+    renderScenarioTable($('#ml-scen-table'), { change: ch });
+    $('#ml-scen-check').innerHTML = `Check: fitted on the ${hc.fitted_on}, the trend misses the 2024 and 2025 canopy by ${Math.round(hc.mae_trend).toLocaleString('en-GB')} m² on average, against ${Math.round(hc.mae_last_value).toLocaleString('en-GB')} m² for "same as the last date" and ${Math.round(hc.mae_mean).toLocaleString('en-GB')} m² for "the average so far".`;
+    $('#ml-scen-note').textContent = `No scenarios for water, bed ground or muddy shallows: none has a significant trend (p ${ch.analysis.water.observed.p.toFixed(2)}, ${ch.analysis.bed_ground.observed.p.toFixed(2)} and ${ch.analysis.muddy_shallows.observed.p.toFixed(2)}), and their traced extent depends on the tide at each image, which is not known. A straight-line rate also ignores the space the canopy can occupy.`;
+  }
+  setModelDate(byAcc[Math.floor((byAcc.length - 1) / 2)]);
 }
-function updateModelText() {
-  const M = data.model.metrics, r = M.per_date[modelDate];
-  const d = data.manifest.dates.find((x) => x.id === modelDate);
+
+/** One place changes the date: scene layers, readouts, charts and the timeline all follow it. */
+function setModelDate(id) {
+  modelDate = id;
+  estuary.setModelDate(id);
+  const M = data.model.metrics, r = M.per_date[id];
+  const d = data.manifest.dates.find((x) => x.id === id);
   $('#model-date').textContent = formatDate(d.iso);
-  $('#model-step-date').textContent = formatDate(d.iso);
-  const areas = data.model.classes.filter((k) => k !== 'land' && r.all.classes[k] && r.all.classes[k].area_manual_m2 > 0)
-    .map((k) => `<span><i class="key" style="background:${lookColor(k)}"></i>${MODEL_LABEL(k).toLowerCase()} ${Math.round(r.all.classes[k].area_manual_m2).toLocaleString('en-GB')} → ${Math.round(r.all.classes[k].area_model_m2).toLocaleString('en-GB')} m²</span>`);
-  $('#model-date-detail').innerHTML = `Agreement with the tracing: ${pct(r.all.overall_accuracy)} of traced cells. Traced → model area: ${areas.join(' ')}`;
+  const f1 = data.model.classes.filter((k) => r.all.classes[k] && r.all.classes[k].area_manual_m2 > 0)
+    .map((k) => `<span><i class="key" style="background:${MODEL_COLOUR(k)}"></i>${MODEL_LABEL(k).toLowerCase()} F1 ${r.all.classes[k].f1.toFixed(2)}</span>`);
+  $('#model-date-detail').innerHTML = `Agreement with the tracing on this date: ${pct(r.all.overall_accuracy)} of traced cells. ${f1.join(' ')}`;
+  dateStrip?.set(id, `${pct(r.all.overall_accuracy)} agreement`);
+  renderModelCharts();
+}
+
+function setModelClass(k) {
+  modelClass = k;
+  estuary.setModelClass(k);
+  renderModelCharts();
+}
+
+function renderModelCharts() {
+  const ch = data.model?.change;
+  if (!ch) return;
+  renderTrends($('#ml-trends'), { change: ch, label: MODEL_LABEL, colour: MODEL_COLOUR, order: ['mangrove_canopy', 'water', 'bed_ground', 'muddy_shallows'], selectedDate: modelDate, selectedClass: modelClass, onClass: setModelClass });
+  renderScenario($('#ml-scen'), { change: ch, colour: MODEL_COLOUR, selectedDate: modelDate });
 }
 
 function updateReadouts(t) {
@@ -230,10 +280,11 @@ function updateReadouts(t) {
   $('#rain-date').textContent = formatDate(rd.iso);
   $('#rain-detail').textContent = `Monsoon ${rd.rainfall.monsoon_year}: ${Math.round(rd.rainfall.monsoon_mm).toLocaleString('en-GB')} mm · 30 days before: ${rd.rainfall.prior30_mm.toFixed(1)} mm`;
   legend?.setPersMode(S.persMode);
-  // model view buttons
+  // model view buttons and the date timeline (all-date views say so)
   if (data.model) {
-    const mv = userModelView ?? Math.round(S.modelView);
-    document.querySelectorAll('[data-model-view]').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.modelView === mv)));
+    const mv = userModelView ?? autoModelView();
+    document.querySelectorAll('[data-model-view]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.modelView === mv)));
+    dateStrip?.setAllDates(!userModelView && (mv === 'trans' || mv === 'growth'));
   }
   // Map 4 buttons
   const lf = userLived ?? (S.livedFocus > 0.5 ? 1 : 0);
@@ -250,7 +301,11 @@ function render(now) {
   const frame = { ...S };
   if (userThreshold !== null) frame.threshold = userThreshold;
   if (userLived !== null) frame.livedFocus = THREE.MathUtils.lerp(S.livedFocus, userLived, 1);
-  if (userModelView !== null) { frame.modelView = userModelView; frame.modelSep = userModelView === 1 ? 1 : userModelView === 2 ? 0.45 : 0; }
+  if (userModelView !== null) {
+    // a view chosen with the buttons holds until the scroll moves on to another stage
+    if (autoModelView() !== lastAutoView) userModelView = null;
+    else Object.assign(frame, MODEL_VIEWS[userModelView]);
+  }
   if (!drag) { view.userAz *= 0.97; view.userEl *= 0.97; }
 
   const idx = chapterAt(t);

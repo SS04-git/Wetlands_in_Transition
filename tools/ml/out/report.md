@@ -101,3 +101,45 @@ For any further rainfall work, IMD 0.25° gridded or CHIRPS 0.05° daily data su
 - **Measured / observed:** the hand tracings and the images.
 - **Modelled:** the model's classification of each held-out date and every accuracy figure. All are computed by this script.
 - **Hypothetical:** none presented.
+
+## 7. Change and exploratory scenarios (`tools/ml/change.py`)
+
+Full numbers are in `tools/ml/out/change.json`. Everything is computed inside the study rectangle that all 17 dates cover (19,455 m², the same rectangle as Map 2). At least 96% of the rectangle is traced on every date, so areas are comparable between dates.
+
+**What is changing (observed, traced by hand):**
+- **Mangrove canopy:**
+  - It rises from almost none in 2011–2016 to 2,750 m² in 2025.
+  - The Theil–Sen slope is 254 m² a year (95% interval 201 to 297). Kendall's τ is 0.84, p < 0.001.
+  - Since December 2017 alone, the slope is 310 m² a year.
+  - The model's own held-out readings show the same trend: 210 m² a year, p < 0.001.
+- **Water, bed ground and muddy shallows:** no significant monotonic trend (p 0.90, 0.32 and 0.30). Their date-to-date swings follow the unknown tide.
+- **Repeated transitions:**
+  - 84% of the rectangle's cells changed traced class four or more times between consecutive dates.
+  - 63% of all changes are between water and bed ground.
+
+**Hindcast (testing the trend as a predictor):** the trend is fitted on the 15 dates from 2011 to 2022, then used to predict the mangrove canopy on 17 Feb 2024 and 25 Feb 2025.
+
+| Predictor | Mean absolute error |
+|---|---:|
+| Fitted trend | 292 m² |
+| "Same as the last date" | 633 m² |
+| "Average so far" | 1,599 m² |
+
+**Exploratory scenarios (hypothetical):**
+- They are produced for mangrove canopy only: it is the one class with a significant trend that is not dominated by tide.
+- The fitted 2025 value is 2,519 m². The fitted rate is continued at 1×, 1.5× and 0.5×:
+
+| Scenario | 2030 | 2035 |
+|---|---:|---:|
+| Continuation (1×) | 3,748 m² | 5,016 m² |
+| Accelerated (1.5×) | 4,363 m² | 6,264 m² |
+| Reduced (0.5×) | 3,134 m² | 3,767 m² |
+| 95% range of the fitted rate | 3,493–3,957 m² | 4,497–5,440 m² |
+
+- The 1.5× and 0.5× multipliers are illustrative choices, not estimates.
+- A straight-line rate ignores the space available to the canopy, any saturation, and events such as cutting or storms. These are not forecasts.
+- No scenario is given for water, bed ground or muddy shallows.
+
+**Spatial view:** the website shows where the canopy appeared, as each cell's first traced date. This is observed data. No spatial forecast is made: with 17 tide-confounded dates and a single expanding class, a cell-level projection would not be defensible.
+
+**Tool note:** the installed Probabl ML skills require `skore`, `skrub` and `skore_skills`, which are not in the venv. They were not installed. Their evaluation principles were applied by hand: a baseline, validation grouped by date, no leakage between training and test dates, and per-class metrics plus a confusion matrix. The remote-sensing-analysis skill's checklist was followed in the same way: independent validation, per-class F1 and IoU, an error map (the disagreement view), and no change claims beyond what comparable observations support.
