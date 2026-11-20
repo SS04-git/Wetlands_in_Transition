@@ -2,11 +2,12 @@
 // scene and one coordinate frame (metres; x = east, y = up, z = -north).
 //
 //  ground        the 25 Feb 2025 screenshot resampled as coloured dots (arrival)
-//  classes       the traced classes of 25 Feb 2025 as clustered dots, separable into layers (Map 1 intro)
-//  map1          Map 1's six representative dates as six dotted landscapes on a turning ring
-//  persistence   Map 2: per 1.5 m cell, one ball for every date the cell was traced as water
-//                (or as mangrove canopy) - a count, never depth or elevation
-//  stack         Map 3: all 17 dates stacked on a time axis, monsoon months as cloud between them
+//  classes       the traced classes of 25 Feb 2025 (and 11 Apr 2011) as clustered dots, separable
+//                into layers (the classes chapter and Map 1, which is drawn for 25 Feb 2025)
+//  map1          (group name kept) the six dates compared in Map 3, as dotted landscapes on a ring
+//  persistence   Map 2: per 1.5 m cell, one ball for every date the cell was traced as water,
+//                mangrove canopy or exposed sediment - a count, never depth or elevation
+//  stack         Map 3: all 17 dates stacked in date order, monsoon gaps as cloud between them
 //  lived         Map 4: the shoreline elements of 2011 and 2025, one above the other
 //  plan          Map 5: the Master Plan crop as a halftone dot sheet beside the traces, with
 //                towers of the four planning shares (one ball = 1% of the planning area)
@@ -20,12 +21,10 @@ export const STACK_RANK = ['water', 'muddy_shallows', 'bed_ground', 'mangrove_ca
   'tree_cover', 'track', 'buildings', 'cage_farms', 'boats'];
 const LAYER_GAP = 16;
 const MAP1_SCALE = 0.42, MAP1_RADIUS = 175;
-const STACK_SCALE = 0.5, STACK_PER_YEAR = 24;
+const STACK_SCALE = 0.55, STACK_GAP = 34; // metres between observation layers when fully spread
 const PLAN_OFFSET = 290;
 const RAIN_RADIUS = 175;
 const PLAN_COLOURS = ['#D98C7A', '#BFD58A', '#8FB8A8', '#8EC9E0']; // swatches from the Map 5 script
-
-const years = (iso) => { const d = new Date(`${iso}T00:00:00Z`); return d.getUTCFullYear() + (d - Date.UTC(d.getUTCFullYear(), 0, 1)) / 31557600000; };
 
 export class Estuary {
   constructor(data) {
@@ -42,6 +41,7 @@ export class Estuary {
     this.groups = {};
     this.labels = [];
 
+    this.buildDust();
     this.buildGround();
     this.buildClasses();
     this.buildMap1();
@@ -70,11 +70,45 @@ export class Estuary {
   }
 
   buildClasses() {
+    // Two traced dates: 25 Feb 2025 (the arrival date) and 11 Apr 2011, which is the only hero
+    // date with bed ground and muddy shallows traced. The classes chapter shows whichever date
+    // the class in focus was measured on.
     const g = this.group('classes');
-    this.classMat = this.mat({ size: 0.95, bob: 0.25 });
-    const size = this.classMat.uniforms.uClassSize.value;
-    size[this.idx.boats] = 3.4; size[this.idx.cage_farms] = 3.8; size[this.idx.buildings] = 3.6; size[this.idx.land_edge] = 1.2;
-    g.add(makeDots(this.data.dots['2025_02_25'], this.classMat, { yOffset: 0.6 }));
+    this.classSets = ['2025_02_25', '2011_04_11'].map((id) => {
+      const m = this.mat({ size: 0.95, bob: 0.25 });
+      const size = m.uniforms.uClassSize.value;
+      size[this.idx.boats] = 3.4; size[this.idx.cage_farms] = 3.8; size[this.idx.buildings] = 3.6; size[this.idx.land_edge] = 1.2;
+      const pts = makeDots(this.data.dots[id], m, { yOffset: 0.6 });
+      g.add(pts);
+      return { id, m, pts };
+    });
+    this.classMat = this.classSets[0].m;
+  }
+
+  buildDust() {
+    // Faint star dust far beyond the estuary: the cosmic depth of the opening carried into the maps.
+    const n = 2600, pos = new Float32Array(3 * n), seed = new Float32Array(n);
+    for (let i = 0; i < n; i++) {
+      const u = Math.random() * 2 - 1, a = Math.random() * Math.PI * 2, r = 1700 + Math.random() * 1600, s = Math.sqrt(1 - u * u);
+      pos.set([r * s * Math.cos(a), r * Math.abs(u) * 0.9 - 200, r * s * Math.sin(a)], 3 * i);
+      seed[i] = Math.random();
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    g.setAttribute('aSeed', new THREE.BufferAttribute(seed, 1));
+    this.dust = new THREE.Points(g, new THREE.ShaderMaterial({
+      uniforms: { uTime: { value: 0 }, uOpacity: { value: 0 }, uPR: { value: 1 } },
+      vertexShader: `attribute float aSeed; uniform float uTime, uPR; varying float vA;
+        void main(){ vA = 0.45 + 0.55 * sin(uTime * (0.6 + aSeed) + aSeed * 40.0);
+          gl_PointSize = (0.8 + 2.2 * pow(aSeed, 5.0)) * uPR; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+      fragmentShader: `uniform float uOpacity; varying float vA;
+        void main(){ float d = length(gl_PointCoord - 0.5); if (d > 0.5) discard;
+          gl_FragColor = vec4(vec3(0.78, 0.88, 1.0), (1.0 - smoothstep(0.0, 0.5, d)) * vA * uOpacity); }`,
+      transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, fog: false,
+    }));
+    this.dust.frustumCulled = false;
+    this.dust.renderOrder = -1;
+    this.scene.add(this.dust);
   }
 
   buildMap1() {
@@ -112,44 +146,64 @@ export class Estuary {
     };
     this.persWater = mk(P.water, this.idx.water);
     this.persMangrove = mk(P.mangrove, this.idx.mangrove_canopy);
+    this.persBed = mk(P.bed, this.idx.bed_ground); // Map 2's third panel: exposed sediment frequency
+    // where the mangrove canopy was traced most often (count-weighted centre), for the camera
+    let sx = 0, sz = 0, sw = 0;
+    for (let i = 0; i < P.n; i++) { const w = P.mangrove[i]; sx += P.pos[3 * i] * w; sz += P.pos[3 * i + 2] * w; sw += w; }
+    this.mangroveCentre = sw ? { x: sx / sw, z: sz / sw } : { x: 0, z: 0 };
     // area for each threshold k (cells with water count >= k) x 2.25 m2, from the actual grid
     this.waterAreaByK = this.data.points.persistence.water_area_by_threshold_m2;
   }
 
   buildStack() {
+    // Seventeen observations, evenly spaced (so each one can be read) and in date order. The
+    // calendar gap is shown instead by cloud: where a June-September monsoon falls between two
+    // observations, a band of cloud dots sits in the space between those two layers.
     const g = this.group('stack');
     const dates = this.data.manifest.dates;
-    const y0 = years(dates[0].iso);
-    this.stackLayers = dates.map((d) => {
-      const m = this.mat({ size: 0.75 });
-      const s = m.uniforms.uClassSize.value; s[this.idx.boats] = 2.2; s[this.idx.cage_farms] = 2.4; s[this.idx.buildings] = 2.2;
-      const pts = makeDots(this.data.dots[d.id], m);
+    this.stackLayers = dates.map((d, i) => {
+      const m = this.mat({ size: 0.8 });
+      const s = m.uniforms.uClassSize.value; s[this.idx.boats] = 2.4; s[this.idx.cage_farms] = 2.6; s[this.idx.buildings] = 2.4;
+      const src = this.data.dots[d.id];
+      const pts = makeDots(src, m);
+      // label anchor: just beyond the eastern edge of this date's traces
+      let maxX = -Infinity;
+      for (let j = 0; j < src.n; j++) maxX = Math.max(maxX, src.pos[3 * j]);
       const layer = new THREE.Group();
       layer.add(pts);
       layer.scale.setScalar(STACK_SCALE);
-      layer.position.y = (years(d.iso) - y0) * STACK_PER_YEAR;
-      layer.userData = { id: d.id, iso: d.iso, material: m, baseY: layer.position.y };
+      layer.position.y = i * STACK_GAP;
+      layer.userData = { id: d.id, iso: d.iso, material: m, baseY: i * STACK_GAP, anchor: new THREE.Vector3(maxX + 10, 0, 0) };
       g.add(layer);
       this.addLabel(layer, d.id, 'stack');
+      // the six dates the printed Map 3 compares are marked on their labels
+      if (this.data.points.map1_dates.includes(d.id)) this.labels.at(-1).el.classList.add('is-key');
       return layer;
     });
-    this.stackHeight = (years(dates.at(-1).iso) - y0) * STACK_PER_YEAR;
-    // Monsoon months (June-September) have no usable imagery: cloud bands between the sheets.
+    this.stackHeight = (dates.length - 1) * STACK_GAP;
     const cloud = [];
-    const yFirst = new Date(`${dates[0].iso}T00:00:00Z`).getUTCFullYear();
-    for (let yr = yFirst; yr <= 2024; yr++) {
-      const a = (yr + 151 / 365.25 - y0) * STACK_PER_YEAR, b = (yr + 273 / 365.25 - y0) * STACK_PER_YEAR;
-      if (b < 0 || a > this.stackHeight) continue;
-      for (let i = 0; i < 1400; i++) {
-        const r = Math.sqrt(Math.random()) * 75, t = Math.random() * Math.PI * 2;
-        cloud.push(Math.cos(t) * r, a + Math.random() * (b - a), Math.sin(t) * r * 0.78);
+    this.monsoonGaps = [];
+    for (let i = 0; i < dates.length - 1; i++) {
+      const a = new Date(`${dates[i].iso}T00:00:00Z`), b = new Date(`${dates[i + 1].iso}T00:00:00Z`);
+      let monsoons = 0;
+      for (let yr = a.getUTCFullYear(); yr <= b.getUTCFullYear(); yr++) {
+        const start = Date.UTC(yr, 5, 1), end = Date.UTC(yr, 8, 30);
+        if (start > a.getTime() && end < b.getTime()) monsoons++;
+      }
+      if (!monsoons) continue;
+      this.monsoonGaps.push({ after: i, monsoons });
+      const y0 = i * STACK_GAP + STACK_GAP * 0.28, y1 = i * STACK_GAP + STACK_GAP * 0.72;
+      for (let k = 0; k < 900 * monsoons; k++) {
+        const r = Math.sqrt(Math.random()) * 70, t = Math.random() * Math.PI * 2;
+        cloud.push(Math.cos(t) * r, y0 + Math.random() * (y1 - y0), Math.sin(t) * r * 0.78);
       }
     }
     const n = cloud.length / 3;
-    const cm = this.mat({ rgb: true, size: 1.4 });
-    const rgb = new Uint8Array(3 * n).fill(232);
-    const pts = makeDots({ n, pos: Float32Array.from(cloud), cls: new Uint8Array(n), rgb }, cm);
-    g.add(pts);
+    const cm = this.mat({ rgb: true, size: 1.5 });
+    const rgb = new Uint8Array(3 * n).fill(226);
+    this.stackCloud = new THREE.Group();
+    this.stackCloud.add(makeDots({ n, pos: Float32Array.from(cloud), cls: new Uint8Array(n), rgb }, cm));
+    g.add(this.stackCloud);
     this.monsoonCloudMat = cm;
   }
 
@@ -194,10 +248,10 @@ export class Estuary {
       const col = new THREE.Color(PLAN_COLOURS[ci]);
       for (let b = 0; b < balls; b++) {
         const ring = b % 4, lvl = Math.floor(b / 4);
-        pos.push(PLAN_OFFSET / 2 - 66 + ci * 44 + (ring % 2) * 5.6, 3 + lvl * 5.6, 150 + Math.floor(ring / 2) * 5.6);
+        pos.push(PLAN_OFFSET / 2 - 90 + ci * 60 + (ring % 2) * 5.6, 3 + lvl * 5.6, 150 + Math.floor(ring / 2) * 5.6);
         rgb.push(col.r * 255, col.g * 255, col.b * 255);
       }
-      this.addLabel({ position: new THREE.Vector3(PLAN_OFFSET / 2 - 66 + ci * 44 + 2.8, 3 + Math.ceil(balls / 4) * 5.6 + 8, 153) }, `${c.name} ${c.share}%`, 'plan', true);
+      this.addLabel({ position: new THREE.Vector3(PLAN_OFFSET / 2 - 90 + ci * 60 + 2.8, 3 + Math.ceil(balls / 4) * 5.6 + 8, 153) }, `${c.share}%`, 'plan', true);
     });
     const tm = this.mat({ rgb: true, size: 4.2 });
     const towers = makeDots({ n: pos.length / 3, pos: Float32Array.from(pos), cls: new Uint8Array(pos.length / 3), rgb: Uint8Array.from(rgb.map((v) => {
@@ -247,7 +301,7 @@ export class Estuary {
   buildBlob() {
     this.blob = new Blob({ presetKey: 'water' });
     this.blob.mesh.position.set(0, 0, -9);
-    this.blob.mesh.scale.setScalar(1.65);
+    this.blob.mesh.scale.setScalar(1.5);
     this.blob.material.uniforms.uOpacity.value = 0;
     this.camera.add(this.blob.mesh);
   }
@@ -255,17 +309,25 @@ export class Estuary {
   addLabel(obj, text, chapter, raw = false) {
     const el = document.createElement('span');
     el.className = `world-label world-label--${chapter}`;
-    el.textContent = raw ? text : formatDate(text.replaceAll('_', '-'));
+    if (chapter === 'stack') {
+      // year first, large; day and month beside it, after a leader line pointing at the layer
+      const d = new Date(`${text.replaceAll('_', '-')}T00:00:00`);
+      el.innerHTML = `<b>${d.getFullYear()}</b><span>${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>`;
+    } else {
+      el.textContent = raw ? text : formatDate(text.replaceAll('_', '-'));
+    }
     el.dataset.id = raw ? '' : text;
     document.querySelector('#labels').append(el);
     this.labels.push({ el, obj, chapter });
   }
 
   setSize(aspect, pr) {
+    this.aspect = aspect;
     this.camera.aspect = aspect;
     this.camera.updateProjectionMatrix();
     this.materials.forEach((m) => { m.uniforms.uPixelRatio.value = pr; });
     this.rain.material.uniforms.uPR.value = pr;
+    this.dust.material.uniforms.uPR.value = pr;
     this.pr = pr;
   }
 
@@ -279,13 +341,22 @@ export class Estuary {
     this.groundMat.uniforms.uOpacity.value = S.ground;
     this.groundMat.uniforms.uScatter.value = S.groundScatter;
     vis('classes', S.classes);
-    const cm = this.classMat.uniforms;
-    cm.uOpacity.value = S.classes;
-    cm.uLevel.value = this.levels(S.classSep);
-    cm.uScatter.value = S.classScatter;
-    cm.uHighlight.value = S.highlight;
+    const levels = this.levels(S.classSep);
+    this.classSets.forEach((set, i) => {
+      const u = set.m.uniforms;
+      const share = i === 0 ? 1 - (view.classDate ?? 0) : (view.classDate ?? 0);
+      u.uOpacity.value = S.classes * share;
+      set.pts.visible = u.uOpacity.value > 0.002;
+      u.uLevel.value = levels;
+      u.uScatter.value = S.classScatter;
+      u.uHighlight.value = S.highlight;
+      u.uDim.value = S.classDim;
+      u.uHiSize.value = S.hiSize;
+    });
     this.groups.classes.rotation.y = S.classSpin;
     this.groups.ground.rotation.y = S.classSpin;
+    this.dust.material.uniforms.uOpacity.value = S.dust;
+    this.dust.material.uniforms.uTime.value = time;
 
     // Map 1 ring
     vis('map1', S.map1);
@@ -299,11 +370,16 @@ export class Estuary {
 
     // Map 2 persistence columns
     vis('persistence', S.pers);
-    const wm = this.persWater.m.uniforms, mm = this.persMangrove.m.uniforms;
-    wm.uOpacity.value = S.pers * (1 - S.persMode);
-    mm.uOpacity.value = S.pers * S.persMode;
-    this.persWater.pts.scale.y = Math.max(0.001, S.persRise);
-    this.persMangrove.pts.scale.y = Math.max(0.001, S.persRise);
+    const wm = this.persWater.m.uniforms, mm = this.persMangrove.m.uniforms, bm = this.persBed.m.uniforms;
+    // persMode: 0 water persistence, 1 mangrove canopy persistence, 2 exposed sediment frequency
+    const m = S.persMode;
+    wm.uOpacity.value = S.pers * THREE.MathUtils.clamp(1 - m, 0, 1);
+    mm.uOpacity.value = S.pers * THREE.MathUtils.clamp(1 - Math.abs(m - 1), 0, 1);
+    bm.uOpacity.value = S.pers * THREE.MathUtils.clamp(m - 1, 0, 1);
+    for (const p of [this.persWater, this.persMangrove, this.persBed]) {
+      p.pts.scale.y = Math.max(0.001, S.persRise);
+      p.pts.visible = p.m.uniforms.uOpacity.value > 0.002;
+    }
     wm.uThreshold.value = S.threshold;
     this.groups.persistence.rotation.y = S.persSpin;
 
@@ -311,13 +387,17 @@ export class Estuary {
     vis('stack', S.stack);
     this.stackLayers.forEach((layer, i) => {
       const u = layer.userData.material.uniforms;
-      const focus = Math.exp(-Math.pow(i - S.stackFocus, 2) * 1.4);
-      u.uOpacity.value = S.stack * (0.18 + 0.82 * focus);
-      u.uLevel.value = this.levels(S.stackSep * focus, 9);
-      layer.position.y = layer.userData.baseY * S.stackSpread;
-      layer.rotation.y = S.stackTwist * (i / 16) + time * 0.02;
+      const focus = Math.exp(-Math.pow(i - S.stackFocus, 2) * 0.9);
+      layer.userData.focus = focus;
+      u.uOpacity.value = S.stack * (0.2 + 0.8 * focus);
+      u.uLevel.value = this.levels(S.stackSep * focus, 4.5);
+      layer.position.y = layer.userData.baseY * S.stackSpread + focus * S.stackLift;
+      layer.scale.setScalar(STACK_SCALE * (0.93 + 0.12 * focus));
+      layer.rotation.y = 0;
     });
-    this.monsoonCloudMat.uniforms.uOpacity.value = S.stack * 0.22 * S.stackSpread;
+    this.groups.stack.rotation.y = S.stackTwist;
+    this.stackCloud.scale.y = Math.max(0.001, S.stackSpread);
+    this.monsoonCloudMat.uniforms.uOpacity.value = S.stack * 0.26 * THREE.MathUtils.smoothstep(S.stackSpread, 0.4, 1);
 
     // Map 4 lived landscape
     vis('lived', S.lived);
@@ -350,7 +430,21 @@ export class Estuary {
     // blob specimen (classes chapter)
     this.blob.material.uniforms.uOpacity.value = S.blob;
     this.blob.mesh.visible = S.blob > 0.002;
-    this.blob.mesh.position.x = view.blobX;
+    // Composition: shift the whole frame on screen (fractions of the viewport; + = right / down)
+    // so a map can sit left, right or low while the text takes the other side.
+    // setViewOffset also sets camera.aspect = fullWidth / fullHeight, so pass the real aspect.
+    const a = this.aspect || this.camera.aspect;
+    // Portrait screens: centre the map horizontally, then lift it above bottom text,
+    // or drop it below top text (the beats where the story pushes the map down, shiftY > 0.05).
+    const portrait = a < 1;
+    const sx = portrait ? (S.shiftX ?? 0) * 0.15 : (S.shiftX ?? 0);
+    const sy = portrait ? -0.14 + 0.4 * THREE.MathUtils.smoothstep(S.shiftY ?? 0, 0.02, 0.1) : (S.shiftY ?? 0);
+    if (Math.abs(sx) > 1e-4 || Math.abs(sy) > 1e-4) this.camera.setViewOffset(a, 1, -sx * a, -sy, a, 1);
+    else { this.camera.aspect = a; this.camera.clearViewOffset(); }
+    // the blob rides with the camera, so cancel the shift for it and keep it where it was designed
+    const halfH = 9 * Math.tan(THREE.MathUtils.degToRad(this.camera.fov / 2)), halfW = halfH * this.camera.aspect;
+    this.blob.mesh.position.x = view.blobX - sx * 2 * halfW;
+    this.blob.mesh.position.y = sy * 2 * halfH;
     this.blob.mesh.rotation.y = time * 0.15;
     this.blob.update(time);
 
@@ -370,16 +464,26 @@ export class Estuary {
     const show = { map1: clear && S.map1 > 0.5, stack: clear && S.stack > 0.5, lived: clear && S.lived > 0.5, plan: clear && S.plan * S.planTowers > 0.5, monsoon: clear && S.monsoon > 0.5 };
     const focusStack = Math.round(S.stackFocus), focusRain = Math.round(S.monsoonFocus);
     for (const L of this.labels) {
-      let on = show[L.chapter];
-      if (on && L.chapter === 'stack') on = this.stackLayers.findIndex((l) => l === L.obj) === focusStack;
+      let on = show[L.chapter], alpha = 1;
+      if (on && L.chapter === 'stack') {
+        // every layer near the one in focus keeps its year, fading with distance; the focused
+        // year is set larger. Labels hang off each layer's eastern edge on a leader line.
+        const i = this.stackLayers.indexOf(L.obj);
+        const dist = Math.abs(i - S.stackFocus);
+        on = dist < 4.5 && S.stackSpread > 0.55;
+        alpha = Math.max(0, 1 - dist / 4.5) * 0.85 + (i === focusStack ? 0.15 : 0);
+        L.el.classList.toggle('is-focus', i === focusStack);
+      }
       if (on && L.chapter === 'monsoon') on = Math.abs(this.labels.filter((x) => x.chapter === 'monsoon').indexOf(L) - focusRain) <= 1;
       if (!on) { L.el.style.opacity = '0'; continue; }
-      (L.obj.getWorldPosition ? L.obj.getWorldPosition(v) : v.copy(L.obj.position));
-      if (L.chapter === 'map1' || L.chapter === 'stack' || L.chapter === 'lived') v.y += 14;
+      if (L.chapter === 'stack') v.copy(L.obj.userData.anchor).applyMatrix4(L.obj.matrixWorld);
+      else (L.obj.getWorldPosition ? L.obj.getWorldPosition(v) : v.copy(L.obj.position));
+      if (L.chapter === 'map1' || L.chapter === 'lived') v.y += 14;
       v.project(this.camera);
       if (v.z > 1) { L.el.style.opacity = '0'; continue; }
-      L.el.style.opacity = '1';
-      L.el.style.transform = `translate(${(v.x * 0.5 + 0.5) * w}px, ${(-v.y * 0.5 + 0.5) * h}px) translate(-50%, -100%)`;
+      L.el.style.opacity = String(alpha);
+      const px = (v.x * 0.5 + 0.5) * w, py = (-v.y * 0.5 + 0.5) * h;
+      L.el.style.transform = L.chapter === 'stack' ? `translate(${px}px, ${py}px) translate(0, -50%)` : `translate(${px}px, ${py}px) translate(-50%, -100%)`;
     }
   }
 }

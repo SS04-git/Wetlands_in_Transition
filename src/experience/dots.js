@@ -19,6 +19,8 @@ const vertex = /* glsl */ `
   uniform float uClassSize[${MAX_CLASSES}];
   uniform vec3 uPalette[${MAX_CLASSES}];
   uniform float uHighlight;      // class index, or -1
+  uniform float uDim;            // opacity of the other classes while one is highlighted
+  uniform float uHiSize;         // size boost of the highlighted class
   uniform float uTime, uSize, uPixelRatio, uOpacity, uScatter, uBob, uUseRGB, uRise, uGain;
   varying vec3 vColor;
   varying float vAlpha;
@@ -32,7 +34,7 @@ const vertex = /* glsl */ `
     p += dir * uScatter * (0.35 + aRand.x);
     float classA = ci < ${MAX_CLASSES} ? uClassAlpha[ci] : 1.0;
     float hi = (uHighlight >= 0.0 && abs(aClass - uHighlight) < 0.5) ? 1.0 : 0.0;
-    float dimOthers = (uHighlight >= 0.0 && hi < 0.5) ? 0.28 : 1.0;
+    float dimOthers = (uHighlight >= 0.0 && hi < 0.5) ? uDim : 1.0;
     vAlpha = uOpacity * classA * dimOthers;
     vColor = uUseRGB > 0.5 ? aColor * uGain : uPalette[ci < ${MAX_CLASSES} ? ci : 0];
     vColor = mix(vColor, vec3(1.0), hi * 0.18);
@@ -42,7 +44,7 @@ const vertex = /* glsl */ `
     vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
     gl_Position = projectionMatrix * mvPosition;
     float cs = ci < ${MAX_CLASSES} ? uClassSize[ci] : 1.0;
-    float s = uSize * cs * (0.7 + 0.6 * aRand.w) * (1.0 + hi * 0.35);
+    float s = uSize * cs * (0.7 + 0.6 * aRand.w) * (1.0 + hi * uHiSize);
     gl_PointSize = clamp(s * uPixelRatio * (900.0 / -mvPosition.z), 0.0, 64.0);
     if (vAlpha < 0.004) gl_PointSize = 0.0;
     #include <fog_vertex>
@@ -83,7 +85,7 @@ export function dotMaterial(palette, opts = {}) {
       uClassAlpha: { value: new Array(MAX_CLASSES).fill(1) },
       uClassSize: { value: new Array(MAX_CLASSES).fill(1) },
       uPalette: { value: palette },
-      uHighlight: { value: -1 },
+      uHighlight: { value: -1 }, uDim: { value: 0.28 }, uHiSize: { value: 0.35 },
       uTime: { value: 0 }, uSize: { value: opts.size ?? 1.6 }, uPixelRatio: { value: 1 },
       uOpacity: { value: 0 }, uScatter: { value: 0 }, uBob: { value: opts.bob ?? 0 },
       uUseRGB: { value: opts.rgb ? 1 : 0 }, uRise: { value: 1 }, uGain: { value: opts.gain ?? 1 }, uThreshold: { value: 0 }, uFlat: { value: opts.flat ? 1 : 0 },

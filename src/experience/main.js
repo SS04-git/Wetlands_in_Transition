@@ -6,7 +6,16 @@ import { loadAll, formatDate } from './data.js';
 import { Space } from './space.js';
 import { CloudTunnel, CurrentTunnel } from './tunnels.js';
 import { Estuary } from './estuary.js';
-import { CHAPTERS, SPECIMEN_ORDER, createState, buildTimeline, scrollToTime } from './story.js';
+import { CHAPTERS, TOTAL, SPECIMEN_ORDER, createState, buildTimeline, scrollToTime } from './story.js';
+import { createGauge } from './nav.js';
+
+// Atmosphere tints per chapter (blurred glows behind the canvas): restrained, cool, sometimes warm.
+const GLOWS = {
+  arrival: ['#1b6b80', '#232a66', '#4d6a5a'], classes: ['#1b6b80', '#232a66', '#4d6a5a'],
+  map1: ['#1b6b80', '#2a2d6b', '#6b5a3a'], map2: ['#17708a', '#1f2f62', '#2f6a6a'],
+  map3: ['#2b2f72', '#16606f', '#4a3f6e'], map4: ['#6b4a2e', '#1b5a66', '#4a3a5a'],
+  map5: ['#6a3e3a', '#22386a', '#5a5a3a'], map6: ['#2c4f7a', '#1d6a7a', '#3a3f6e'], finale: ['#1b6b80', '#2a2d6b', '#6b5a3a'],
+};
 
 const $ = (s) => document.querySelector(s);
 const canvas = $('#world');
@@ -17,7 +26,12 @@ renderer.autoClear = false;
 renderer.setClearColor(0x000000, 0);
 
 const S = createState();
-const view = { userAz: 0, userEl: 0, blobX: 0 };
+const view = { userAz: 0, userEl: 0, blobX: 0, classDate: 0 };
+let gauge = null, lastAtmo = -1;
+function setGlows(c) {
+  const root = document.documentElement.style;
+  ['--glow-a', '--glow-b', '--glow-c'].forEach((k, i) => root.setProperty(k, c[i]));
+}
 const space = new Space();
 const clouds = new CloudTunnel();
 const current = new CurrentTunnel();
@@ -40,7 +54,7 @@ function resize() {
   clouds.setSize(aspect);
   current.setSize(aspect, pr);
   estuary?.setSize(aspect, pr);
-  view.blobX = aspect > 1.2 ? 1.7 : 0;
+  view.blobX = aspect > 1.2 ? 1.15 : 0;
 }
 addEventListener('resize', resize);
 
@@ -64,7 +78,7 @@ function showSpecimen(i) {
   estuary.blob.morphTo(key, gsap, 0.9);
   const e2025 = data.manifest.dates.at(-1), e2011 = data.manifest.dates[0];
   const src = (e2025.counts[key] ?? 0) > 0 ? e2025 : e2011;
-  $('#specimen-count').textContent = `${i + 1} of ${SPECIMEN_ORDER.length} classes`;
+  $('#specimen-count').textContent = `Class ${i + 1} of ${SPECIMEN_ORDER.length} · traced by hand, with the same rules on every date`;
   $('#specimen-name').textContent = cls.label;
   $('#specimen-def').textContent = cls.definition;
   const n = src.counts[key] ?? 0;
@@ -74,7 +88,11 @@ function showSpecimen(i) {
   const tint = new THREE.Color(cls.color).lerp(new THREE.Color('#0d2c3b'), 0.72);
   gsap.to(document.body, { backgroundColor: `#${tint.getHexString()}`, duration: 0.8, overwrite: 'auto' });
   estuary.scene.fog.color.copy(new THREE.Color(`#${tint.getHexString()}`));
+  setGlows([cls.color, '#232a66', '#0d2c3b']);
   S.highlight = estuary.idx[key];
+  // the small reference shows the date this class was measured on
+  gsap.to(view, { classDate: src === e2011 ? 1 : 0, duration: 0.6, overwrite: true });
+  $('#specimen-inset').textContent = `Lit in the reference: ${cls.label.toLowerCase()} on ${formatDate(src.iso)}`;
 }
 
 function chapterAt(t) {
@@ -84,16 +102,14 @@ function chapterAt(t) {
 }
 function onChapter(idx) {
   const c = CHAPTERS[idx];
-  document.querySelectorAll('.rail button').forEach((b) => {
-    const target = CHAPTERS.findIndex((x) => x.id === b.dataset.goto);
-    const next = CHAPTERS.findIndex((x, i) => i > target && (x.map || x.id === 'classes' || x.id === 'finale'));
-    b.classList.toggle('active', idx >= target && (next < 0 || idx < next) && !(b.dataset.goto === 'intro' && idx >= 4));
-  });
+  gauge?.setChapter(c.id);
+  if (GLOWS[c.id] && c.id !== 'classes') setGlows(GLOWS[c.id]);
   if (c.id !== 'classes') {
     gsap.to(document.body, { backgroundColor: c.bg, duration: 0.8, overwrite: 'auto' });
     estuary.scene.fog.color.set(c.bg === '#dfe6e8' ? '#0d2c3b' : c.bg);
-    if (!['map1', 'map4'].includes(c.id)) S.highlight = -1;
+    S.highlight = -1; // nothing stays singled out once the classes chapter is left
     specimenShown = -1;
+    gsap.to(view, { classDate: 0, duration: 0.6, overwrite: true });
   }
   document.body.classList.toggle('light', c.id === 'clouds');
   if (c.id !== 'map2') userThreshold = null;
@@ -102,10 +118,10 @@ function onChapter(idx) {
 }
 
 function bindControls() {
-  document.querySelectorAll('[data-goto]').forEach((b) => b.addEventListener('click', () => {
-    const c = CHAPTERS.find((x) => x.id === b.dataset.goto);
+  gauge = createGauge($('#gauge'), CHAPTERS, TOTAL, (id) => {
+    const c = CHAPTERS.find((x) => x.id === id);
     scrollToTime(tl, c.at + (c.map && c.map > 1 ? 0.05 : 0.1));
-  }));
+  });
   const files = {
     1: 'Map 1 - The Estuary as a Landscape.png', 2: 'Map 2 - Patterns of Wetness and Vegetation.png',
     3: 'Map 3 - The Estuary Through Time.png', 4: 'Map 4 - The Estuary as a Lived Landscape.png',
@@ -128,9 +144,11 @@ function bindControls() {
     const c = data.manifest.classByKey[k];
     return `<span class="k"><i style="background:${c.color}"></i>${c.label}</span><span class="v">${d11.counts[k] ?? 0}</span><span class="v">${d25.counts[k] ?? 0}</span>`;
   });
-  $('#lived-compare').innerHTML = `<span></span><span class="v">2011</span><span class="v">2025</span>${rows.join('')}`;
+  $('#lived-compare').innerHTML = `<span></span><span class="h">2011</span><span class="h">2025</span>${rows.join('')}`;
   const PLAN_COLOURS = ['#D98C7A', '#BFD58A', '#8FB8A8', '#8EC9E0'];
-  $('#plan-legend').innerHTML = data.points.plan_categories.map((c, i) => `<li><i style="background:${PLAN_COLOURS[i]}"></i>${c.name} · ${c.share}%</li>`).join('');
+  // hectares from the Master Plan 2031 land-use table (as recorded in the Map 5 script)
+  const HA = { 'Developed Area': '541.90 ha', 'Agriculture Area': '634.48 ha', 'Marshy Area': '28.06 ha', 'Water Sheet': '537.30 ha' };
+  $('#plan-legend').innerHTML = data.points.plan_categories.map((c, i) => `<li><i style="background:${PLAN_COLOURS[i]}"></i>${c.name}<b>${c.share}%</b><span class="note">&nbsp;${HA[c.name]}</span></li>`).join('');
 }
 
 function updateReadouts(t) {
@@ -142,11 +160,23 @@ function updateReadouts(t) {
   const r = data.points.persistence.rect;
   const rectArea = (r[2] - r[0]) * (r[3] - r[1]);
   $('#threshold-area').textContent = `${Math.round(area).toLocaleString('en-GB')} m² of the ${Math.round(rectArea).toLocaleString('en-GB')} m² study rectangle`;
-  // Map 3 date in focus
+  // Map 2 panel in view
+  const pm = Math.round(S.persMode);
+  $('#pers-mode').textContent = ['Water persistence', 'Mangrove canopy persistence', 'Exposed sediment frequency'][pm];
+  // Map 3 date in focus: what was traced on it (straight from the traced data)
   const di = Math.round(THREE.MathUtils.clamp(S.stackFocus, 0, 16));
-  const d = data.manifest.dates[di];
-  $('#stack-date').textContent = formatDate(d.iso);
-  $('#stack-detail').textContent = `Observation ${di + 1} of 17 · ${Object.keys(d.area_m2).length} polygon classes traced`;
+  if (di !== updateReadouts.di) {
+    updateReadouts.di = di;
+    const d = data.manifest.dates[di];
+    $('#stack-date').textContent = formatDate(d.iso);
+    const cls = data.manifest.classByKey;
+    const parts = ['water', 'muddy_shallows', 'bed_ground', 'mangrove_canopy'].filter((k) => d.counts[k])
+      .map((k) => `<span><i class="key" style="background:${cls[k].color}"></i>${cls[k].label.toLowerCase()}</span>`);
+    const pts = ['boats', 'cage_farms'].filter((k) => d.counts[k]).map((k) => `<span><i class="key" style="background:${cls[k].color}"></i>${d.counts[k]} ${cls[k].label.toLowerCase()}</span>`);
+    const gap = estuary.monsoonGaps.find((g) => g.after === di - 1);
+    $('#stack-detail').innerHTML = `Observation ${di + 1} of 17. Traced: ${[...parts, ...pts].join(' ')}` +
+      (gap ? `<br>A monsoon passed between this and the previous observation.` : '');
+  }
   // Map 6 date in focus
   const ri = Math.round(THREE.MathUtils.clamp(S.monsoonFocus, 0, 16));
   const rd = data.manifest.dates[ri];
@@ -176,6 +206,8 @@ function render(now) {
     if (si !== specimenShown) { specimenShown = si; showSpecimen(si); }
     frame.highlight = estuary.idx[SPECIMEN_ORDER[si]];
   }
+
+  if (Math.abs(S.atmo - lastAtmo) > 0.004) { lastAtmo = S.atmo; document.documentElement.style.setProperty('--atmo', S.atmo.toFixed(3)); }
 
   renderer.clear();
   if (S.space > 0.002) {
@@ -221,9 +253,11 @@ async function init() {
   resize();
   bindControls();
   tl = buildTimeline(S, {
-    stackHeight: estuary.stackHeight * 1.0,
-    onProgress: (p) => { $('#progress-bar').style.width = `${p * 100}%`; },
+    stackHeight: estuary.stackHeight,
+    mangroveCentre: estuary.mangroveCentre,
+    onProgress: (p) => gauge.setProgress(p),
   });
+  gauge.setProgress(0);
   // compile shaders up front so the first transitions do not stall
   renderer.compile(estuary.scene, estuary.camera);
   renderer.compile(clouds.scene, clouds.camera);
