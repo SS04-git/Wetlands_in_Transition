@@ -29,6 +29,39 @@ export const CHAPTERS = [
 export const TOTAL = 37.2;
 // Water-current tunnels carry the visitor into each map after the first (1 unit before it).
 export const CURRENTS = [15.4, 19.8, 24.4, 28.4, 32.2].map((t) => t - 1.0);
+
+// Pacing: how many screens of scrolling each timeline unit takes. The opening keeps close to its
+// original pace; the specimens and the maps get more scroll so their layers, structures and text
+// can be watched at a normal scrolling speed; the water-current tunnels pass a little quicker.
+const PACE = [
+  [0, 1.2],      // Earth, approach, clouds, arrival
+  [6.8, 1.85],   // the ten class specimens
+  [11.2, 1.75],  // the six maps
+  [35.4, 1.35],  // finale
+];
+const TUNNEL_PACE = 1.3;
+function paceAt(t) {
+  if (CURRENTS.some((c) => t >= c && t < c + 1.0)) return TUNNEL_PACE;
+  let p = PACE[0][1];
+  for (const [from, v] of PACE) if (t >= from) p = v;
+  return p;
+}
+// piecewise-linear map between timeline time and scroll screens, sampled finely
+const STEP = 0.05;
+const SCREENS = [0];
+for (let t = 0; t < TOTAL - 1e-9; t += STEP) SCREENS.push(SCREENS.at(-1) + STEP * paceAt(t + STEP / 2));
+export const TOTAL_SCREENS = SCREENS.at(-1);
+export function timeToScreens(t) {
+  const x = Math.max(0, Math.min(TOTAL, t)) / STEP, i = Math.min(SCREENS.length - 2, Math.floor(x));
+  return SCREENS[i] + (SCREENS[i + 1] - SCREENS[i]) * (x - i);
+}
+export function screensToTime(s) {
+  s = Math.max(0, Math.min(TOTAL_SCREENS, s));
+  let lo = 0, hi = SCREENS.length - 1;
+  while (hi - lo > 1) { const m = (lo + hi) >> 1; if (SCREENS[m] <= s) lo = m; else hi = m; }
+  return Math.min(TOTAL, (lo + (s - SCREENS[lo]) / Math.max(1e-9, SCREENS[lo + 1] - SCREENS[lo])) * STEP);
+}
+
 export const SPECIMEN_ORDER = ['water', 'muddy_shallows', 'bed_ground', 'mangrove_canopy', 'land_edge',
   'tree_cover', 'track', 'buildings', 'boats', 'cage_farms'];
 
@@ -52,11 +85,19 @@ export function createState() {
 
 export function buildTimeline(S, { stackHeight, mangroveCentre, onProgress }) {
   const track = document.querySelector('#scroll-track');
-  track.style.height = `${(TOTAL + 1) * 100}vh`;
-  const tl = gsap.timeline({
-    defaults: { ease: 'power2.inOut' },
-    scrollTrigger: { trigger: track, start: 'top top', end: 'bottom bottom', scrub: 1.0, onUpdate: (s) => onProgress?.(s.progress) },
+  track.style.height = `${(TOTAL_SCREENS + 1) * 100}vh`;
+  // The timeline is driven by scroll through the pacing map, with a short smoothing glide (the
+  // role ScrollTrigger's scrub plays), so the scene follows the scroll without jumping.
+  const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.inOut' }, onUpdate: () => onProgress?.(tl.time() / TOTAL) });
+  tl.st = ScrollTrigger.create({
+    trigger: track, start: 'top top', end: 'bottom bottom',
+    onUpdate: (self) => {
+      const target = screensToTime(self.progress * TOTAL_SCREENS);
+      gsap.to(tl, { time: target, duration: 1.1, ease: 'power3.out', overwrite: true });
+    },
   });
+  // start where the page already is (a reload keeps the scroll position)
+  queueMicrotask(() => tl.time(screensToTime(tl.st.progress * TOTAL_SCREENS)));
   const to = (vars, at, duration = 1, ease) => tl.to(S, { ...vars, duration, ...(ease ? { ease } : {}) }, at);
   CHAPTERS.forEach((c) => tl.addLabel(c.id, c.at));
 
@@ -146,10 +187,13 @@ export function buildTimeline(S, { stackHeight, mangroveCentre, onProgress }) {
   // Down to the shore and along it, west to east, as the 2011 shore gives way to 2025.
   swap(CURRENTS[2], { stack: 0, lived: 1, livedFocus: 0, livedSep: 0, az: -5, el: 42, dist: 520, tx: 0, ty: 20, tz: 30, shiftX: 0.12, shiftY: 0 });
   to({ el: 15, dist: 240, tx: -75, tz: 75, az: -24 }, 24.4, 0.9);
-  to({ livedSep: 1 }, 24.6, 0.8);
-  to({ tx: 75, az: 26, dist: 350, shiftX: 0.17, shiftY: 0.4 }, 25.3, 1.5, 'sine.inOut');
-  to({ livedFocus: 1, ty: 60 }, 25.6, 0.8);
-  to({ dist: 400, el: 26, tx: 0, livedSep: 0.2, shiftX: 0.08, shiftY: 0.1 }, 26.8, 0.5);
+  // the classes lift apart to be read one by one, then settle back onto the ground so the boats,
+  // houses, cage farms, track and trees are seen standing where they are, in an oblique view
+  to({ livedSep: 1 }, 24.6, 0.7);
+  to({ livedSep: 0 }, 25.35, 0.6);
+  to({ tx: 60, az: 24, dist: 215, el: 19, shiftX: 0.17, shiftY: 0.27 }, 25.3, 1.5, 'sine.inOut');
+  to({ livedFocus: 1, ty: 64 }, 25.6, 0.8);
+  to({ dist: 430, el: 26, tx: 0, ty: 34, shiftX: 0.08, shiftY: 0.1 }, 26.8, 0.5);
 
   // ---------- Map 5: between plan and ground ----------
   // Close on the observed traces, then across to the Master Plan sheet, then back to see both.
@@ -182,8 +226,10 @@ export function buildTimeline(S, { stackHeight, mangroveCentre, onProgress }) {
 }
 
 /** Scroll position (px) for a timeline time, for the navigation and the map links. */
+export function scrollYForTime(tl, t) {
+  const st = tl.st;
+  return st.start + (timeToScreens(t) / TOTAL_SCREENS) * (st.end - st.start);
+}
 export function scrollToTime(tl, t) {
-  const st = tl.scrollTrigger;
-  const y = st.start + (t / tl.duration()) * (st.end - st.start);
-  gsap.to(window, { scrollTo: y, duration: 1.4, ease: 'power2.inOut' });
+  gsap.to(window, { scrollTo: scrollYForTime(tl, t), duration: 1.6, ease: 'power2.inOut' });
 }

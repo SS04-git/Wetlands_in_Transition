@@ -13,8 +13,10 @@
 //                towers of the four planning shares (one ball = 1% of the planning area)
 //  monsoon       Map 6: rainfall towers for the 17 observations around the estuary
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { dotMaterial, makeDots, makeColumns, paletteUniform, MAX_CLASSES } from './dots.js';
 import { Blob } from './blobs.js';
+import { CLASS_LOOK, lookUniforms, surfaceMaterial, RAIN_LOOK } from './classLook.js';
 import { formatDate } from './data.js';
 
 export const STACK_RANK = ['water', 'muddy_shallows', 'bed_ground', 'mangrove_canopy', 'land_edge',
@@ -24,7 +26,21 @@ const MAP1_SCALE = 0.42, MAP1_RADIUS = 175;
 const STACK_SCALE = 0.55, STACK_GAP = 34; // metres between observation layers when fully spread
 const PLAN_OFFSET = 290;
 const RAIN_RADIUS = 175;
-const PLAN_COLOURS = ['#D98C7A', '#BFD58A', '#8FB8A8', '#8EC9E0']; // swatches from the Map 5 script
+export const PLAN_COLOURS = ['#D98C7A', '#BFD58A', '#8FB8A8', '#8EC9E0']; // swatches from the Map 5 script
+
+// The classes each printed map draws (from its legend and the KML layers it uses). A map shows only
+// these; the classes chapter and the finale show all ten.
+export const MAP_CLASSES = {
+  map1: ['water', 'muddy_shallows', 'bed_ground', 'mangrove_canopy', 'land_edge', 'boats', 'cage_farms'],
+  map3: ['water', 'muddy_shallows', 'bed_ground', 'mangrove_canopy', 'land_edge', 'boats', 'cage_farms'],
+  map4: ['water', 'muddy_shallows', 'bed_ground', 'tree_cover', 'track', 'buildings', 'boats', 'cage_farms'],
+  map5: ['water', 'muddy_shallows', 'bed_ground', 'mangrove_canopy', 'land_edge', 'boats', 'cage_farms'],
+  map6: ['water', 'muddy_shallows', 'bed_ground', 'mangrove_canopy', 'boats', 'cage_farms'],
+};
+// Map 4 layer order when its classes lift apart: the ground surfaces, then the track, the tree
+// canopy, buildings, boats and cage farms.
+const LIVED_RANK = { water: 0, muddy_shallows: 0, bed_ground: 0, track: 1, tree_cover: 2, buildings: 3, boats: 4, cage_farms: 5 };
+const LIVED_GAP = 6, LIVED_DECK = 64, STRIP_NORTH = -5; // the shoreline strip of Map 4 (metres north)
 
 export class Estuary {
   constructor(data) {
@@ -32,7 +48,10 @@ export class Estuary {
     const { manifest } = data;
     this.classes = manifest.classes;
     this.idx = Object.fromEntries(this.classes.map((c, i) => [c.key, i]));
-    this.palette = paletteUniform(this.classes);
+    this.palette = paletteUniform(this.classes, CLASS_LOOK);
+    this.look = lookUniforms(this.classes);
+    this.classAlpha = new Array(MAX_CLASSES).fill(1); // eases towards the map's own classes
+    this.surfaces = [];
     this.scene = new THREE.Scene();
     this.scene.fog = new THREE.FogExp2(0x0d2c3b, 0.0005);
     this.camera = new THREE.PerspectiveCamera(40, 1, 1, 8000);
@@ -53,7 +72,8 @@ export class Estuary {
     this.buildBlob();
   }
 
-  mat(opts) { const m = dotMaterial(this.palette, opts); this.materials.push(m); return m; }
+  mat(opts) { const m = dotMaterial(this.palette, { look: this.look, ...opts }); this.materials.push(m); return m; }
+  surface(key, opts) { const m = surfaceMaterial(key, opts); this.surfaces.push(m); return m; }
   group(name) { const g = new THREE.Group(); g.name = name; this.scene.add(g); this.groups[name] = g; return g; }
 
   /** Levels so each class rises to its own layer when separated. */
@@ -134,7 +154,7 @@ export class Estuary {
     const P = this.data.persistence;
     const mk = (counts, cls) => {
       const col = makeColumns(P.pos, counts, { step: 1.15, cls });
-      const m = this.mat({ size: 0.85 });
+      const m = this.mat({ size: 0.85, ramp: true });
       const pts = makeDots({ n: col.n, pos: col.pos, cls: col.cls }, m);
       // aValue = how many dates the whole column counts (for the threshold view)
       const v = new Float32Array(col.n);
@@ -208,24 +228,171 @@ export class Estuary {
   }
 
   buildLived() {
+    // Map 4 as a lived landscape. Each year is a shoreline strip: the Google Earth image of that
+    // date lies underneath at reduced strength (approximately registered, see manifest imagery),
+    // the water, muddy shallows and bed ground are dots, and the human and vegetated elements are
+    // built: the track as a raised slab from its traced polygon, tree cover as a canopy of crowns,
+    // and buildings, boats and cage farms as recognisable forms at their traced points.
+    // Buildings, boats and cage farms were traced as points, so their forms are symbols at an
+    // indicative size and orientation, not measured outlines.
     const g = this.group('lived');
-    const keep = new Set(['tree_cover', 'track', 'buildings', 'boats', 'cage_farms', 'land_edge'].map((k) => this.idx[k]));
+    const loader = new THREE.TextureLoader();
+    const base = `${import.meta.env.BASE_URL}data/`;
     this.lived = ['2011_04_11', '2025_02_25'].map((id, i) => {
+      const deck = new THREE.Group();
+      deck.position.y = i * LIVED_DECK;
+      const layers = {}; // class key -> Group that rises when the classes separate
+      const layer = (key) => {
+        if (!layers[key]) { const l = new THREE.Group(); l.userData.key = key; deck.add(l); layers[key] = l; }
+        return layers[key];
+      };
+
+      // satellite reference underneath
+      const meta = this.data.manifest.dates.find((d) => d.id === id).imagery;
+      const sat = this.satellitePlane(loader.load(base + meta.file), meta.corners);
+      deck.add(sat);
+
+      // surfaces and tree canopy as dots, cropped to the shoreline strip
       const src = this.data.dots[id];
+      const keep = new Set(['water', 'muddy_shallows', 'bed_ground', 'tree_cover'].map((k) => this.idx[k]));
       const sel = [];
-      for (let j = 0; j < src.n; j++) if (keep.has(src.cls[j])) sel.push(j);
+      for (let j = 0; j < src.n; j++) if (keep.has(src.cls[j]) && -src.pos[3 * j + 2] <= STRIP_NORTH) sel.push(j);
       const pos = new Float32Array(3 * sel.length), cls = new Uint8Array(sel.length);
       sel.forEach((j, k) => { pos.set(src.pos.subarray(3 * j, 3 * j + 3), 3 * k); cls[k] = src.cls[j]; });
-      const m = this.mat({ size: 0.7, bob: 0.15 });
-      const s = m.uniforms.uClassSize.value; s[this.idx.boats] = 4.2; s[this.idx.cage_farms] = 4.6; s[this.idx.buildings] = 4.8;
-      const deck = new THREE.Group();
+      const m = this.mat({ size: 0.75, bob: 0.08 });
+      m.uniforms.uClassSize.value[this.idx.tree_cover] = 2.3;   // crowns read as a canopy, not a flat patch
+      m.uniforms.uClassLift.value[this.idx.tree_cover] = 7.5;
       deck.add(makeDots({ n: sel.length, pos, cls }, m));
-      deck.position.y = i * 46;
-      deck.userData = { id, material: m };
+
+      // the track: a raised slab extruded from its traced polygon(s)
+      const F = this.data.features[id].classes;
+      const trackGeo = this.extrudeRings(F.track ?? [], 0.9);
+      if (trackGeo) layer('track').add(new THREE.Mesh(trackGeo, this.surface('track')));
+
+      // point classes as forms (orientation of the boats is indicative; only their positions were traced)
+      const pts = (k) => (F[k] ?? []).map((f) => f.coord);
+      layer('buildings').add(this.instanced(this.houseGeometry(), this.surface('buildings'), pts('buildings')));
+      layer('boats').add(this.instanced(this.boatGeometry(), this.surface('boats'), pts('boats'), { y: 0.1, yaw: 0.65 }));
+      layer('cage_farms').add(this.instanced(this.cageGeometry(), this.surface('cage_farms'), pts('cage_farms')));
+
+      deck.userData = { id, material: m, layers, sat };
       g.add(deck);
-      this.addLabel(deck, id, 'lived');
+      this.addLabel({ getWorldPosition: (v) => deck.localToWorld(v.set(78, 12, 62)) }, id, 'lived');
       return deck;
     });
+  }
+
+  /** Map 4 dot levels: ground surfaces stay down, the tree canopy rises to its own layer. */
+  livedLevelsFor(sep) {
+    const out = new Array(MAX_CLASSES).fill(0);
+    for (const [k, r] of Object.entries(LIVED_RANK)) out[this.idx[k]] = r * LIVED_GAP * sep;
+    return out;
+  }
+
+  satellitePlane(tex, corners) {
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 4;
+    // corners: [east, north] metres of the image's top-left, top-right, bottom-right, bottom-left
+    const P = corners.map(([e, n]) => [e, -0.6, -n]);
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute([...P[3], ...P[2], ...P[1], ...P[0]], 3));
+    geo.setAttribute('uv', new THREE.Float32BufferAttribute([0, 0, 1, 0, 1, 1, 0, 1], 2));
+    geo.setIndex([0, 1, 2, 0, 2, 3]);
+    const mat = new THREE.ShaderMaterial({
+      uniforms: THREE.UniformsUtils.merge([THREE.UniformsLib.fog, { uMap: { value: null }, uOpacity: { value: 0 }, uNorth: { value: STRIP_NORTH } }]),
+      vertexShader: /* glsl */ `
+        #include <common>
+        #include <fog_pars_vertex>
+        varying vec2 vUv; varying float vNorth;
+        void main() {
+          vUv = uv; vNorth = -position.z;
+          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+          gl_Position = projectionMatrix * mvPosition;
+          #include <fog_vertex>
+        }`,
+      fragmentShader: /* glsl */ `
+        #include <common>
+        #include <fog_pars_fragment>
+        uniform sampler2D uMap; uniform float uOpacity, uNorth;
+        varying vec2 vUv; varying float vNorth;
+        void main() {
+          if (vNorth > uNorth) discard;
+          vec3 c = texture2D(uMap, vUv).rgb;
+          float l = dot(c, vec3(0.3, 0.59, 0.11));
+          c = mix(vec3(l), c, 0.75) * 0.85;                       // a reference, quieter than the traces
+          float edge = smoothstep(uNorth, uNorth - 10.0, vNorth);  // soft northern edge of the strip
+          gl_FragColor = vec4(c, uOpacity * edge);
+          #include <colorspace_fragment>
+          #include <fog_fragment>
+        }`,
+      transparent: true, depthWrite: false, fog: true,
+    });
+    mat.uniforms.uMap.value = tex;
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.renderOrder = -1;
+    return mesh;
+  }
+
+  /** Extrude traced polygon rings ([east, north]; first ring outer, the rest holes) into a slab. */
+  extrudeRings(features, depth) {
+    const geos = [];
+    for (const f of features) {
+      const [outer, ...holes] = f.rings;
+      const shape = new THREE.Shape(outer.map(([e, n]) => new THREE.Vector2(e, n)));
+      holes.forEach((h) => shape.holes.push(new THREE.Path(h.map(([e, n]) => new THREE.Vector2(e, n)))));
+      const geo = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: true, bevelThickness: 0.25, bevelSize: 0.25, bevelSegments: 1, curveSegments: 1 });
+      geo.rotateX(-Math.PI / 2); // shape (east, north) -> scene (x, -z); extrusion -> up
+      geos.push(geo);
+    }
+    if (!geos.length) return null;
+    return geos.length === 1 ? geos[0] : mergeGeometries(geos);
+  }
+
+  instanced(geo, mat, coords, { yaw = 0, y = 0 } = {}) {
+    const mesh = new THREE.InstancedMesh(geo, mat, Math.max(1, coords.length));
+    const o = new THREE.Object3D();
+    coords.forEach(([e, n], k) => { o.position.set(e, y, -n); o.rotation.set(0, yaw, 0); o.updateMatrix(); mesh.setMatrixAt(k, o.matrix); });
+    mesh.count = coords.length;
+    mesh.frustumCulled = false;
+    return mesh;
+  }
+
+  houseGeometry() {
+    // a small house: walls and a pitched roof (indicative size, about 5 x 5 m)
+    const walls = new THREE.BoxGeometry(5, 3.2, 5).translate(0, 1.6, 0);
+    const roof = new THREE.CylinderGeometry(0, 4.1, 2.2, 4, 1).rotateY(Math.PI / 4).translate(0, 4.3, 0);
+    return mergeGeometries([walls.toNonIndexed(), roof.toNonIndexed()]);
+  }
+
+  boatGeometry() {
+    // a beached fishing boat: a pointed hull lying across the shore, about 7.5 x 1.8 m
+    const s = new THREE.Shape();
+    s.moveTo(0, -3.8);
+    s.quadraticCurveTo(1.25, -1.6, 1.1, 1.2); s.quadraticCurveTo(0.85, 3.0, 0, 3.7);
+    s.quadraticCurveTo(-0.85, 3.0, -1.1, 1.2); s.quadraticCurveTo(-1.25, -1.6, 0, -3.8);
+    const hull = new THREE.ExtrudeGeometry(s, { depth: 0.7, bevelEnabled: true, bevelThickness: 0.25, bevelSize: 0.15, bevelSegments: 2, curveSegments: 8 });
+    hull.rotateX(-Math.PI / 2);
+    // sheer: bow and stern rise above the middle of the hull, as on the beached fishing boats
+    const P = hull.attributes.position;
+    for (let i = 0; i < P.count; i++) {
+      const y = P.getY(i), z = P.getZ(i);
+      if (y > 0.3) P.setY(i, y + 0.35 * Math.pow(Math.abs(z) / 3.8, 3));
+    }
+    hull.computeVertexNormals();
+    return hull;
+  }
+
+  cageGeometry() {
+    // a cage-farm marker as the research describes it: long rods standing in the water around a
+    // square of floats (thermocol), about 4 x 4 m
+    const parts = [];
+    for (const [x, z] of [[-2, -2], [2, -2], [2, 2], [-2, 2], [0, 0]]) {
+      parts.push(new THREE.CylinderGeometry(0.09, 0.12, 6.0, 5).translate(x, 2.4, z).toNonIndexed());
+    }
+    for (const [x, z, w, d] of [[0, -2, 4.4, 0.7], [0, 2, 4.4, 0.7], [-2, 0, 0.7, 4.4], [2, 0, 0.7, 4.4]]) {
+      parts.push(new THREE.BoxGeometry(w, 0.45, d).translate(x, 0.2, z).toNonIndexed());
+    }
+    return mergeGeometries(parts);
   }
 
   buildPlan() {
@@ -266,7 +433,8 @@ export class Estuary {
     const g = this.group('monsoon');
     const dates = this.data.manifest.dates;
     const pos = [], rgb = [];
-    const mon = [168, 194, 205], d30 = [216, 194, 154]; // neutral support tones (not class colours)
+    const hex = (h) => { const c = new THREE.Color(h); return [c.r, c.g, c.b].map((v) => Math.round(255 * (v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1 / 2.4) - 0.055))); };
+    const mon = hex(RAIN_LOOK.monsoon), d30 = hex(RAIN_LOOK.prior30); // the two blues of the printed rainfall key
     this.rainTowers = dates.map((d, i) => {
       const a = -Math.PI * 0.9 + (i / (dates.length - 1)) * Math.PI * 1.8;
       const cx = Math.sin(a) * RAIN_RADIUS, cz = Math.cos(a) * RAIN_RADIUS;
@@ -336,6 +504,17 @@ export class Estuary {
     this.materials.forEach((m) => { m.uniforms.uTime.value = time; });
     const vis = (g, v) => { this.groups[g].visible = v > 0.002; };
 
+    // Each map shows the classes its printed legend draws; the others fade out (see MAP_CLASSES).
+    const own = MAP_CLASSES[view.mapKey];
+    for (let i = 0; i < MAX_CLASSES; i++) {
+      const target = !own || own.includes(this.classes[i]?.key) ? 1 : 0;
+      this.classAlpha[i] += (target - this.classAlpha[i]) * 0.08;
+    }
+    const alpha = this.classAlpha.slice();
+    for (const m of [...this.classSets.map((x) => x.m), ...this.map1.map((p) => p.userData.material), ...this.stackLayers.map((l) => l.userData.material)]) {
+      m.uniforms.uClassAlpha.value = alpha;
+    }
+
     // arrival ground + traced classes
     vis('ground', S.ground);
     this.groundMat.uniforms.uOpacity.value = S.ground;
@@ -401,14 +580,22 @@ export class Estuary {
 
     // Map 4 lived landscape
     vis('lived', S.lived);
+    const lv = this.livedLevelsFor(S.livedSep);
     this.lived.forEach((deck, i) => {
-      const u = deck.userData.material.uniforms;
+      const { material: dm, layers, sat } = deck.userData;
       const f = i === 0 ? 1 - S.livedFocus : S.livedFocus;
-      u.uOpacity.value = S.lived * (0.25 + 0.75 * f);
-      u.uLevel.value = this.levels(S.livedSep, 7);
-      u.uHighlight.value = S.highlight;
-      deck.position.y = i * 46 * S.livedSpread;
+      const op = S.lived * (0.22 + 0.78 * f);
+      dm.uniforms.uOpacity.value = op;
+      dm.uniforms.uLevel.value = lv;
+      sat.material.uniforms.uOpacity.value = op * 0.55;
+      for (const [key, l] of Object.entries(layers)) {
+        l.position.y = (LIVED_RANK[key] ?? 0) * LIVED_GAP * S.livedSep;
+        l.children.forEach((c) => { c.material.uniforms.uOpacity.value = op; });
+        l.visible = op > 0.01;
+      }
+      deck.position.y = i * LIVED_DECK * S.livedSpread;
     });
+    this.surfaces.forEach((m) => { m.uniforms.uTime.value = time; });
 
     // Map 5 plan beside ground
     vis('plan', S.plan);

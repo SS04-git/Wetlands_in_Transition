@@ -5,19 +5,11 @@
 // canopy is a cluster of crowns, the land edge is a twisted banded line, buildings are faceted.
 import * as THREE from 'three';
 import { NOISE } from './glsl.js';
+import { CLASS_LOOK } from './classLook.js';
 
-export const BLOB_PRESETS = {
-  water:           { a: '#45B5D1', b: '#d4f1f8', freq: 1.0, amp: 0.16, speed: 0.38, twist: 0.0, stripe: 1.0, grain: 0, cells: 0, mottle: 0.15, bands: 0, facet: 0, gloss: 1.0 },
-  muddy_shallows:  { a: '#6F858B', b: '#3c4d52', freq: 0.65, amp: 0.30, speed: 0.14, twist: 0.0, stripe: 0, grain: 0.15, cells: 0, mottle: 1.0, bands: 0, facet: 0, gloss: 0.45 },
-  bed_ground:      { a: '#D8C29A', b: '#a8895a', freq: 2.4, amp: 0.07, speed: 0.08, twist: 0.0, stripe: 0, grain: 1.0, cells: 0, mottle: 0.25, bands: 0, facet: 0, gloss: 0.1 },
-  mangrove_canopy: { a: '#39734D', b: '#173a25', freq: 2.9, amp: 0.30, speed: 0.22, twist: 0.0, stripe: 0, grain: 0, cells: 1.0, mottle: 0.2, bands: 0, facet: 0, gloss: 0.3 },
-  land_edge:       { a: '#A67C3D', b: '#e8c27f', freq: 1.4, amp: 0.10, speed: 0.30, twist: 1.7, stripe: 0, grain: 0.2, cells: 0, mottle: 0, bands: 1.0, facet: 0, gloss: 0.5 },
-  tree_cover:      { a: '#7FA650', b: '#43632a', freq: 3.6, amp: 0.22, speed: 0.30, twist: 0.0, stripe: 0, grain: 0, cells: 0.8, mottle: 0.1, bands: 0, facet: 0, gloss: 0.25 },
-  track:           { a: '#B5654A', b: '#7a3b28', freq: 0.9, amp: 0.10, speed: 0.12, twist: 0.6, stripe: 0, grain: 0.7, cells: 0, mottle: 0.3, bands: 0.35, facet: 0, gloss: 0.15 },
-  buildings:       { a: '#6B6F7A', b: '#b3b7c0', freq: 0.6, amp: 0.10, speed: 0.10, twist: 0.0, stripe: 0, grain: 0.1, cells: 0, mottle: 0, bands: 0, facet: 1.0, gloss: 0.4 },
-  boats:           { a: '#E5A832', b: '#fff0c4', freq: 1.8, amp: 0.20, speed: 0.55, twist: 0.3, stripe: 0.35, grain: 0, cells: 0, mottle: 0, bands: 0, facet: 0, gloss: 0.85 },
-  cage_farms:      { a: '#C62C2C', b: '#ff9a8c', freq: 1.2, amp: 0.14, speed: 0.20, twist: 0.0, stripe: 0, grain: 0, cells: 0.25, mottle: 0, bands: 0, facet: 0.8, gloss: 0.6 },
-};
+// The specimens read the shared class identity (classLook.js), so a class looks the same here
+// as in every map.
+export const BLOB_PRESETS = CLASS_LOOK;
 const NUMERIC = ['freq', 'amp', 'speed', 'twist', 'stripe', 'grain', 'cells', 'mottle', 'bands', 'facet', 'gloss'];
 
 const vertex = /* glsl */ `

@@ -3,6 +3,7 @@
 // Each class has its own height (uLevel) and visibility (uClassAlpha), so one cloud can separate
 // into stacked layers and recombine while every dot keeps its plan position.
 import * as THREE from 'three';
+import { SURFACE_GLSL } from './classLook.js';
 
 export const MAX_CLASSES = 10;
 
@@ -18,17 +19,27 @@ const vertex = /* glsl */ `
   uniform float uClassAlpha[${MAX_CLASSES}];
   uniform float uClassSize[${MAX_CLASSES}];
   uniform vec3 uPalette[${MAX_CLASSES}];
+  uniform vec3 uShade[${MAX_CLASSES}];     // shared class look (classLook.js): texture shade
+  uniform vec4 uTex[${MAX_CLASSES}];       // stripe, grain, cells, mottle
+  uniform vec4 uLook[${MAX_CLASSES}];      // freq, bands, gloss, facet
+  uniform float uClassLift[${MAX_CLASSES}]; // metres a class rises as a volume (tree canopy in Map 4)
+  uniform float uTexAmt;         // strength of the class texture (0 = flat class colour)
+  uniform float uRamp;           // 1 = colour by aValue / 17 (Map 2: pale = few dates, dark = every date)
   uniform float uHighlight;      // class index, or -1
   uniform float uDim;            // opacity of the other classes while one is highlighted
   uniform float uHiSize;         // size boost of the highlighted class
   uniform float uTime, uSize, uPixelRatio, uOpacity, uScatter, uBob, uUseRGB, uRise, uGain;
   varying vec3 vColor;
   varying float vAlpha;
+  varying float vGloss;
+  ${SURFACE_GLSL}
   void main() {
     int ci = int(aClass + 0.5);
+    int cj = ci < ${MAX_CLASSES} ? ci : 0;
     vec3 p = position;
     float lvl = ci < ${MAX_CLASSES} ? uLevel[ci] : 0.0;
     p.y += lvl * uRise;
+    p.y += uClassLift[cj] * (0.3 + 0.7 * aRand.z);
     p.y += sin(uTime * 0.9 + aRand.x * 6.2831) * uBob * (0.4 + aRand.y);
     vec3 dir = normalize(vec3(aRand.y - 0.5, aRand.z * 0.8 + 0.2, aRand.w - 0.5));
     p += dir * uScatter * (0.35 + aRand.x);
@@ -36,8 +47,18 @@ const vertex = /* glsl */ `
     float hi = (uHighlight >= 0.0 && abs(aClass - uHighlight) < 0.5) ? 1.0 : 0.0;
     float dimOthers = (uHighlight >= 0.0 && hi < 0.5) ? uDim : 1.0;
     vAlpha = uOpacity * classA * dimOthers;
-    vColor = uUseRGB > 0.5 ? aColor * uGain : uPalette[ci < ${MAX_CLASSES} ? ci : 0];
-    vColor = mix(vColor, vec3(1.0), hi * 0.18);
+    vColor = uPalette[cj];
+    vGloss = uLook[cj].z;
+    if (uUseRGB > 0.5) { vColor = aColor * uGain; vGloss = 0.3; }
+    else if (uRamp > 0.5) {
+      float k = clamp(aValue / 17.0, 0.0, 1.0);
+      vColor = mix(mix(uPalette[cj], vec3(1.0), 0.32), mix(uPalette[cj], uShade[cj], 0.45), k);
+    } else if (uTexAmt > 0.0) {
+      vec3 w = (modelMatrix * vec4(position, 1.0)).xyz;
+      float pat = classPattern(w, uTex[cj], uLook[cj], aRand.y, uTime);
+      vColor = mix(uPalette[cj], mix(uShade[cj], uPalette[cj] * 1.12, pat), uTexAmt * 0.7);
+    }
+    vColor *= 1.0 + hi * 0.22; // the class in focus brightens within its own colour
     float pass = (uThreshold <= 0.0 || aValue >= uThreshold) ? 1.0 : 0.0;
     vAlpha *= mix(0.07, 1.0, pass);
     vColor = mix(vec3(dot(vColor, vec3(0.3, 0.59, 0.11))) * 0.8, vColor, pass);
@@ -57,6 +78,7 @@ const fragment = /* glsl */ `
   uniform float uFlat;   // 1 = flat printed disc (halftone), 0 = lit ball
   varying vec3 vColor;
   varying float vAlpha;
+  varying float vGloss;
   void main() {
     vec2 q = gl_PointCoord * 2.0 - 1.0;
     float r2 = dot(q, q);
@@ -64,7 +86,7 @@ const fragment = /* glsl */ `
     vec3 n = vec3(q.x, -q.y, sqrt(1.0 - r2));
     vec3 L = normalize(vec3(-0.45, 0.65, 0.62));
     float diff = 0.62 + 0.55 * max(dot(n, L), 0.0);
-    float spec = pow(max(dot(reflect(-L, n), vec3(0.0, 0.0, 1.0)), 0.0), 22.0) * 0.32;
+    float spec = pow(max(dot(reflect(-L, n), vec3(0.0, 0.0, 1.0)), 0.0), mix(8.0, 48.0, vGloss)) * mix(0.08, 0.55, vGloss);
     vec3 col = mix(vColor * diff + spec, vColor, uFlat);
     float edge = 1.0 - smoothstep(0.78, 1.0, r2);
     gl_FragColor = vec4(col, vAlpha * edge);
@@ -73,18 +95,26 @@ const fragment = /* glsl */ `
   }
 `;
 
-export function paletteUniform(classes) {
-  const arr = Array.from({ length: MAX_CLASSES }, (_, i) => new THREE.Color(classes[i]?.color ?? '#ffffff'));
-  return arr;
+/** Display palette: the shared class look (classLook.js), in manifest class order. */
+export function paletteUniform(classes, look) {
+  return Array.from({ length: MAX_CLASSES }, (_, i) => new THREE.Color(look?.[classes[i]?.key]?.a ?? classes[i]?.color ?? '#ffffff'));
 }
 
+const pad = (arr, make) => Array.from({ length: MAX_CLASSES }, (_, i) => arr?.[i] ?? make());
+
 export function dotMaterial(palette, opts = {}) {
+  const L = opts.look ?? {};
   return new THREE.ShaderMaterial({
     uniforms: THREE.UniformsUtils.merge([THREE.UniformsLib.fog, {
       uLevel: { value: new Array(MAX_CLASSES).fill(0) },
       uClassAlpha: { value: new Array(MAX_CLASSES).fill(1) },
       uClassSize: { value: new Array(MAX_CLASSES).fill(1) },
       uPalette: { value: palette },
+      uShade: { value: pad(L.shade, () => new THREE.Color(0.2, 0.2, 0.2)) },
+      uTex: { value: pad(L.tex, () => new THREE.Vector4()) },
+      uLook: { value: pad(L.look, () => new THREE.Vector4(1, 0, 0.3, 0)) },
+      uClassLift: { value: new Array(MAX_CLASSES).fill(0) },
+      uTexAmt: { value: opts.tex ?? 1 }, uRamp: { value: opts.ramp ? 1 : 0 },
       uHighlight: { value: -1 }, uDim: { value: 0.28 }, uHiSize: { value: 0.35 },
       uTime: { value: 0 }, uSize: { value: opts.size ?? 1.6 }, uPixelRatio: { value: 1 },
       uOpacity: { value: 0 }, uScatter: { value: 0 }, uBob: { value: opts.bob ?? 0 },

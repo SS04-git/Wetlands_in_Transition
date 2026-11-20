@@ -5,8 +5,10 @@ import gsap from 'gsap';
 import { loadAll, formatDate } from './data.js';
 import { Space } from './space.js';
 import { CloudTunnel, CurrentTunnel } from './tunnels.js';
-import { Estuary } from './estuary.js';
-import { CHAPTERS, TOTAL, SPECIMEN_ORDER, createState, buildTimeline, scrollToTime } from './story.js';
+import { Estuary, MAP_CLASSES, PLAN_COLOURS } from './estuary.js';
+import { publishCssColours, lookColor, RAIN_LOOK, CLASS_LOOK } from './classLook.js';
+import { createLegend } from './legend.js';
+import { CHAPTERS, TOTAL, SPECIMEN_ORDER, createState, buildTimeline, scrollToTime, scrollYForTime } from './story.js';
 import { createGauge } from './nav.js';
 
 // Atmosphere tints per chapter (blurred glows behind the canvas): restrained, cool, sometimes warm.
@@ -25,9 +27,10 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.autoClear = false;
 renderer.setClearColor(0x000000, 0);
 
+publishCssColours();
 const S = createState();
-const view = { userAz: 0, userEl: 0, blobX: 0, classDate: 0 };
-let gauge = null, lastAtmo = -1;
+const view = { userAz: 0, userEl: 0, blobX: 0, classDate: 0, mapKey: null };
+let gauge = null, legend = null, lastAtmo = -1;
 function setGlows(c) {
   const root = document.documentElement.style;
   ['--glow-a', '--glow-b', '--glow-c'].forEach((k, i) => root.setProperty(k, c[i]));
@@ -85,10 +88,10 @@ function showSpecimen(i) {
   $('#specimen-stat').textContent = cls.geometry === 'polygon'
     ? `${Math.round(src.area_m2[key]).toLocaleString('en-GB')} m² traced on ${formatDate(src.iso)}`
     : cls.geometry === 'line' ? `Traced as a line on every date` : `${n} recorded on ${formatDate(src.iso)}`;
-  const tint = new THREE.Color(cls.color).lerp(new THREE.Color('#0d2c3b'), 0.72);
+  const tint = new THREE.Color(lookColor(key)).lerp(new THREE.Color('#0d2c3b'), 0.72);
   gsap.to(document.body, { backgroundColor: `#${tint.getHexString()}`, duration: 0.8, overwrite: 'auto' });
   estuary.scene.fog.color.copy(new THREE.Color(`#${tint.getHexString()}`));
-  setGlows([cls.color, '#232a66', '#0d2c3b']);
+  setGlows([lookColor(key), '#232a66', '#0d2c3b']);
   S.highlight = estuary.idx[key];
   // the small reference shows the date this class was measured on
   gsap.to(view, { classDate: src === e2011 ? 1 : 0, duration: 0.6, overwrite: true });
@@ -103,6 +106,8 @@ function chapterAt(t) {
 function onChapter(idx) {
   const c = CHAPTERS[idx];
   gauge?.setChapter(c.id);
+  view.mapKey = c.id; // each map shows only the classes of its printed legend
+  legend?.show(c.id);
   if (GLOWS[c.id] && c.id !== 'classes') setGlows(GLOWS[c.id]);
   if (c.id !== 'classes') {
     gsap.to(document.body, { backgroundColor: c.bg, duration: 0.8, overwrite: 'auto' });
@@ -142,10 +147,9 @@ function bindControls() {
   const d11 = data.manifest.dates[0], d25 = data.manifest.dates.at(-1);
   const rows = ['boats', 'cage_farms', 'buildings'].map((k) => {
     const c = data.manifest.classByKey[k];
-    return `<span class="k"><i style="background:${c.color}"></i>${c.label}</span><span class="v">${d11.counts[k] ?? 0}</span><span class="v">${d25.counts[k] ?? 0}</span>`;
+    return `<span class="k"><i style="background:${lookColor(k)}"></i>${c.label}</span><span class="v">${d11.counts[k] ?? 0}</span><span class="v">${d25.counts[k] ?? 0}</span>`;
   });
   $('#lived-compare').innerHTML = `<span></span><span class="h">2011</span><span class="h">2025</span>${rows.join('')}`;
-  const PLAN_COLOURS = ['#D98C7A', '#BFD58A', '#8FB8A8', '#8EC9E0'];
   // hectares from the Master Plan 2031 land-use table (as recorded in the Map 5 script)
   const HA = { 'Developed Area': '541.90 ha', 'Agriculture Area': '634.48 ha', 'Marshy Area': '28.06 ha', 'Water Sheet': '537.30 ha' };
   $('#plan-legend').innerHTML = data.points.plan_categories.map((c, i) => `<li><i style="background:${PLAN_COLOURS[i]}"></i>${c.name}<b>${c.share}%</b><span class="note">&nbsp;${HA[c.name]}</span></li>`).join('');
@@ -171,8 +175,8 @@ function updateReadouts(t) {
     $('#stack-date').textContent = formatDate(d.iso);
     const cls = data.manifest.classByKey;
     const parts = ['water', 'muddy_shallows', 'bed_ground', 'mangrove_canopy'].filter((k) => d.counts[k])
-      .map((k) => `<span><i class="key" style="background:${cls[k].color}"></i>${cls[k].label.toLowerCase()}</span>`);
-    const pts = ['boats', 'cage_farms'].filter((k) => d.counts[k]).map((k) => `<span><i class="key" style="background:${cls[k].color}"></i>${d.counts[k]} ${cls[k].label.toLowerCase()}</span>`);
+      .map((k) => `<span><i class="key" style="background:${lookColor(k)}"></i>${cls[k].label.toLowerCase()}</span>`);
+    const pts = ['boats', 'cage_farms'].filter((k) => d.counts[k]).map((k) => `<span><i class="key" style="background:${lookColor(k)}"></i>${d.counts[k]} ${cls[k].label.toLowerCase()}</span>`);
     const gap = estuary.monsoonGaps.find((g) => g.after === di - 1);
     $('#stack-detail').innerHTML = `Observation ${di + 1} of 17. Traced: ${[...parts, ...pts].join(' ')}` +
       (gap ? `<br>A monsoon passed between this and the previous observation.` : '');
@@ -182,6 +186,7 @@ function updateReadouts(t) {
   const rd = data.manifest.dates[ri];
   $('#rain-date').textContent = formatDate(rd.iso);
   $('#rain-detail').textContent = `Monsoon ${rd.rainfall.monsoon_year}: ${Math.round(rd.rainfall.monsoon_mm).toLocaleString('en-GB')} mm · 30 days before: ${rd.rainfall.prior30_mm.toFixed(1)} mm`;
+  legend?.setPersMode(S.persMode);
   // Map 4 buttons
   const lf = userLived ?? (S.livedFocus > 0.5 ? 1 : 0);
   document.querySelectorAll('[data-lived]').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.lived === lf)));
@@ -252,6 +257,7 @@ async function init() {
   window.__THREE_DEVTOOLS__?.dispatchEvent(new CustomEvent('observe', { detail: estuary.scene }));
   resize();
   bindControls();
+  legend = createLegend($('#legend'), { manifest: data.manifest, planCategories: data.points.plan_categories, MAP_CLASSES, PLAN_COLOURS, CLASS_LOOK, RAIN_LOOK });
   tl = buildTimeline(S, {
     stackHeight: estuary.stackHeight,
     mangroveCentre: estuary.mangroveCentre,
@@ -265,7 +271,7 @@ async function init() {
   renderer.setAnimationLoop(render);
   setLoader(1, 'Ready');
   $('#loader').classList.add('done');
-  if (import.meta.env.DEV) window.__wit = { S, tl, estuary, space, renderer, gsap, goto: (t) => window.scrollTo(0, tl.scrollTrigger.start + (t / tl.duration()) * (tl.scrollTrigger.end - tl.scrollTrigger.start)) };
+  if (import.meta.env.DEV) window.__wit = { S, tl, estuary, space, renderer, gsap, goto: (t) => { window.scrollTo(0, scrollYForTime(tl, t)); } };
 }
 
 init().catch((err) => {

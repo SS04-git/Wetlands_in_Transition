@@ -24,6 +24,7 @@
   </div>
 
   <nav class="gauge" id="gauge" aria-label="Chapters"></nav>
+  <details class="legend" id="legend" open><summary>Legend</summary><div class="lg-body"></div></details>
 
   <div class="beats">
     <!-- ===== Opening ===== -->
@@ -68,9 +69,9 @@
     <section class="beat" data-in="12.05" data-out="12.7">
       <p class="kicker">Map 1 · What to look for</p>
       <ul class="observe">
-        <li style="--dot:#45B5D1">Water covers most of the frame on this date. No exposed bed was traced.</li>
-        <li style="--dot:#A67C3D">The land edge, a single line, marks where land meets water or bed.</li>
-        <li style="--dot:#E5A832">Boats and cage farms are points: positions, not areas.</li>
+        <li style="--dot:var(--c-water)">Water covers most of the frame on this date. No exposed bed was traced.</li>
+        <li style="--dot:var(--c-land-edge)">The land edge, a single line, marks where land meets water or bed.</li>
+        <li style="--dot:var(--c-boats)">Boats and cage farms are points: positions, not areas.</li>
       </ul>
     </section>
     <section class="beat beat--top" data-in="12.8" data-out="13.45">
@@ -81,7 +82,7 @@
     <section class="beat beat--right beat--interactive" data-in="13.55" data-out="14.35">
       <p class="kicker">Map 1 · The shore</p>
       <h2>Boats at the water's edge, cage farms offshore.</h2>
-      <p>On this date the boats line up along the water's edge, the cage farms sit offshore, and the track runs between the water and a band of trees.</p>
+      <p>On this date the boats line up along the water's edge, just inside the land edge, and the cage farms sit offshore in the open water.</p>
       <p class="note">The printed map sets these traces over a recent satellite base, which is not from the observation date. The traces are the evidence.</p>
       <button type="button" class="open-map" data-map="1">Open Map 1</button>
     </section>
@@ -139,9 +140,9 @@
     <section class="beat beat--interactive" data-in="22.75" data-out="23.6">
       <p class="kicker">Map 3 · Across the record</p>
       <ul class="observe">
-        <li style="--dot:#39734D">Mangrove canopy is traced in 2011, absent from the traces of 2013 to 2016, and present on every date from December 2017.</li>
-        <li style="--dot:#C62C2C">Cage farms first appear in November 2018 and are traced on every later date.</li>
-        <li style="--dot:#E5A832">Boats range from 13 to 28 per observation.</li>
+        <li style="--dot:var(--c-mangrove-canopy)">Mangrove canopy is traced in 2011, absent from the traces of 2013 to 2016, and present on every date from December 2017.</li>
+        <li style="--dot:var(--c-cage-farms)">Cage farms first appear in November 2018 and are traced on every later date.</li>
+        <li style="--dot:var(--c-boats)">Boats range from 13 to 28 per observation.</li>
       </ul>
       <button type="button" class="open-map" data-map="3">Open Map 3</button>
     </section>
@@ -161,7 +162,7 @@
         <button type="button" data-lived="1">25 Feb 2025</button>
       </div>
       <p>Cage farms are shellfish-farming areas marked in the water with thermocol and long rods: a fixed marker tied to something that never stays still.</p>
-      <p class="note">The 2011 track looks narrower, but the images differ in resolution, so this is not treated as a finding. Buildings were recorded as points.</p>
+      <p class="note">Buildings, boats and cage farms were traced as points, so their forms here are symbols at an indicative size, not measured outlines. The track is raised from its traced outline. The 2011 track looks narrower, but the images differ in resolution, so this is not treated as a finding.</p>
       <button type="button" class="open-map" data-map="4">Open Map 4</button>
     </section>
 
@@ -194,10 +195,9 @@
       <p class="kicker">Map 6 · In focus</p>
       <p class="readout" id="rain-date"></p>
       <p class="data" id="rain-detail"></p>
-      <p class="note"><i class="key key--mon"></i>one ball = 100 mm, June to September before the date &nbsp; <i class="key key--d30"></i>one ball = 5 mm, the 30 days before</p>
       <ul class="observe">
-        <li style="--dot:rgb(216,194,154)">Wettest 30 days before an observation: 79.8 mm, before 7 May 2022. Five observations had none.</li>
-        <li style="--dot:rgb(168,194,205)">Monsoon totals range from 2,272 mm (2018) to 3,848 mm (2020).</li>
+        <li style="--dot:var(--c-prior30)">Wettest 30 days before an observation: 79.8 mm, before 7 May 2022. Five observations had none.</li>
+        <li style="--dot:var(--c-monsoon)">Monsoon totals range from 2,272 mm (2018) to 3,848 mm (2020).</li>
       </ul>
       <p class="note">NASA POWER (MERRA-2) describes regional rainfall on a grid of about 50 km, not rain falling on the estuary itself.</p>
       <button type="button" class="open-map" data-map="6">Open Map 6</button>
