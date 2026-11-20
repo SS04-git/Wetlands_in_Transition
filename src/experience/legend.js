@@ -13,7 +13,7 @@ function swatch(key, L) {
   return `<i class="sw sw--block" style="--a:${a};--b:${b}"></i>`;
 }
 
-export function createLegend(root, { manifest, planCategories, MAP_CLASSES, PLAN_COLOURS, CLASS_LOOK, RAIN_LOOK }) {
+export function createLegend(root, { manifest, planCategories, MAP_CLASSES, PLAN_COLOURS, CLASS_LOOK, RAIN_LOOK, LAND_COLOUR, modelClasses }) {
   const label = (k) => manifest.classByKey[k].label;
   const d2025 = manifest.dates.at(-1);
   const absent2025 = (k) => manifest.classByKey[k].geometry === 'polygon' && !(d2025.counts[k] > 0);
@@ -45,7 +45,13 @@ export function createLegend(root, { manifest, planCategories, MAP_CLASSES, PLAN
     map6: group('17 observations', rows(MAP_CLASSES.map6)) +
       group('Rainfall (mm)', `<li><i class="sw sw--ball" style="--a:${RAIN_LOOK.monsoon};--b:${RAIN_LOOK.monsoon}"></i><span>Monsoon, June to September · one ball = 100 mm</span></li>
         <li><i class="sw sw--ball" style="--a:${RAIN_LOOK.prior30};--b:${RAIN_LOOK.prior30}"></i><span>30 days before the date · one ball = 5 mm</span></li>`, 'lg-group--wide'),
+    model: modelClasses ? group('Classified by the model', rows(modelClasses.filter((k) => k !== 'land')) +
+        `<li><i class="sw sw--area" style="--a:${LAND_COLOUR}"></i><span>Land beyond the traced land edge</span></li>`) +
+      group('Disagreement view', `<li><i class="sw sw--area" style="--a:#6d7a80"></i><span>Model agrees with the tracing</span></li>
+        <li><i class="sw sw--ball" style="background:conic-gradient(${CLASS_LOOK.water.a}, ${CLASS_LOOK.bed_ground.a}, ${CLASS_LOOK.mangrove_canopy.a}, ${LAND_COLOUR}, ${CLASS_LOOK.water.a})"></i><span>Model differs: a larger dot, in the class the model chose</span></li>`, 'lg-group--wide') +
+      '<p class="lg-note">Land is not a traced class: it is the side of the traced land edge away from the water. Land edge, boats, cage farms and buildings were not modelled.</p>' : '',
   };
+  const TITLES = { model: 'Model · Legend' };
 
   const body = root.querySelector('.lg-body');
   const small = matchMedia('(max-width: 820px)');
@@ -59,7 +65,7 @@ export function createLegend(root, { manifest, planCategories, MAP_CLASSES, PLAN
       root.classList.toggle('show', !!html);
       if (html) {
         body.innerHTML = html;
-        root.querySelector('summary').textContent = `Legend · Map ${id.slice(3)}`;
+        root.querySelector('summary').textContent = TITLES[id] ?? `Map ${id.slice(3)} · Legend`;
       }
     },
     setPersMode(m) {

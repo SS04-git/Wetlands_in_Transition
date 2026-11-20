@@ -24,22 +24,25 @@ export const CHAPTERS = [
   { id: 'map4', at: 24.4, len: 3.0, bg: '#0f2e3a', map: 4 },
   { id: 'map5', at: 28.4, len: 2.8, bg: '#0d2c3b', map: 5 },
   { id: 'map6', at: 32.2, len: 3.2, bg: '#0b2733', map: 6 },
-  { id: 'finale', at: 35.4, len: 1.8, bg: '#0d2c3b' },
+  { id: 'model', at: 36.4, len: 4.0, bg: '#0c2a35' },
+  { id: 'finale', at: 40.4, len: 1.8, bg: '#0d2c3b' },
 ];
-export const TOTAL = 37.2;
-// Water-current tunnels carry the visitor into each map after the first (1 unit before it).
-export const CURRENTS = [15.4, 19.8, 24.4, 28.4, 32.2].map((t) => t - 1.0);
+export const TOTAL = 42.2;
+// Tunnels carry the visitor into each map after the first, and into the model chapter
+// (1 unit before each). Each tunnel is built from the dots of the map being left.
+export const CURRENTS = [15.4, 19.8, 24.4, 28.4, 32.2, 36.4].map((t) => t - 1.0);
 
-// Pacing: how many screens of scrolling each timeline unit takes. The opening keeps close to its
-// original pace; the specimens and the maps get more scroll so their layers, structures and text
-// can be watched at a normal scrolling speed; the water-current tunnels pass a little quicker.
+// Pacing: how many screens of scrolling each timeline unit takes. Every animation is tied to
+// scroll distance (nothing is delayed in time): more screens per unit means each camera move,
+// layer separation and text beat unfolds over a longer stretch of ordinary scrolling.
 const PACE = [
-  [0, 1.2],      // Earth, approach, clouds, arrival
-  [6.8, 1.85],   // the ten class specimens
-  [11.2, 1.75],  // the six maps
-  [35.4, 1.35],  // finale
+  [0, 1.6],      // Earth, approach, clouds, arrival (same sequence, more room)
+  [6.8, 3.0],    // the ten class specimens
+  [11.2, 2.8],   // the six maps
+  [36.4, 2.8],   // manual and automated tracing
+  [40.4, 2.0],   // finale
 ];
-const TUNNEL_PACE = 1.3;
+const TUNNEL_PACE = 2.4;
 function paceAt(t) {
   if (CURRENTS.some((c) => t >= c && t < c + 1.0)) return TUNNEL_PACE;
   let p = PACE[0][1];
@@ -69,7 +72,8 @@ export function createState() {
   return {
     space: 1, approach: 0,
     cloudP: 0, cloudOp: 0, tint: 0,
-    estuary: 0, murk: 0, currentOp: 0, travel: 0, atmo: 0, dust: 0,
+    estuary: 0, murk: 0, currentOp: 0, travel: 0, atmo: 0, dust: 0, tunnel: 0,
+    model: 0, modelView: 0, modelSep: 0,
     ground: 0, groundScatter: 30, classes: 0, classSep: 0, classScatter: 0, classSpin: 0, highlight: -1,
     classDim: 0.28, hiSize: 0.35,
     blob: 0, specimen: 0,
@@ -86,14 +90,14 @@ export function createState() {
 export function buildTimeline(S, { stackHeight, mangroveCentre, onProgress }) {
   const track = document.querySelector('#scroll-track');
   track.style.height = `${(TOTAL_SCREENS + 1) * 100}vh`;
-  // The timeline is driven by scroll through the pacing map, with a short smoothing glide (the
-  // role ScrollTrigger's scrub plays), so the scene follows the scroll without jumping.
+  // The timeline is driven by scroll through the pacing map, with a smoothing glide (the role
+  // ScrollTrigger's scrub plays), so the scene follows the scroll softly without jumping.
   const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.inOut' }, onUpdate: () => onProgress?.(tl.time() / TOTAL) });
   tl.st = ScrollTrigger.create({
     trigger: track, start: 'top top', end: 'bottom bottom',
     onUpdate: (self) => {
       const target = screensToTime(self.progress * TOTAL_SCREENS);
-      gsap.to(tl, { time: target, duration: 1.1, ease: 'power3.out', overwrite: true });
+      gsap.to(tl, { time: target, duration: 1.4, ease: 'power3.out', overwrite: true });
     },
   });
   // start where the page already is (a reload keeps the scroll position)
@@ -134,22 +138,26 @@ export function buildTimeline(S, { stackHeight, mangroveCentre, onProgress }) {
   // The reference comes forward to the right and its classes lift into layers as the camera moves
   // in; the camera circles the separated layers, then the layers settle and the camera visits two
   // parts of the same landscape: the mangrove canopy on the central bed, then the shore.
-  to({ shiftX: 0.14, shiftY: 0, dist: 500, el: 24, az: -30, ty: 70, classDim: 0.28, hiSize: 0.35, classSpin: 0 }, 11.1, 0.9);
-  to({ classSep: 1 }, 11.2, 0.9);
-  to({ dist: 330, az: 28, el: 16 }, 11.7, 1.0, 'sine.inOut');
+  // in stages: the reference comes forward, then the layers lift, then the camera circles them
+  to({ shiftX: 0.14, shiftY: 0, dist: 500, el: 24, az: -30, ty: 70, classDim: 0.28, hiSize: 0.35, classSpin: 0 }, 11.1, 0.6);
+  to({ classSep: 1 }, 11.55, 0.6);
+  to({ dist: 330, az: 28, el: 16 }, 12.0, 0.75, 'sine.inOut');
   to({ classSep: 0, ty: 0, tx: mangroveCentre.x, tz: mangroveCentre.z, dist: 200, el: 50, az: -10, shiftX: 0.16, shiftY: 0.06 }, 12.75, 0.7);
   tl.set(S, { highlight: 3, classDim: 0.4, hiSize: 0.7 }, 12.8);   // mangrove canopy singled out
   tl.set(S, { highlight: -1, classDim: 0.28, hiSize: 0.35 }, 13.45);
   to({ tx: 0, tz: 78, dist: 270, el: 22, az: 8, shiftX: -0.1, shiftY: -0.13 }, 13.5, 0.6);
   to({ classSep: 0, dist: 380, el: 40, tz: 10, shiftX: 0.1 }, 14.1, 0.35);
 
-  // ---------- Current tunnels into each following map ----------
-  CURRENTS.forEach((t) => {
-    to({ currentOp: 1, murk: 1 }, t, 0.35, 'power1.in');
-    to({ travel: '+=1' }, t, 1.0, 'none');
-    to({ currentOp: 0, murk: 0 }, t + 0.65, 0.35, 'power1.out');
+  // ---------- Tunnels into each following chapter ----------
+  // S.tunnel runs from i to i + 1 through tunnel i. The map's own dots leave their places to form
+  // the tunnel walls (the map itself recedes into the murk), the visitor travels through them,
+  // and they settle into the next map's dots as it emerges (estuary.js, buildTunnel).
+  CURRENTS.forEach((t, i) => {
+    to({ tunnel: i + 1 }, t, 1.0, 'none');
+    to({ murk: 1 }, t + 0.06, 0.3, 'power1.in');
+    to({ murk: 0 }, t + 0.66, 0.3, 'power1.out');
   });
-  // swap the content while the current covers the scene
+  // swap the content while the tunnel surrounds the visitor
   const swap = (t, vars) => tl.set(S, vars, t + 0.5);
 
   // ---------- Map 2: patterns of wetness and vegetation ----------
@@ -157,7 +165,7 @@ export function buildTimeline(S, { stackHeight, mangroveCentre, onProgress }) {
   // can look along) and finally moves in on the mangrove canopy.
   swap(CURRENTS[0], { map1: 0, classes: 0, pers: 1, persRise: 0, az: -25, el: 74, dist: 560, ty: 0, tx: 0, tz: 0, shiftX: 0.17, shiftY: 0 });
   to({ persRise: 1 }, 15.4, 0.9, 'power2.out');
-  to({ el: 30, dist: 380, az: 12, shiftX: 0.11 }, 15.6, 1.0);
+  to({ el: 30, dist: 380, az: 12, shiftX: 0.11 }, 15.95, 0.75);
   to({ persSpin: 0.35 }, 15.4, 3.4, 'sine.inOut');
   to({ threshold: 9 }, 16.7, 0.6);
   to({ threshold: 0 }, 17.45, 0.25);
@@ -209,10 +217,20 @@ export function buildTimeline(S, { stackHeight, mangroveCentre, onProgress }) {
   to({ monsoonFocus: 16, az: 160 }, 32.4, 2.8, 'none');
   to({ dist: 500, el: 20, shiftX: 0.15 }, 32.4, 2.8, 'sine.inOut');
 
+  // ---------- Manual and automated tracing (tools/ml/classify.py) ----------
+  // One date at a time: the hand-traced classes, then the model's classification rising above
+  // them, then only the places where the two disagree.
+  swap(CURRENTS[5], { monsoon: 0, classes: 0, model: 1, modelView: 0, modelSep: 0, tx: 0, ty: 0, tz: 0, az: -24, el: 58, dist: 560, shiftX: 0.16, shiftY: 0.1 });
+  to({ el: 36, dist: 470, az: -10 }, 36.5, 0.7);
+  to({ modelView: 1, modelSep: 1 }, 37.35, 0.8);
+  to({ az: 16, dist: 430, el: 30 }, 37.4, 1.0, 'sine.inOut');
+  to({ modelView: 2, modelSep: 0.45 }, 38.45, 0.7);
+  to({ el: 50, dist: 520, az: 4, shiftX: 0.15, shiftY: 0.12 }, 38.9, 0.8);
+
   // ---------- Finale: everything settles back into one estuary ----------
-  to({ monsoon: 0, classes: 1, ground: 0.5, classSep: 0.6, classSpin: Math.PI * 2 }, 35.4, 1.0);
-  to({ az: 0, el: 68, dist: 600, shiftX: 0.13 }, 35.4, 1.4);
-  to({ classSep: 0 }, 36.4, 0.6);
+  to({ model: 0, monsoon: 0, classes: 1, ground: 0.5, classSep: 0.6, classSpin: Math.PI * 2 }, 40.4, 1.0);
+  to({ az: 0, el: 68, dist: 600, shiftX: 0.13 }, 40.4, 1.4);
+  to({ classSep: 0 }, 41.4, 0.6);
 
   // ---------- Text beats ----------
   document.querySelectorAll('[data-in]').forEach((el) => {

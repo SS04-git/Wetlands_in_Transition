@@ -14,6 +14,7 @@ export const NAV_ITEMS = [
   { id: 'map4', kicker: 'Map 4', title: 'The estuary as a lived landscape', map: 4 },
   { id: 'map5', kicker: 'Map 5', title: 'Between plan and ground', map: 5 },
   { id: 'map6', kicker: 'Map 6', title: 'The estuary and the monsoon', map: 6 },
+  { id: 'model', kicker: 'Model', title: 'Manual and automated tracing' },
   { id: 'finale', kicker: 'Conclusion', title: 'A line that moves' },
 ];
 

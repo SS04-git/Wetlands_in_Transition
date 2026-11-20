@@ -5,7 +5,7 @@
 import * as THREE from 'three';
 import { SURFACE_GLSL } from './classLook.js';
 
-export const MAX_CLASSES = 10;
+export const MAX_CLASSES = 11; // ten traced classes + 'land' (derived, model chapter only)
 
 const vertex = /* glsl */ `
   #include <common>

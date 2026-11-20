@@ -30,6 +30,8 @@ export const PLAN_COLOURS = ['#D98C7A', '#BFD58A', '#8FB8A8', '#8EC9E0']; // swa
 
 // The classes each printed map draws (from its legend and the KML layers it uses). A map shows only
 // these; the classes chapter and the finale show all ten.
+export const LAND_COLOUR = '#8E806C'; // derived 'land' category of the model chapter
+
 export const MAP_CLASSES = {
   map1: ['water', 'muddy_shallows', 'bed_ground', 'mangrove_canopy', 'land_edge', 'boats', 'cage_farms'],
   map3: ['water', 'muddy_shallows', 'bed_ground', 'mangrove_canopy', 'land_edge', 'boats', 'cage_farms'],
@@ -49,6 +51,7 @@ export class Estuary {
     this.classes = manifest.classes;
     this.idx = Object.fromEntries(this.classes.map((c, i) => [c.key, i]));
     this.palette = paletteUniform(this.classes, CLASS_LOOK);
+    this.palette[10] = new THREE.Color(LAND_COLOUR); // 'land' beyond the traced land edge (model chapter)
     this.look = lookUniforms(this.classes);
     this.classAlpha = new Array(MAX_CLASSES).fill(1); // eases towards the map's own classes
     this.surfaces = [];
@@ -70,6 +73,8 @@ export class Estuary {
     this.buildPlan();
     this.buildMonsoon();
     this.buildBlob();
+    this.buildModel();
+    this.buildTunnel();
   }
 
   mat(opts) { const m = dotMaterial(this.palette, { look: this.look, ...opts }); this.materials.push(m); return m; }
@@ -474,6 +479,202 @@ export class Estuary {
     this.camera.add(this.blob.mesh);
   }
 
+  // ---------- Tunnels made of the maps' own elements ----------
+  // A fixed pool of particles. When a tunnel starts, each particle takes the world position and
+  // colour of a dot of the map being left (sampled from whatever is on screen); it then moves into
+  // the tunnel walls, which are laid out around the camera's line of sight so the visitor travels
+  // through them, and finally settles on a dot of the map that follows (sampled once that map is
+  // in place). Positions are mixed in view space, so the tunnel stays around the camera whatever
+  // the camera does.
+  buildTunnel() {
+    const N = 16000;
+    const g = new THREE.BufferGeometry();
+    const rnd = new Float32Array(4 * N);
+    for (let i = 0; i < 4 * N; i++) rnd[i] = Math.random();
+    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(3 * N), 3));
+    g.setAttribute('aTo', new THREE.BufferAttribute(new Float32Array(3 * N), 3));
+    g.setAttribute('aColA', new THREE.BufferAttribute(new Float32Array(3 * N), 3));
+    g.setAttribute('aColB', new THREE.BufferAttribute(new Float32Array(3 * N), 3));
+    g.setAttribute('aRand', new THREE.BufferAttribute(rnd, 4));
+    const m = new THREE.ShaderMaterial({
+      uniforms: { uP: { value: 0 }, uTravel: { value: 0 }, uPR: { value: 1 }, uOpacity: { value: 1 } },
+      vertexShader: /* glsl */ `
+        attribute vec3 aTo; attribute vec3 aColA; attribute vec3 aColB; attribute vec4 aRand;
+        uniform float uP, uTravel, uPR, uOpacity;
+        varying vec3 vCol; varying float vA;
+        void main() {
+          vec3 from = (viewMatrix * vec4(position, 1.0)).xyz;
+          vec3 to = (viewMatrix * vec4(aTo, 1.0)).xyz;
+          // the tunnel: an elliptical tube along the line of sight, its walls thick with elements
+          const float L = 1500.0;
+          float z = -mod(aRand.z * L - uTravel, L) - 18.0;
+          float ang = aRand.x * 6.2831853 + z * 0.0032;
+          float r = 34.0 + 34.0 * aRand.y * aRand.y;
+          vec3 tube = vec3(cos(ang) * r * 1.35, sin(ang) * r, z);
+          // staggered so the map dissolves and re-forms element by element, not all at once
+          float k1 = smoothstep(0.02 + aRand.w * 0.14, 0.26 + aRand.w * 0.12, uP);
+          float k2 = smoothstep(0.62 + aRand.w * 0.12, 0.88 + aRand.w * 0.1, uP);
+          vec3 v = mix(mix(from, tube, k1), to, k2);
+          v.z = min(v.z, -2.0);
+          vCol = mix(aColA, aColB, smoothstep(0.36, 0.7, uP + (aRand.z - 0.5) * 0.2));
+          vA = uOpacity * smoothstep(0.0, 0.05, uP) * (1.0 - smoothstep(0.95, 1.0, uP)) * (0.6 + 0.4 * aRand.y);
+          gl_Position = projectionMatrix * vec4(v, 1.0);
+          gl_PointSize = clamp(1.6 * uPR * (900.0 / -v.z), 1.0, 20.0);
+        }`,
+      fragmentShader: /* glsl */ `
+        varying vec3 vCol; varying float vA;
+        void main() {
+          vec2 q = gl_PointCoord * 2.0 - 1.0; float r2 = dot(q, q);
+          if (r2 > 1.0) discard;
+          vec3 n = vec3(q.x, -q.y, sqrt(1.0 - r2));
+          float diff = 0.62 + 0.55 * max(dot(n, normalize(vec3(-0.45, 0.65, 0.62))), 0.0);
+          gl_FragColor = vec4(vCol * diff, vA * (1.0 - smoothstep(0.78, 1.0, r2)));
+          #include <colorspace_fragment>
+        }`,
+      transparent: true, depthWrite: false, depthTest: false,
+    });
+    this.tunnel = new THREE.Points(g, m);
+    this.tunnel.frustumCulled = false;
+    this.tunnel.renderOrder = 10;
+    this.tunnel.visible = false;
+    this.scene.add(this.tunnel);
+    this.tunnelCache = {};
+    this.tunnelShown = '';
+  }
+
+  /** Sample n dots (world position and display colour) from the dot clouds now on screen. */
+  sampleVisibleDots(n) {
+    this.scene.updateMatrixWorld();
+    const pools = [];
+    this.scene.traverseVisible((o) => {
+      if (!o.isPoints || o === this.dust || o === this.rain || o === this.tunnel) return;
+      const u = o.material.uniforms;
+      if (!u?.uOpacity || u.uOpacity.value < 0.05 || !o.geometry.attributes.aClass) return;
+      pools.push({ o, w: o.geometry.attributes.position.count * u.uOpacity.value });
+    });
+    const pos = new Float32Array(3 * n), col = new Float32Array(3 * n);
+    if (!pools.length) return { pos, col, empty: true };
+    const total = pools.reduce((s, p) => s + p.w, 0);
+    const v = new THREE.Vector3();
+    for (let k = 0; k < n; k++) {
+      let r = Math.random() * total, P = pools[0];
+      for (const p of pools) { r -= p.w; if (r <= 0) { P = p; break; } }
+      const { o } = P, u = o.material.uniforms, A = o.geometry.attributes;
+      let j = 0, c = 0;
+      for (let tries = 0; tries < 6; tries++) {          // skip classes faded out on this map
+        j = Math.floor(Math.random() * A.position.count); c = Math.round(A.aClass.array[j]);
+        if ((u.uClassAlpha?.value[c] ?? 1) > 0.5) break;
+      }
+      v.fromBufferAttribute(A.position, j);
+      v.y += (u.uLevel?.value[c] ?? 0) * (u.uRise?.value ?? 1);
+      v.applyMatrix4(o.matrixWorld).toArray(pos, 3 * k);
+      if (u.uUseRGB?.value > 0.5) {
+        const g = u.uGain.value; col[3 * k] = A.aColor.array[3 * j] * g; col[3 * k + 1] = A.aColor.array[3 * j + 1] * g; col[3 * k + 2] = A.aColor.array[3 * j + 2] * g;
+      } else {
+        const p = u.uPalette.value[c] ?? u.uPalette.value[0]; col[3 * k] = p.r; col[3 * k + 1] = p.g; col[3 * k + 2] = p.b;
+      }
+    }
+    return { pos, col };
+  }
+
+  updateTunnel(S, pr) {
+    const f = S.tunnel ?? 0, i = Math.floor(f), p = f - i;
+    const active = p > 0.0005 && p < 0.9995;
+    this.tunnel.visible = active;
+    if (!active) return;
+    const N = this.tunnel.geometry.attributes.position.count;
+    const kf = `${i}f`, kt = `${i}t`;
+    if (p < 0.5 && !this.tunnelCache[kf]) this.tunnelCache[kf] = this.sampleVisibleDots(N);
+    if (p >= 0.5 && !this.tunnelCache[kt]) this.tunnelCache[kt] = this.sampleVisibleDots(N);
+    const from = this.tunnelCache[kf] ?? this.tunnelCache[kt];
+    const to = this.tunnelCache[kt] ?? from;
+    const key = `${i}:${!!this.tunnelCache[kf]}:${!!this.tunnelCache[kt]}`;
+    if (key !== this.tunnelShown) {
+      const A = this.tunnel.geometry.attributes;
+      A.position.array.set(from.pos); A.aColA.array.set(from.col);
+      A.aTo.array.set(to.pos); A.aColB.array.set(this.tunnelCache[kt] ? to.col : from.col);
+      for (const a of [A.position, A.aColA, A.aTo, A.aColB]) a.needsUpdate = true;
+      this.tunnelShown = key;
+    }
+    const u = this.tunnel.material.uniforms;
+    u.uP.value = p; u.uTravel.value = p * 2600; u.uPR.value = pr ?? 1;
+  }
+
+  // ---------- Manual and automated tracing (tools/ml/classify.py) ----------
+  // For one date at a time: the hand-traced classes, the classification of the same image by a model
+  // that never saw that date, and the cells where the two disagree. Same dots, same class look.
+  buildModel() {
+    const M = this.data.model;
+    this.modelMeta = M;
+    const g = this.group('model');
+    this.modelParts = {};
+    for (const k of ['manual', 'model', 'outside', 'agree', 'disagree']) {
+      const holder = new THREE.Group(); g.add(holder);
+      this.modelParts[k] = { holder, m: this.mat(k === 'agree' ? { rgb: true, size: 0.75 } : { size: k === 'disagree' ? 1.3 : 0.95 }) };
+    }
+    this.modelDate = null;
+    if (!M) return;
+    this.addLabel({ getWorldPosition: (v) => this.modelParts.manual.holder.localToWorld(v.set(118, 4, 0)) }, 'Traced by hand', 'model', true);
+    this.labels.at(-1).part = 'manual';
+    this.addLabel({ getWorldPosition: (v) => this.modelParts.model.holder.localToWorld(v.set(118, 4, 0)) }, 'Model', 'model', true);
+    this.labels.at(-1).part = 'model';
+    this.addLabel({ getWorldPosition: (v) => this.modelParts.disagree.holder.localToWorld(v.set(118, 4, 0)) }, 'Disagreement', 'model', true);
+    this.labels.at(-1).part = 'disagree';
+  }
+
+  setModelDate(id) {
+    const M = this.modelMeta;
+    if (!M || id === this.modelDate || !M.dates[id]) return;
+    this.modelDate = id;
+    const D = M.dates[id];
+    const MC = M.classes.map((k) => (k === 'land' ? 10 : this.idx[k])); // 'land' uses palette slot 10
+    const sets = { manual: [], model: [], outside: [], agree: [], disagree: [] };
+    for (let j = 0; j < D.n; j++) {
+      const man = D.manual[j], pred = D.pred[j];
+      if (pred === 255) continue;
+      if (man === 255) { sets.outside.push(j); continue; }
+      sets.manual.push(j); sets.model.push(j);
+      (man === pred ? sets.agree : sets.disagree).push(j);
+    }
+    for (const [k, list] of Object.entries(sets)) {
+      const part = this.modelParts[k];
+      part.holder.children.forEach((c) => c.geometry.dispose());
+      part.holder.clear();
+      const pos = new Float32Array(3 * list.length), cls = new Uint8Array(list.length);
+      const rgb = k === 'agree' ? new Uint8Array(3 * list.length).fill(92) : null;
+      list.forEach((j, q) => {
+        pos[3 * q] = D.pos[3 * j]; pos[3 * q + 2] = D.pos[3 * j + 2];
+        cls[q] = MC[k === 'manual' ? D.manual[j] : D.pred[j]];
+      });
+      if (list.length) part.holder.add(makeDots({ n: list.length, pos, cls, rgb }, part.m));
+      part.count = list.length;
+    }
+  }
+
+  updateModel(S) {
+    const g = this.groups.model;
+    g.visible = S.model > 0.002 && !!this.modelMeta;
+    if (!g.visible) { this.modelOps = {}; return; }
+    const m = S.modelView, sm = THREE.MathUtils.smoothstep;
+    const diff = sm(m, 1.2, 1.8);
+    const ops = {
+      manual: S.model * (1 - diff),
+      model: S.model * sm(m, 0.15, 0.85) * (1 - diff),
+      outside: S.model * sm(m, 0.15, 0.85) * (1 - diff) * 0.3,
+      agree: S.model * diff * 0.55,
+      disagree: S.model * diff,
+    };
+    this.modelOps = ops;
+    for (const [k, part] of Object.entries(this.modelParts)) {
+      part.m.uniforms.uOpacity.value = ops[k];
+      part.holder.visible = ops[k] > 0.004;
+    }
+    const lift = S.modelSep * 46;
+    this.modelParts.model.holder.position.y = lift;
+    this.modelParts.outside.holder.position.y = lift;
+    this.modelParts.disagree.holder.position.y = 4 + diff * 10;
+  }
+
   addLabel(obj, text, chapter, raw = false) {
     const el = document.createElement('span');
     el.className = `world-label world-label--${chapter}`;
@@ -642,13 +843,16 @@ export class Estuary {
     const d = S.dist * Math.pow(Math.max(1, 1.25 / this.camera.aspect), 0.85);
     this.camera.position.set(t.x + d * Math.cos(el) * Math.sin(az), t.y + d * Math.sin(el), t.z + d * Math.cos(el) * Math.cos(az));
     this.camera.lookAt(t);
+
+    this.updateModel(S);
+    this.updateTunnel(S, this.pr);
   }
 
   /** Project world labels for the chapter on screen. */
   updateLabels(S, w, h) {
     const v = new THREE.Vector3();
     const clear = (S.murk ?? 0) < 0.35;
-    const show = { map1: clear && S.map1 > 0.5, stack: clear && S.stack > 0.5, lived: clear && S.lived > 0.5, plan: clear && S.plan * S.planTowers > 0.5, monsoon: clear && S.monsoon > 0.5 };
+    const show = { model: clear && S.model > 0.5, map1: clear && S.map1 > 0.5, stack: clear && S.stack > 0.5, lived: clear && S.lived > 0.5, plan: clear && S.plan * S.planTowers > 0.5, monsoon: clear && S.monsoon > 0.5 };
     const focusStack = Math.round(S.stackFocus), focusRain = Math.round(S.monsoonFocus);
     for (const L of this.labels) {
       let on = show[L.chapter], alpha = 1;
@@ -661,6 +865,7 @@ export class Estuary {
         alpha = Math.max(0, 1 - dist / 4.5) * 0.85 + (i === focusStack ? 0.15 : 0);
         L.el.classList.toggle('is-focus', i === focusStack);
       }
+      if (on && L.chapter === 'model') on = (this.modelOps?.[L.part] ?? 0) > 0.4;
       if (on && L.chapter === 'monsoon') on = Math.abs(this.labels.filter((x) => x.chapter === 'monsoon').indexOf(L) - focusRain) <= 1;
       if (!on) { L.el.style.opacity = '0'; continue; }
       if (L.chapter === 'stack') v.copy(L.obj.userData.anchor).applyMatrix4(L.obj.matrixWorld);

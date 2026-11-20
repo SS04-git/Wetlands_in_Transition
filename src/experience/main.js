@@ -1,11 +1,12 @@
 // Wetlands in Transition: one renderer, four worlds composited by scroll.
-//   space -> cloud layer -> estuary (all six maps), with water-current tunnels between the maps.
+//   space -> cloud layer -> estuary (all six maps and the model chapter); the tunnels between
+//   chapters are made of the maps' own dots (estuary.js, buildTunnel).
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { loadAll, formatDate } from './data.js';
 import { Space } from './space.js';
-import { CloudTunnel, CurrentTunnel } from './tunnels.js';
-import { Estuary, MAP_CLASSES, PLAN_COLOURS } from './estuary.js';
+import { CloudTunnel } from './tunnels.js';
+import { Estuary, MAP_CLASSES, PLAN_COLOURS, LAND_COLOUR } from './estuary.js';
 import { publishCssColours, lookColor, RAIN_LOOK, CLASS_LOOK } from './classLook.js';
 import { createLegend } from './legend.js';
 import { CHAPTERS, TOTAL, SPECIMEN_ORDER, createState, buildTimeline, scrollToTime, scrollYForTime } from './story.js';
@@ -16,7 +17,7 @@ const GLOWS = {
   arrival: ['#1b6b80', '#232a66', '#4d6a5a'], classes: ['#1b6b80', '#232a66', '#4d6a5a'],
   map1: ['#1b6b80', '#2a2d6b', '#6b5a3a'], map2: ['#17708a', '#1f2f62', '#2f6a6a'],
   map3: ['#2b2f72', '#16606f', '#4a3f6e'], map4: ['#6b4a2e', '#1b5a66', '#4a3a5a'],
-  map5: ['#6a3e3a', '#22386a', '#5a5a3a'], map6: ['#2c4f7a', '#1d6a7a', '#3a3f6e'], finale: ['#1b6b80', '#2a2d6b', '#6b5a3a'],
+  map5: ['#6a3e3a', '#22386a', '#5a5a3a'], map6: ['#2c4f7a', '#1d6a7a', '#3a3f6e'], model: ['#3a2f6e', '#16606f', '#5a4a3a'], finale: ['#1b6b80', '#2a2d6b', '#6b5a3a'],
 };
 
 const $ = (s) => document.querySelector(s);
@@ -37,7 +38,6 @@ function setGlows(c) {
 }
 const space = new Space();
 const clouds = new CloudTunnel();
-const current = new CurrentTunnel();
 let estuary, tl, data;
 
 function setLoader(f, note) {
@@ -55,7 +55,6 @@ function resize() {
   const aspect = w / h;
   space.setSize(aspect, pr);
   clouds.setSize(aspect);
-  current.setSize(aspect, pr);
   estuary?.setSize(aspect, pr);
   view.blobX = aspect > 1.2 ? 1.15 : 0;
 }
@@ -74,7 +73,7 @@ canvas.addEventListener('pointerup', endDrag);
 canvas.addEventListener('pointercancel', endDrag);
 
 // ---- chapter UI ----
-let specimenShown = -1, chapterIdx = -1, userThreshold = null, userLived = null;
+let specimenShown = -1, chapterIdx = -1, userThreshold = null, userLived = null, userModelView = null, modelDate = null;
 function showSpecimen(i) {
   const key = SPECIMEN_ORDER[i];
   const cls = data.manifest.classByKey[key];
@@ -119,6 +118,7 @@ function onChapter(idx) {
   document.body.classList.toggle('light', c.id === 'clouds');
   if (c.id !== 'map2') userThreshold = null;
   if (c.id !== 'map4') userLived = null;
+  if (c.id !== 'model') userModelView = null;
   window.__THREE_DEVTOOLS__?.dispatchEvent(new CustomEvent('observe', { detail: idx < 3 ? space.scene : estuary.scene }));
 }
 
@@ -152,7 +152,50 @@ function bindControls() {
   $('#lived-compare').innerHTML = `<span></span><span class="h">2011</span><span class="h">2025</span>${rows.join('')}`;
   // hectares from the Master Plan 2031 land-use table (as recorded in the Map 5 script)
   const HA = { 'Developed Area': '541.90 ha', 'Agriculture Area': '634.48 ha', 'Marshy Area': '28.06 ha', 'Water Sheet': '537.30 ha' };
+  if (data.model) bindModel();
   $('#plan-legend').innerHTML = data.points.plan_categories.map((c, i) => `<li><i style="background:${PLAN_COLOURS[i]}"></i>${c.name}<b>${c.share}%</b><span class="note">&nbsp;${HA[c.name]}</span></li>`).join('');
+}
+
+// ---- Manual and automated tracing: every figure comes from model/metrics.json ----
+const pct = (v) => (v == null ? '–' : `${Math.round(v * 100)}%`);
+const MODEL_LABEL = (k) => (k === 'land' ? 'Land beyond the edge' : data.manifest.classByKey[k].label);
+function bindModel() {
+  const M = data.model.metrics;
+  const ids = data.manifest.dates.map((d) => d.id);
+  // the date with the median overall accuracy is shown first (neither the best nor the worst)
+  const byAcc = ids.filter((id) => M.per_date[id]).sort((a, b) => M.per_date[a].all.overall_accuracy - M.per_date[b].all.overall_accuracy);
+  modelDate = byAcc[Math.floor((byAcc.length - 1) / 2)];
+  estuary.setModelDate(modelDate);
+  const step = (dir) => { const i = ids.indexOf(modelDate); modelDate = ids[(i + dir + ids.length) % ids.length]; estuary.setModelDate(modelDate); updateModelText(); };
+  $('#model-prev').addEventListener('click', () => step(-1));
+  $('#model-next').addEventListener('click', () => step(1));
+  document.querySelectorAll('[data-model-view]').forEach((b) => b.addEventListener('click', () => { userModelView = +b.dataset.modelView; }));
+  // pooled results over all 17 held-out dates
+  const P = M.pooled.classes;
+  const head = '<thead><tr><th>Class</th><th>IoU</th><th>Precision</th><th>Recall</th><th>F1</th><th>Dates</th></tr></thead>';
+  const rows = data.model.classes.filter((k) => P[k]).map((k) => {
+    const r = P[k], col = k === 'land' ? LAND_COLOUR : lookColor(k);
+    return `<tr><td><i class="key" style="background:${col}"></i>${MODEL_LABEL(k)}</td><td>${r.iou.toFixed(2)}</td><td>${pct(r.precision)}</td><td>${pct(r.recall)}</td><td>${r.f1.toFixed(2)}</td><td>${r.dates_traced}</td></tr>`;
+  }).join('');
+  $('#model-table').innerHTML = `<caption>All 17 dates, each held out from its own model</caption>${head}<tbody>${rows}</tbody>`;
+  const E = M.land_edge;
+  $('#model-summary').innerHTML = `Overall agreement ${pct(M.pooled.overall_accuracy)} of traced cells (${pct(M.pooled_interior.overall_accuracy)} more than 2 m inside a traced boundary), against ${pct(M.baseline_overall_accuracy)} for a colour-only baseline.` +
+    (E ? `<br>Land edge: the model's land / water boundary lies a median ${E.median_of_medians_m.toFixed(1)} m from the traced edge; ${pct(E.within_5m)} of the traced edge is within 5 m.` : '');
+  // what the confusion matrix says about the hardest classes (fractions of traced cells)
+  const C = M.confusion, ci = (k) => C.classes.indexOf(k);
+  const share = (from, to) => { const row = C.rows_manual_cols_model[ci(from)]; const tot = row.reduce((a, b) => a + b, 0); return tot ? row[ci(to)] / tot : 0; };
+  $('#model-summary').innerHTML += `<br>Muddy shallows, the class defined by what cannot be clearly identified, is split by the model between water (${pct(share('muddy_shallows', 'water'))}) and bed ground (${pct(share('muddy_shallows', 'bed_ground'))}). Tree cover and track, traced on only two dates, are read as land.`;
+  $('#model-note').textContent = 'Every figure here is computed by tools/ml/classify.py from the tracings and images, on dates the model never saw. The images are approximately registered and their tide state is unknown, so part of any disagreement lies in the reference, not the model. Boats, cage farms and buildings were not modelled.';
+  updateModelText();
+}
+function updateModelText() {
+  const M = data.model.metrics, r = M.per_date[modelDate];
+  const d = data.manifest.dates.find((x) => x.id === modelDate);
+  $('#model-date').textContent = formatDate(d.iso);
+  $('#model-step-date').textContent = formatDate(d.iso);
+  const areas = data.model.classes.filter((k) => k !== 'land' && r.all.classes[k] && r.all.classes[k].area_manual_m2 > 0)
+    .map((k) => `<span><i class="key" style="background:${lookColor(k)}"></i>${MODEL_LABEL(k).toLowerCase()} ${Math.round(r.all.classes[k].area_manual_m2).toLocaleString('en-GB')} → ${Math.round(r.all.classes[k].area_model_m2).toLocaleString('en-GB')} m²</span>`);
+  $('#model-date-detail').innerHTML = `Agreement with the tracing: ${pct(r.all.overall_accuracy)} of traced cells. Traced → model area: ${areas.join(' ')}`;
 }
 
 function updateReadouts(t) {
@@ -187,6 +230,11 @@ function updateReadouts(t) {
   $('#rain-date').textContent = formatDate(rd.iso);
   $('#rain-detail').textContent = `Monsoon ${rd.rainfall.monsoon_year}: ${Math.round(rd.rainfall.monsoon_mm).toLocaleString('en-GB')} mm · 30 days before: ${rd.rainfall.prior30_mm.toFixed(1)} mm`;
   legend?.setPersMode(S.persMode);
+  // model view buttons
+  if (data.model) {
+    const mv = userModelView ?? Math.round(S.modelView);
+    document.querySelectorAll('[data-model-view]').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.modelView === mv)));
+  }
   // Map 4 buttons
   const lf = userLived ?? (S.livedFocus > 0.5 ? 1 : 0);
   document.querySelectorAll('[data-lived]').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.lived === lf)));
@@ -202,6 +250,7 @@ function render(now) {
   const frame = { ...S };
   if (userThreshold !== null) frame.threshold = userThreshold;
   if (userLived !== null) frame.livedFocus = THREE.MathUtils.lerp(S.livedFocus, userLived, 1);
+  if (userModelView !== null) { frame.modelView = userModelView; frame.modelSep = userModelView === 1 ? 1 : userModelView === 2 ? 0.45 : 0; }
   if (!drag) { view.userAz *= 0.97; view.userEl *= 0.97; }
 
   const idx = chapterAt(t);
@@ -233,11 +282,6 @@ function render(now) {
     renderer.clearDepth();
     renderer.render(clouds.scene, clouds.camera);
   }
-  if (S.currentOp > 0.002) {
-    current.update(time, S.travel, S.currentOp);
-    renderer.clearDepth();
-    renderer.render(current.scene, current.camera);
-  }
   updateReadouts(t);
 }
 
@@ -257,7 +301,7 @@ async function init() {
   window.__THREE_DEVTOOLS__?.dispatchEvent(new CustomEvent('observe', { detail: estuary.scene }));
   resize();
   bindControls();
-  legend = createLegend($('#legend'), { manifest: data.manifest, planCategories: data.points.plan_categories, MAP_CLASSES, PLAN_COLOURS, CLASS_LOOK, RAIN_LOOK });
+  legend = createLegend($('#legend'), { manifest: data.manifest, planCategories: data.points.plan_categories, MAP_CLASSES, PLAN_COLOURS, CLASS_LOOK, RAIN_LOOK, LAND_COLOUR, modelClasses: data.model?.classes });
   tl = buildTimeline(S, {
     stackHeight: estuary.stackHeight,
     mangroveCentre: estuary.mangroveCentre,
@@ -267,7 +311,6 @@ async function init() {
   // compile shaders up front so the first transitions do not stall
   renderer.compile(estuary.scene, estuary.camera);
   renderer.compile(clouds.scene, clouds.camera);
-  renderer.compile(current.scene, current.camera);
   renderer.setAnimationLoop(render);
   setLoader(1, 'Ready');
   $('#loader').classList.add('done');
