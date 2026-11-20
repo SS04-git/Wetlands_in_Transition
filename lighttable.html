@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#c9cecd">
+  <title>Wetlands in Transition — The Light Table</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/lighttable.css">
+</head>
+<body>
+  <canvas id="stage" aria-hidden="true"></canvas>
+
+  <div id="loader" role="status" aria-live="polite">
+    <span class="loader-title">Wetlands in Transition</span>
+    <span class="loader-bar"><i></i></span>
+    <span class="loader-note" id="loader-note">Reading the traced sheets</span>
+  </div>
+
+  <header class="masthead">
+    <span class="wordmark">Wetlands in Transition</span>
+    <span class="place">Panchagangavali estuary · Kundapur, Karnataka</span>
+  </header>
+
+  <!-- Narrative statements: positioned over the scene, revealed by the scroll timeline -->
+  <div class="beats" aria-live="polite">
+    <section class="beat" data-beat="surface">
+      <p class="kicker" id="beat-date">25 Feb 2025 · Google Earth Pro</p>
+      <h1>One screen of the estuary.</h1>
+      <p class="sub" id="beat-footprint">The satellite view in which this observation was traced.</p>
+    </section>
+    <section class="beat" data-beat="trace">
+      <p class="kicker">Classification</p>
+      <h2>Each visible feature was traced by hand.</h2>
+      <p class="sub">Polygons, a line and points — one class at a time, with the same rules on every date.</p>
+    </section>
+    <section class="beat" data-beat="lift">
+      <p class="kicker">The Light Table</p>
+      <h2>Lifted apart, the classes become sheets.</h2>
+      <p class="sub">Each sheet keeps its exact position. Select one to read it on its own.</p>
+    </section>
+    <section class="beat" data-beat="examine">
+      <p class="kicker">Reading across</p>
+      <h2>Where one class ends, another begins.</h2>
+      <p class="sub">These edges are what the tide and the seasons move. On other dates, the same ground was traced as water, bed or shallows.</p>
+    </section>
+    <section class="beat" data-beat="return">
+      <p class="kicker">Reassembly</p>
+      <h2>Brought back together, they describe one moment.</h2>
+      <p class="sub">The tide level at the time of capture is not known for any observation.</p>
+    </section>
+  </div>
+
+  <!-- Persistent instrument: date, layer legend, evidence type -->
+  <aside class="instrument" aria-label="Layers">
+    <div class="instrument-head">
+      <span class="mono-label">Observation</span>
+      <div class="date-switch" id="date-switch" role="group" aria-label="Observation date"></div>
+    </div>
+    <ul class="legend" id="legend"></ul>
+    <p class="evidence"><i class="ev-observed"></i>Observed · traced from imagery</p>
+  </aside>
+
+  <nav class="progress" aria-label="Progress">
+    <ol id="progress-ticks"></ol>
+  </nav>
+  <div class="scroll-cue" id="scroll-cue"><span>Scroll</span><i></i></div>
+
+  <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+  <div class="detail" id="detail" hidden>
+    <button class="detail-close" id="detail-close" type="button" aria-label="Release sheet">×</button>
+    <p class="mono-label" id="detail-kicker"></p>
+    <h3 id="detail-title"></h3>
+    <p id="detail-def"></p>
+    <dl id="detail-stats"></dl>
+  </div>
+
+  <footer class="credits">
+    <span>Imagery: Google Earth Pro screenshots (© Google and imagery providers), registered approximately to the traces.</span>
+  </footer>
+
+  <!-- Scroll space that drives the pinned 3D timeline -->
+  <main id="scroll-track" aria-hidden="true"></main>
+
+  <script type="module" src="/src/lighttable/main.js"></script>
+</body>
+</html>

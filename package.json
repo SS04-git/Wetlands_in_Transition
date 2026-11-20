@@ -1,0 +1,22 @@
+{
+  "name": "wetlands-in-transition",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "data": ".venv\\Scripts\\python.exe -I tools/preprocess/build_data.py"
+  },
+  "dependencies": {
+    "@tmcw/togeojson": "^7.1.4",
+    "@turf/turf": "^7.4.0",
+    "gsap": "^3.15.1",
+    "proj4": "^2.23.0",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "vite": "^8.3.8",
+    "vite-plugin-glsl": "^1.6.3"
+  }
+}

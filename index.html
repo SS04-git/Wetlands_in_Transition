@@ -3,53 +3,167 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#000000">
-  <title>Kundapur Estuary — Seven Maps</title>
+  <meta name="theme-color" content="#02040a">
+  <title>Wetlands in Transition</title>
+  <meta name="description" content="Mapping change and development in the Panchagangavali estuary, Kundapur, Karnataka.">
+  <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/experience.css">
 </head>
 <body>
-  <canvas id="globe" aria-hidden="true"></canvas>
-  <div id="mist" aria-hidden="true"><i class="mist-layer mist-distant"></i><i class="mist-layer mist-far"></i><i class="mist-layer mist-mid"></i><i class="mist-layer mist-near"></i><i class="mist-layer mist-shreds"></i><i class="mist-layer mist-veils"></i></div>
-  <div id="map-plate" aria-hidden="true">
-    <video id="history-backdrop" muted playsinline preload="auto" poster="assets/sat_images_kml/2025_02_25/2025_02_25.png">
-      <source src="assets/videos/blue_waters_kundapur.mp4" type="video/mp4">
-    </video>
-    <div id="video-dimmer" aria-hidden="true"></div>
+  <canvas id="world" aria-label="Three-dimensional view of the Kundapur estuary"></canvas>
+  <div id="labels" aria-hidden="true"></div>
+
+  <div id="loader" role="status" aria-live="polite">
+    <p class="loader-title">Wetlands in Transition</p>
+    <span class="loader-bar"><i></i></span>
+    <p class="loader-note" id="loader-note">Loading the traced observations</p>
   </div>
-  <div class="grain" aria-hidden="true"></div>
-  <header class="masthead"><a href="#top" class="wordmark">K / E</a><span>FIELD ATLAS&nbsp; · &nbsp;KARNATAKA, INDIA</span><a href="#map-01" class="index-link">SCROLL TO EXPLORE&nbsp; ↓</a></header>
-  <main id="top">
-    <section class="intro" aria-labelledby="title">
-      <div class="intro-copy"><p class="eyebrow">A CARTOGRAPHIC STUDY&nbsp; / &nbsp;2025</p><h1 id="title">The estuary<br>is never <em>still.</em></h1><p class="intro-deck">Seven maps follow the changing ground and water of Kundapur, where river, sea and monsoon meet.</p><a href="#map-01" class="scroll-cue"><span></span>Follow the layers</a></div>
-      <div class="intro-coordinate"><span>13°38′ N</span><i></i><span>74°41′ E</span><small>KUNDAPUR ESTUARY</small></div>
-      <p class="intro-note">A place read through<br>water, ground &amp; time</p>
+
+  <nav class="rail" aria-label="Chapters">
+    <ol>
+      <li><button type="button" data-goto="intro">Kundapur</button></li>
+      <li><button type="button" data-goto="classes">The classes</button></li>
+      <li><button type="button" data-goto="map1"><span>1</span> The estuary as a landscape</button></li>
+      <li><button type="button" data-goto="map2"><span>2</span> Patterns of wetness and vegetation</button></li>
+      <li><button type="button" data-goto="map3"><span>3</span> The estuary through time</button></li>
+      <li><button type="button" data-goto="map4"><span>4</span> The estuary as a lived landscape</button></li>
+      <li><button type="button" data-goto="map5"><span>5</span> Between plan and ground</button></li>
+      <li><button type="button" data-goto="map6"><span>6</span> The estuary and the monsoon</button></li>
+    </ol>
+  </nav>
+
+  <div class="beats">
+    <!-- 01 Earth -->
+    <section class="beat beat--hero" data-in="0" data-out="1.0">
+      <h1>Wetlands in Transition</h1>
+      <p class="lede">Mapping change and development in the Panchagangavali estuary, Kundapur, Karnataka.</p>
+      <p class="cue">Scroll to descend</p>
     </section>
-    <div class="scroll-runway" id="scroll-runway" aria-hidden="true">
-      <div class="scroll-stop zoom-stop"></div>
-      <div class="scroll-stop video-stop"></div>
-    </div>
-    <section id="timeline-section" class="timeline-section" aria-label="Estuary map timeline">
-      <div class="timeline-heading"><span>FIELD ATLAS</span><span>2025 — 2011</span></div>
-      <div class="timeline-track" id="timeline-track"></div>
-      <div class="timeline-date-track" id="timeline-date-track" aria-hidden="true"></div>
-      <div class="timeline-rail" aria-hidden="true"><i></i></div>
+    <section class="beat" data-in="1.4" data-out="2.7">
+      <p class="data">13.639° N, 74.692° E</p>
+      <h2>Where the Panchagangavali meets the Arabian Sea.</h2>
+      <p>The estuary is a working landscape for the Kharvi community, who fish, collect clams and sort shellfish along its edges.</p>
     </section>
-    <section id="map-options" class="map-options-section" aria-label="Explore the other estuary maps">
-      <div class="map-options-heading"><span>AFTER THE TIMELINE</span><span>01—07 / KUNDAPUR</span></div>
-      <div class="map-options-grid" id="map-options-grid"></div>
+    <section class="beat beat--dark" data-in="3.3" data-out="4.4">
+      <h2>No usable image was found for the monsoon.</h2>
+      <p>Rain and cloud hide the estuary from June to September. Every observation in this study comes from the drier months.</p>
     </section>
-  </main>
-  <dialog id="map-viewer" aria-label="Selected estuary map">
-    <div class="map-viewer-header"><span id="map-viewer-title"></span><button id="map-viewer-close" type="button" aria-label="Close map">×</button></div>
-    <img id="map-viewer-image" alt="">
-    <a id="map-viewer-source" href="assets/pdf/Master%20Plan.pdf" target="_blank" rel="noopener" hidden>OPEN MASTER PLAN PDF ↗</a>
+    <!-- arrival -->
+    <section class="beat" data-in="5.3" data-out="6.6">
+      <p class="data">25 Feb 2025 · Google Earth Pro</p>
+      <h2>Blue waters, Kundapur.</h2>
+      <p>Each dot carries the colour of the satellite image at that point. This view, about 250 by 195 metres, is the frame in which the estuary was traced, date by date.</p>
+    </section>
+    <!-- classes (specimens): content filled by main.js -->
+    <section class="specimen" id="specimen" data-in="6.95" data-out="10.95" aria-live="polite">
+      <p class="specimen-count" id="specimen-count"></p>
+      <h2 class="specimen-name" id="specimen-name"></h2>
+      <p class="specimen-def" id="specimen-def"></p>
+      <p class="data" id="specimen-stat"></p>
+    </section>
+    <!-- Map 1 -->
+    <section class="beat" data-in="11.25" data-out="12.3">
+      <p class="map-no">Map 1</p>
+      <h2>The estuary as a landscape.</h2>
+      <p>Lifted apart, each class becomes its own layer of dots. Every dot keeps its place on the ground.</p>
+    </section>
+    <section class="beat" data-in="12.45" data-out="14.2">
+      <p class="map-no">Map 1</p>
+      <h2>Six representative dates, 2011 to 2025.</h2>
+      <p>Water, muddy shallows, exposed bed, mangrove canopy, boats and cage farms, as traced on each date.</p>
+      <button type="button" class="open-map" data-map="1">Open Map 1</button>
+    </section>
+    <!-- Map 2 -->
+    <section class="beat" data-in="15.5" data-out="16.5">
+      <p class="map-no">Map 2</p>
+      <h2>Patterns of wetness and vegetation.</h2>
+      <p>The study area is divided into 1.5 m cells. Each ball is one date on which that cell was traced as water. It is a count, not depth or elevation.</p>
+    </section>
+    <section class="beat beat--interactive" data-in="16.6" data-out="18.5">
+      <p class="map-no">Map 2 · Algorithmic relaxation</p>
+      <h2>How often must a place be water to be called water?</h2>
+      <label class="threshold">
+        <span>Water on at least <output id="threshold-out">1</output> of 17 dates</span>
+        <input type="range" id="threshold" min="1" max="17" step="1" value="1">
+      </label>
+      <p class="data" id="threshold-area"></p>
+      <p class="small">Loosening the rule changes the answer. The estuary has no single fixed edge.</p>
+      <button type="button" class="open-map" data-map="2">Open Map 2</button>
+    </section>
+    <!-- Map 3 -->
+    <section class="beat" data-in="19.9" data-out="21.2">
+      <p class="map-no">Map 3</p>
+      <h2>The estuary through time.</h2>
+      <p>Seventeen clear dates from 22 available images, stacked by date. The cloud between them marks the monsoon months, when no usable image exists.</p>
+    </section>
+    <section class="beat beat--readout" data-in="21.3" data-out="23.6">
+      <p class="map-no">Map 3</p>
+      <p class="readout" id="stack-date"></p>
+      <p class="data" id="stack-detail"></p>
+      <p class="small">Differences between dates may come from the tide. The tide level at the time of each image could not be verified.</p>
+      <button type="button" class="open-map" data-map="3">Open Map 3</button>
+    </section>
+    <!-- Map 4 -->
+    <section class="beat" data-in="24.5" data-out="25.6">
+      <p class="map-no">Map 4</p>
+      <h2>The estuary as a lived landscape.</h2>
+      <p>The shore in 2011, below, and in 2025, above: boats, cage farms, the track, tree cover and buildings.</p>
+    </section>
+    <section class="beat beat--interactive" data-in="25.7" data-out="27.3">
+      <p class="map-no">Map 4</p>
+      <div class="compare" id="lived-compare"></div>
+      <div class="switch" role="group" aria-label="Year in focus">
+        <button type="button" data-lived="0">11 Apr 2011</button>
+        <button type="button" data-lived="1">25 Feb 2025</button>
+      </div>
+      <p class="small">Buildings were recorded as points.</p>
+      <button type="button" class="open-map" data-map="4">Open Map 4</button>
+    </section>
+    <!-- Map 5 -->
+    <section class="beat" data-in="28.5" data-out="29.6">
+      <p class="map-no">Map 5</p>
+      <h2>The estuary between plan and ground.</h2>
+      <p>The Kundapura Master Plan 2031, printed as halftone dots, beside the traces of 25 Feb 2025.</p>
+    </section>
+    <section class="beat beat--interactive" data-in="29.7" data-out="31.3">
+      <p class="map-no">Map 5</p>
+      <ul class="plan-legend" id="plan-legend"></ul>
+      <p>Marshy Area is 1.61% of the planning area. The plan's fixed categories do not record the tide, the seasons or the ground between land and water.</p>
+      <p class="small">The plan crop is not georeferenced, so it is shown beside the traces, not over them. One ball is 1% of the planning area.</p>
+      <button type="button" class="open-map" data-map="5">Open Map 5</button>
+    </section>
+    <!-- Map 6 -->
+    <section class="beat" data-in="32.3" data-out="33.2">
+      <p class="map-no">Map 6</p>
+      <h2>The estuary and the monsoon.</h2>
+      <p>Rainfall before each of the 17 observations: the monsoon before it, and the 30 days before it.</p>
+    </section>
+    <section class="beat beat--readout" data-in="33.3" data-out="35.3">
+      <p class="map-no">Map 6</p>
+      <p class="readout" id="rain-date"></p>
+      <p class="data" id="rain-detail"></p>
+      <p class="small"><i class="key key--mon"></i> one ball = 100 mm, June to September before the date &nbsp; <i class="key key--d30"></i> one ball = 5 mm, the 30 days before</p>
+      <p class="small">NASA POWER (MERRA-2): a regional estimate on a grid of about 50 km, not a measurement at the site.</p>
+      <button type="button" class="open-map" data-map="6">Open Map 6</button>
+    </section>
+    <!-- finale -->
+    <section class="beat beat--hero" data-in="35.6" data-out="99">
+      <h2>The edge between land and water is not a line.</h2>
+      <p class="lede">It moves with the tide and the seasons. Planning that fixes it in place leaves out the ground the estuary and the Kharvi community depend on.</p>
+      <p class="small">Tide levels at the time of each image are not known. Rainfall is regional. Imagery: Google Earth Pro (© Google and imagery providers).</p>
+    </section>
+  </div>
+
+  <dialog id="map-viewer">
+    <form method="dialog"><button class="close" aria-label="Close map">Close</button></form>
+    <img id="map-viewer-img" alt="">
   </dialog>
-  <footer><span>KUNDAPUR ESTUARY</span><span>SEVEN READINGS&nbsp; · &nbsp;ONE LIVING LANDSCAPE</span><a href="#top">RETURN TO THE SURFACE ↑</a></footer>
-  <script type="module" src="js/main.js?v=cloud-video-scroll-3"></script>
+
+  <div class="progress" aria-hidden="true"><i id="progress-bar"></i></div>
+  <main id="scroll-track"></main>
+  <script type="module" src="/src/experience/main.js"></script>
 </body>
 </html>

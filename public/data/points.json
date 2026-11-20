@@ -1,0 +1,140 @@
+{
+ "files": {
+  "2011_04_11": {
+   "dots": "points/dots_2011_04_11.bin",
+   "count": 54301,
+   "sat": "points/sat_2011_04_11.bin"
+  },
+  "2013_02_02": {
+   "dots": "points/dots_2013_02_02.bin",
+   "count": 12886
+  },
+  "2014_02_24": {
+   "dots": "points/dots_2014_02_24.bin",
+   "count": 30653
+  },
+  "2015_03_11": {
+   "dots": "points/dots_2015_03_11.bin",
+   "count": 13052
+  },
+  "2016_01_01": {
+   "dots": "points/dots_2016_01_01.bin",
+   "count": 13281
+  },
+  "2017_12_08": {
+   "dots": "points/dots_2017_12_08.bin",
+   "count": 32675
+  },
+  "2018_11_12": {
+   "dots": "points/dots_2018_11_12.bin",
+   "count": 14572
+  },
+  "2019_01_31": {
+   "dots": "points/dots_2019_01_31.bin",
+   "count": 13369
+  },
+  "2019_11_26": {
+   "dots": "points/dots_2019_11_26.bin",
+   "count": 14442
+  },
+  "2020_01_03": {
+   "dots": "points/dots_2020_01_03.bin",
+   "count": 13727
+  },
+  "2020_12_23": {
+   "dots": "points/dots_2020_12_23.bin",
+   "count": 31710
+  },
+  "2021_05_01": {
+   "dots": "points/dots_2021_05_01.bin",
+   "count": 18876
+  },
+  "2022_02_03": {
+   "dots": "points/dots_2022_02_03.bin",
+   "count": 14325
+  },
+  "2022_03_30": {
+   "dots": "points/dots_2022_03_30.bin",
+   "count": 13239
+  },
+  "2022_05_07": {
+   "dots": "points/dots_2022_05_07.bin",
+   "count": 29615
+  },
+  "2024_02_17": {
+   "dots": "points/dots_2024_02_17.bin",
+   "count": 30685
+  },
+  "2025_02_25": {
+   "dots": "points/dots_2025_02_25.bin",
+   "count": 56410,
+   "sat": "points/sat_2025_02_25.bin"
+  }
+ },
+ "map1_dates": [
+  "2011_04_11",
+  "2014_02_24",
+  "2017_12_08",
+  "2020_12_23",
+  "2022_05_07",
+  "2024_02_17"
+ ],
+ "persistence": {
+  "file": "points/persistence.bin",
+  "cell_m": 1.5,
+  "cells": 8470,
+  "rect": [
+   -77.06,
+   -57.37,
+   89.28,
+   59.59
+  ],
+  "dates": 17,
+  "water_area_by_threshold_m2": {
+   "1": 19057.5,
+   "2": 18702.0,
+   "3": 18128.2,
+   "4": 17214.8,
+   "5": 12645.0,
+   "6": 6347.2,
+   "7": 5955.8,
+   "8": 5656.5,
+   "9": 5350.5,
+   "10": 5035.5,
+   "11": 4653.0,
+   "12": 4263.8,
+   "13": 4011.8,
+   "14": 3530.2,
+   "15": 3105.0,
+   "16": 2637.0,
+   "17": 798.8
+  }
+ },
+ "plan": {
+  "file": "points/plan.bin",
+  "source": "Kundapura Master Plan 2031 crop (kundapur_masterplan_crop_3.png)",
+  "georeferenced": false,
+  "width_px": 433,
+  "height_px": 538,
+  "spacing_px": 3,
+  "dots": 26100
+ },
+ "plan_categories": [
+  {
+   "name": "Developed Area",
+   "share": 31.11
+  },
+  {
+   "name": "Agriculture Area",
+   "share": 36.43
+  },
+  {
+   "name": "Marshy Area",
+   "share": 1.61
+  },
+  {
+   "name": "Water Sheet",
+   "share": 30.85
+  }
+ ]
+}

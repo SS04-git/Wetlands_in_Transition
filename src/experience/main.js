@@ -1,0 +1,240 @@
+// Wetlands in Transition: one renderer, four worlds composited by scroll.
+//   space -> cloud layer -> estuary (all six maps), with water-current tunnels between the maps.
+import * as THREE from 'three';
+import gsap from 'gsap';
+import { loadAll, formatDate } from './data.js';
+import { Space } from './space.js';
+import { CloudTunnel, CurrentTunnel } from './tunnels.js';
+import { Estuary } from './estuary.js';
+import { CHAPTERS, SPECIMEN_ORDER, createState, buildTimeline, scrollToTime } from './story.js';
+
+const $ = (s) => document.querySelector(s);
+const canvas = $('#world');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.autoClear = false;
+renderer.setClearColor(0x000000, 0);
+
+const S = createState();
+const view = { userAz: 0, userEl: 0, blobX: 0 };
+const space = new Space();
+const clouds = new CloudTunnel();
+const current = new CurrentTunnel();
+let estuary, tl, data;
+
+function setLoader(f, note) {
+  $('#loader .loader-bar i').style.width = `${Math.round(f * 100)}%`;
+  if (note) $('#loader-note').textContent = note;
+}
+
+function resize() {
+  const w = innerWidth, h = innerHeight;
+  // Render budget ~4.2 MP (about 2720x1530): measured 25-60 fps at native 4K on Intel UHD graphics,
+  // so large screens and TVs render slightly below native and the browser scales up.
+  const pr = Math.min(devicePixelRatio || 1, 2, Math.sqrt(4.2e6 / (w * h)));
+  renderer.setPixelRatio(pr);
+  renderer.setSize(w, h, false);
+  const aspect = w / h;
+  space.setSize(aspect, pr);
+  clouds.setSize(aspect);
+  current.setSize(aspect, pr);
+  estuary?.setSize(aspect, pr);
+  view.blobX = aspect > 1.2 ? 1.7 : 0;
+}
+addEventListener('resize', resize);
+
+// ---- drag to turn the estuary (eases back to the authored view when released) ----
+let drag = null;
+canvas.addEventListener('pointerdown', (e) => { drag = { x: e.clientX, y: e.clientY, az: view.userAz, el: view.userEl }; canvas.setPointerCapture(e.pointerId); });
+canvas.addEventListener('pointermove', (e) => {
+  if (!drag) return;
+  view.userAz = drag.az - (e.clientX - drag.x) * 0.25;
+  view.userEl = THREE.MathUtils.clamp(drag.el + (e.clientY - drag.y) * 0.15, -40, 40);
+});
+const endDrag = () => { drag = null; };
+canvas.addEventListener('pointerup', endDrag);
+canvas.addEventListener('pointercancel', endDrag);
+
+// ---- chapter UI ----
+let specimenShown = -1, chapterIdx = -1, userThreshold = null, userLived = null;
+function showSpecimen(i) {
+  const key = SPECIMEN_ORDER[i];
+  const cls = data.manifest.classByKey[key];
+  estuary.blob.morphTo(key, gsap, 0.9);
+  const e2025 = data.manifest.dates.at(-1), e2011 = data.manifest.dates[0];
+  const src = (e2025.counts[key] ?? 0) > 0 ? e2025 : e2011;
+  $('#specimen-count').textContent = `${i + 1} of ${SPECIMEN_ORDER.length} classes`;
+  $('#specimen-name').textContent = cls.label;
+  $('#specimen-def').textContent = cls.definition;
+  const n = src.counts[key] ?? 0;
+  $('#specimen-stat').textContent = cls.geometry === 'polygon'
+    ? `${Math.round(src.area_m2[key]).toLocaleString('en-GB')} m² traced on ${formatDate(src.iso)}`
+    : cls.geometry === 'line' ? `Traced as a line on every date` : `${n} recorded on ${formatDate(src.iso)}`;
+  const tint = new THREE.Color(cls.color).lerp(new THREE.Color('#0d2c3b'), 0.72);
+  gsap.to(document.body, { backgroundColor: `#${tint.getHexString()}`, duration: 0.8, overwrite: 'auto' });
+  estuary.scene.fog.color.copy(new THREE.Color(`#${tint.getHexString()}`));
+  S.highlight = estuary.idx[key];
+}
+
+function chapterAt(t) {
+  let idx = 0;
+  CHAPTERS.forEach((c, i) => { if (t >= c.at - 0.05) idx = i; });
+  return idx;
+}
+function onChapter(idx) {
+  const c = CHAPTERS[idx];
+  document.querySelectorAll('.rail button').forEach((b) => {
+    const target = CHAPTERS.findIndex((x) => x.id === b.dataset.goto);
+    const next = CHAPTERS.findIndex((x, i) => i > target && (x.map || x.id === 'classes' || x.id === 'finale'));
+    b.classList.toggle('active', idx >= target && (next < 0 || idx < next) && !(b.dataset.goto === 'intro' && idx >= 4));
+  });
+  if (c.id !== 'classes') {
+    gsap.to(document.body, { backgroundColor: c.bg, duration: 0.8, overwrite: 'auto' });
+    estuary.scene.fog.color.set(c.bg === '#dfe6e8' ? '#0d2c3b' : c.bg);
+    if (!['map1', 'map4'].includes(c.id)) S.highlight = -1;
+    specimenShown = -1;
+  }
+  document.body.classList.toggle('light', c.id === 'clouds');
+  if (c.id !== 'map2') userThreshold = null;
+  if (c.id !== 'map4') userLived = null;
+  window.__THREE_DEVTOOLS__?.dispatchEvent(new CustomEvent('observe', { detail: idx < 3 ? space.scene : estuary.scene }));
+}
+
+function bindControls() {
+  document.querySelectorAll('[data-goto]').forEach((b) => b.addEventListener('click', () => {
+    const c = CHAPTERS.find((x) => x.id === b.dataset.goto);
+    scrollToTime(tl, c.at + (c.map && c.map > 1 ? 0.05 : 0.1));
+  }));
+  const files = {
+    1: 'Map 1 - The Estuary as a Landscape.png', 2: 'Map 2 - Patterns of Wetness and Vegetation.png',
+    3: 'Map 3 - The Estuary Through Time.png', 4: 'Map 4 - The Estuary as a Lived Landscape.png',
+    5: 'Map 5 - The Estuary Between Plan and Ground.png', 6: 'Map 6 - The Estuary and the Monsoon.png',
+  };
+  document.querySelectorAll('.open-map').forEach((b) => b.addEventListener('click', () => {
+    const n = b.dataset.map;
+    const img = $('#map-viewer-img');
+    img.src = `/assets/maps/${n}/${encodeURIComponent(files[n])}`;
+    img.alt = files[n].replace('.png', '');
+    $('#map-viewer').showModal();
+  }));
+  const slider = $('#threshold');
+  slider.addEventListener('input', () => { userThreshold = +slider.value; });
+  document.querySelectorAll('[data-lived]').forEach((b) => b.addEventListener('click', () => { userLived = +b.dataset.lived; }));
+
+  // Map 4 comparison table (counts straight from the traced data)
+  const d11 = data.manifest.dates[0], d25 = data.manifest.dates.at(-1);
+  const rows = ['boats', 'cage_farms', 'buildings'].map((k) => {
+    const c = data.manifest.classByKey[k];
+    return `<span class="k"><i style="background:${c.color}"></i>${c.label}</span><span class="v">${d11.counts[k] ?? 0}</span><span class="v">${d25.counts[k] ?? 0}</span>`;
+  });
+  $('#lived-compare').innerHTML = `<span></span><span class="v">2011</span><span class="v">2025</span>${rows.join('')}`;
+  const PLAN_COLOURS = ['#D98C7A', '#BFD58A', '#8FB8A8', '#8EC9E0'];
+  $('#plan-legend').innerHTML = data.points.plan_categories.map((c, i) => `<li><i style="background:${PLAN_COLOURS[i]}"></i>${c.name} · ${c.share}%</li>`).join('');
+}
+
+function updateReadouts(t) {
+  // Map 2 threshold
+  const k = userThreshold ?? Math.max(1, Math.round(S.threshold || 1));
+  $('#threshold-out').textContent = k;
+  if (userThreshold === null) $('#threshold').value = k;
+  const area = estuary.waterAreaByK[String(k)];
+  const r = data.points.persistence.rect;
+  const rectArea = (r[2] - r[0]) * (r[3] - r[1]);
+  $('#threshold-area').textContent = `${Math.round(area).toLocaleString('en-GB')} m² of the ${Math.round(rectArea).toLocaleString('en-GB')} m² study rectangle`;
+  // Map 3 date in focus
+  const di = Math.round(THREE.MathUtils.clamp(S.stackFocus, 0, 16));
+  const d = data.manifest.dates[di];
+  $('#stack-date').textContent = formatDate(d.iso);
+  $('#stack-detail').textContent = `Observation ${di + 1} of 17 · ${Object.keys(d.area_m2).length} polygon classes traced`;
+  // Map 6 date in focus
+  const ri = Math.round(THREE.MathUtils.clamp(S.monsoonFocus, 0, 16));
+  const rd = data.manifest.dates[ri];
+  $('#rain-date').textContent = formatDate(rd.iso);
+  $('#rain-detail').textContent = `Monsoon ${rd.rainfall.monsoon_year}: ${Math.round(rd.rainfall.monsoon_mm).toLocaleString('en-GB')} mm · 30 days before: ${rd.rainfall.prior30_mm.toFixed(1)} mm`;
+  // Map 4 buttons
+  const lf = userLived ?? (S.livedFocus > 0.5 ? 1 : 0);
+  document.querySelectorAll('[data-lived]').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.lived === lf)));
+}
+
+const timer = new THREE.Timer();
+function render(now) {
+  timer.update(now);
+  const time = timer.getElapsed();
+  const t = tl.time();
+
+  // user overrides inside the interactive chapters
+  const frame = { ...S };
+  if (userThreshold !== null) frame.threshold = userThreshold;
+  if (userLived !== null) frame.livedFocus = THREE.MathUtils.lerp(S.livedFocus, userLived, 1);
+  if (!drag) { view.userAz *= 0.97; view.userEl *= 0.97; }
+
+  const idx = chapterAt(t);
+  if (idx !== chapterIdx) { chapterIdx = idx; onChapter(idx); }
+  if (CHAPTERS[idx].id === 'classes') {
+    const si = Math.round(S.specimen);
+    if (si !== specimenShown) { specimenShown = si; showSpecimen(si); }
+    frame.highlight = estuary.idx[SPECIMEN_ORDER[si]];
+  }
+
+  renderer.clear();
+  if (S.space > 0.002) {
+    space.update(time, S.approach);
+    renderer.render(space.scene, space.camera);
+  }
+  if (S.estuary > 0.002) {
+    estuary.scene.fog.density = 0.0005 + S.murk * 0.012 + (1 - S.estuary) * 0.01;
+    estuary.update(frame, time, view);
+    renderer.clearDepth();
+    renderer.render(estuary.scene, estuary.camera);
+    estuary.updateLabels(frame, innerWidth, innerHeight);
+  } else {
+    estuary.updateLabels({ map1: 0, stack: 0, lived: 0, plan: 0, planTowers: 0, monsoon: 0, stackFocus: 0, monsoonFocus: 0 }, innerWidth, innerHeight);
+  }
+  if (S.cloudOp > 0.002) {
+    clouds.update(time, S.cloudP, S.cloudOp, S.tint);
+    renderer.clearDepth();
+    renderer.render(clouds.scene, clouds.camera);
+  }
+  if (S.currentOp > 0.002) {
+    current.update(time, S.travel, S.currentOp);
+    renderer.clearDepth();
+    renderer.render(current.scene, current.camera);
+  }
+  updateReadouts(t);
+}
+
+async function init() {
+  setLoader(0.05, 'Loading the Earth');
+  await space.load('/assets/earth.opt.glb');
+  clouds.bake(renderer);
+  resize();
+  renderer.setAnimationLoop((now) => {
+    // render the resting Earth while the research data loads
+    if (!tl) { timer.update(now); renderer.clear(); space.update(timer.getElapsed(), 0); renderer.render(space.scene, space.camera); }
+  });
+  setLoader(0.2, 'Loading the traced observations');
+  data = await loadAll((f) => setLoader(0.2 + f * 0.7));
+  setLoader(0.92, 'Building the estuary');
+  estuary = new Estuary(data);
+  window.__THREE_DEVTOOLS__?.dispatchEvent(new CustomEvent('observe', { detail: estuary.scene }));
+  resize();
+  bindControls();
+  tl = buildTimeline(S, {
+    stackHeight: estuary.stackHeight * 1.0,
+    onProgress: (p) => { $('#progress-bar').style.width = `${p * 100}%`; },
+  });
+  // compile shaders up front so the first transitions do not stall
+  renderer.compile(estuary.scene, estuary.camera);
+  renderer.compile(clouds.scene, clouds.camera);
+  renderer.compile(current.scene, current.camera);
+  renderer.setAnimationLoop(render);
+  setLoader(1, 'Ready');
+  $('#loader').classList.add('done');
+  if (import.meta.env.DEV) window.__wit = { S, tl, estuary, space, renderer, gsap, goto: (t) => window.scrollTo(0, tl.scrollTrigger.start + (t / tl.duration()) * (tl.scrollTrigger.end - tl.scrollTrigger.start)) };
+}
+
+init().catch((err) => {
+  console.error(err);
+  setLoader(1, `The experience could not start: ${err.message}`);
+});

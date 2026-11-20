@@ -1,0 +1,483 @@
+{
+ "dates": {
+  "2011_04_11": {
+   "files": [
+    "assets\\sat_images_kml\\2011_04_11\\2011_04_11.kml",
+    "assets\\sat_images_kml\\2011_04_11\\2011_04_11_local_elements.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "water_2011_04_11",
+     "reason": "Self-intersection[466834.863889949 1507828.82567268]",
+     "area_before": 12456.01,
+     "area_after": 12459.81
+    },
+    {
+     "name": "muddy_shallows_2011_04_11",
+     "reason": "Self-intersection[466796.88946043 1507796.04654873]",
+     "area_before": 13411.92,
+     "area_after": 13411.93
+    },
+    {
+     "name": "bed_ground_2011_04_11",
+     "reason": "Ring Self-intersection[466795.434070987 1507889.96886066]",
+     "area_before": 8031.61,
+     "area_after": 8031.61
+    },
+    {
+     "name": "track_2011_04_11",
+     "reason": "Self-intersection[466723.687724275 1507747.98245683]",
+     "area_before": 522.81,
+     "area_after": 522.82
+    },
+    {
+     "name": "02_track_2011_04_11",
+     "reason": "Self-intersection[466774.773915777 1507749.99925472]",
+     "area_before": 116.86,
+     "area_after": 117.26
+    }
+   ],
+   "dropped": []
+  },
+  "2013_02_02": {
+   "files": [
+    "assets\\sat_images_kml\\2013_02_02\\2013_02_02.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "water_2013_02_02",
+     "reason": "Self-intersection[466833.85886751 1507867.73808514]",
+     "area_before": 17428.91,
+     "area_after": 17457.57
+    }
+   ],
+   "dropped": []
+  },
+  "2014_02_24": {
+   "files": [
+    "assets\\sat_images_kml\\2014_02_24\\2014_02_24.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "water_2014_02_24",
+     "reason": "Self-intersection[466602.376712739 1507814.16301011]",
+     "area_before": 46303.13,
+     "area_after": 26552.99
+    }
+   ],
+   "dropped": []
+  },
+  "2015_03_11": {
+   "files": [
+    "assets\\sat_images_kml\\2015_03_11\\2015_03_11.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "muddy_shallows_2015_03_11",
+     "reason": "Self-intersection[466645.63701213 1507872.1559102]",
+     "area_before": 8604.86,
+     "area_after": 8602.89
+    },
+    {
+     "name": "water_2015_03_11",
+     "reason": "Self-intersection[466699.555037605 1507911.17093389]",
+     "area_before": 15611.37,
+     "area_after": 15656.49
+    }
+   ],
+   "dropped": []
+  },
+  "2016_01_01": {
+   "files": [
+    "assets\\sat_images_kml\\2016_01_01\\2016_01_01.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "water_2016_01_01",
+     "reason": "Self-intersection[466699.508967793 1507820.7070218]",
+     "area_before": 19427.89,
+     "area_after": 19419.66
+    },
+    {
+     "name": "bed_ground_2016_01_01",
+     "reason": "Self-intersection[466703.040745516 1507831.69961499]",
+     "area_before": 16893.33,
+     "area_after": 16893.15
+    }
+   ],
+   "dropped": []
+  },
+  "2017_12_08": {
+   "files": [
+    "assets\\sat_images_kml\\2017_12_08\\2017_12_08.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "04_mangrove_canopy_2017_12_08",
+     "reason": "Self-intersection[466693.784394786 1507866.16634109]",
+     "area_before": 53.89,
+     "area_after": 54.24
+    },
+    {
+     "name": "05_mangrove_canopy_2017_12_08",
+     "reason": "Self-intersection[466682.165038863 1507870.06752976]",
+     "area_before": 34.53,
+     "area_after": 34.61
+    },
+    {
+     "name": "bed_ground_2017_12_08",
+     "reason": "Ring Self-intersection[466669.605997662 1507867.85728349]",
+     "area_before": 15798.96,
+     "area_after": 15427.32
+    }
+   ],
+   "dropped": []
+  },
+  "2018_11_12": {
+   "files": [
+    "assets\\sat_images_kml\\2018_11_12\\2018_11_12.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "mangrove_canopy_2018_11_12",
+     "reason": "Self-intersection[466724.58622216 1507879.93444836]",
+     "area_before": 430.99,
+     "area_after": 443.66
+    },
+    {
+     "name": "water_2018_11_12",
+     "reason": "Self-intersection[466735.602195996 1507871.27144399]",
+     "area_before": 39363.6,
+     "area_after": 39444.02
+    }
+   ],
+   "dropped": []
+  },
+  "2019_01_31": {
+   "files": [
+    "assets\\sat_images_kml\\2019_01_31\\2019_01_31.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "water_2019_01_31",
+     "reason": "Ring Self-intersection[466600.232363376 1507830.2005918]",
+     "area_before": 18794.79,
+     "area_after": 18804.28
+    },
+    {
+     "name": "mangrove_canopy_2019_01_31",
+     "reason": "Ring Self-intersection[466727.084309055 1507870.65182777]",
+     "area_before": 408.23,
+     "area_after": 421.78
+    },
+    {
+     "name": "bed_ground_2019_01_31",
+     "reason": "Self-intersection[466600.94705851 1507829.71950223]",
+     "area_before": 17234.58,
+     "area_after": 17217.72
+    }
+   ],
+   "dropped": []
+  },
+  "2019_11_26": {
+   "files": [
+    "assets\\sat_images_kml\\2019_11_26\\2019_11_26.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "water_2019_11_26",
+     "reason": "Self-intersection[466716.386263626 1507889.40405188]",
+     "area_before": 40635.2,
+     "area_after": 38700.05
+    }
+   ],
+   "dropped": []
+  },
+  "2020_01_03": {
+   "files": [
+    "assets\\sat_images_kml\\2020_01_03\\2020_01_03.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "08_mangrove_canopy_2020_01_03",
+     "reason": "Self-intersection[466717.570700577 1507887.92191791]",
+     "area_before": 6.6,
+     "area_after": 6.78
+    },
+    {
+     "name": "water_2020_01_03",
+     "reason": "Self-intersection[466836.699738145 1507839.39722382]",
+     "area_before": 20713.56,
+     "area_after": 20715.55
+    },
+    {
+     "name": "bed_ground_2020_01_03",
+     "reason": "Ring Self-intersection[466746.930906109 1507885.82893766]",
+     "area_before": 16088.26,
+     "area_after": 15889.7
+    }
+   ],
+   "dropped": []
+  },
+  "2020_12_23": {
+   "files": [
+    "assets\\sat_images_kml\\2020_12_23\\2020_12_23.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "06_mangrove_canopy_2020_12_23",
+     "reason": "Self-intersection[466716.538248547 1507887.23129055]",
+     "area_before": 999.05,
+     "area_after": 1000.61
+    },
+    {
+     "name": "water_2020_12_23",
+     "reason": "Self-intersection[466601.440182468 1507809.63931774]",
+     "area_before": 19032.62,
+     "area_after": 19033.98
+    },
+    {
+     "name": "bed_ground_2020_12_23",
+     "reason": "Self-intersection[466749.068664502 1507890.25572252]",
+     "area_before": 19503.31,
+     "area_after": 17410.24
+    }
+   ],
+   "dropped": []
+  },
+  "2021_05_01": {
+   "files": [
+    "assets\\sat_images_kml\\2021_05_01\\2021_05_01.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "mangrove_canopy_2021_05_01",
+     "reason": "Self-intersection[466730.329890003 1507872.66250293]",
+     "area_before": 216.4,
+     "area_after": 216.64
+    },
+    {
+     "name": "08_mangrove_canopy_2021_05_01",
+     "reason": "Self-intersection[466693.381030354 1507884.65663939]",
+     "area_before": 761.88,
+     "area_after": 761.88
+    },
+    {
+     "name": "water_2021_05_01",
+     "reason": "Self-intersection[466817.30101231 1507872.52921284]",
+     "area_before": 39040.06,
+     "area_after": 33904.35
+    },
+    {
+     "name": "02_muddy_shallows_2021_05_01",
+     "reason": "Self-intersection[466832.520316457 1507845.0031701]",
+     "area_before": 2517.89,
+     "area_after": 2517.89
+    },
+    {
+     "name": "muddy_shallows_2021_05_01",
+     "reason": "Self-intersection[466725.257191901 1507901.23627743]",
+     "area_before": 495.22,
+     "area_after": 496.54
+    },
+    {
+     "name": "bed_ground_2021_05_01",
+     "reason": "Self-intersection[466720.576335747 1507898.16509646]",
+     "area_before": 14292.7,
+     "area_after": 14028.5
+    }
+   ],
+   "dropped": []
+  },
+  "2022_02_03": {
+   "files": [
+    "assets\\sat_images_kml\\2022_02_03\\2022_02_03.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "water_2022_02_03",
+     "reason": "Self-intersection[466743.670093198 1507876.06115293]",
+     "area_before": 37440.58,
+     "area_after": 37323.52
+    },
+    {
+     "name": "mangrove_canopy_2022_02_03",
+     "reason": "Self-intersection[466734.069616543 1507869.27921342]",
+     "area_before": 1423.92,
+     "area_after": 1433.07
+    },
+    {
+     "name": "02_mangrove_canopy_2022_02_03",
+     "reason": "Self-intersection[466664.070605426 1507837.7890971]",
+     "area_before": 31.43,
+     "area_after": 31.43
+    },
+    {
+     "name": "03_mangrove_canopy_2022_02_03",
+     "reason": "Self-intersection[466651.952304362 1507836.24155238]",
+     "area_before": 70.52,
+     "area_after": 70.53
+    },
+    {
+     "name": "04_mangrove_canopy_2022_02_03",
+     "reason": "Self-intersection[466706.32070792 1507814.58745822]",
+     "area_before": 26.55,
+     "area_after": 26.21
+    }
+   ],
+   "dropped": []
+  },
+  "2022_03_30": {
+   "files": [
+    "assets\\sat_images_kml\\2022_03_30\\2022_03_30.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "bed_ground_2022_03_30",
+     "reason": "Self-intersection[466742.808057582 1507881.33904997]",
+     "area_before": 6400.45,
+     "area_after": 3496.43
+    },
+    {
+     "name": "water_2022_03_30",
+     "reason": "Self-intersection[466831.402761002 1507803.47267834]",
+     "area_before": 1761.87,
+     "area_after": 12825.25
+    },
+    {
+     "name": "mangrove_canopy_2022_03_30",
+     "reason": "Ring Self-intersection[466737.78271547 1507882.45179384]",
+     "area_before": 1352.63,
+     "area_after": 1354.89
+    },
+    {
+     "name": "02_mangrove_canopy_2022_03_30",
+     "reason": "Self-intersection[466681.26946703 1507847.00366263]",
+     "area_before": 44.99,
+     "area_after": 44.93
+    },
+    {
+     "name": "04_mangrove_canopy_2022_03_30",
+     "reason": "Self-intersection[466648.496829804 1507845.4325468]",
+     "area_before": 30.45,
+     "area_after": 30.26
+    }
+   ],
+   "dropped": []
+  },
+  "2022_05_07": {
+   "files": [
+    "assets\\sat_images_kml\\2022_05_07\\2022_05_07.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "mangrove_canopy_2022_05_07",
+     "reason": "Ring Self-intersection[466733.763764981 1507872.14279493]",
+     "area_before": 1300.39,
+     "area_after": 1300.57
+    },
+    {
+     "name": "02_mangrove_canopy_2022_05_07",
+     "reason": "Self-intersection[466677.050482812 1507847.07258653]",
+     "area_before": 32.83,
+     "area_after": 88.87
+    },
+    {
+     "name": "bed_ground_2022_05_07",
+     "reason": "Self-intersection[466772.258750497 1507855.06928382]",
+     "area_before": 15199.61,
+     "area_after": 15017.97
+    },
+    {
+     "name": "water_2022_05_07",
+     "reason": "Self-intersection[466832.02279604 1507842.17377924]",
+     "area_before": 52214.99,
+     "area_after": 18456.02
+    }
+   ],
+   "dropped": []
+  },
+  "2024_02_17": {
+   "files": [
+    "assets\\sat_images_kml\\2024_02_17\\2024_02_17.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "bed_ground_2024_02_17",
+     "reason": "Ring Self-intersection[466749.124347979 1507869.68335662]",
+     "area_before": 16806.01,
+     "area_after": 16625.23
+    },
+    {
+     "name": "mangrove_canopy_2024_02_17",
+     "reason": "Self-intersection[466655.08480872 1507837.37462701]",
+     "area_before": 93.31,
+     "area_after": 88.89
+    },
+    {
+     "name": "02_mangrove_canopy_2024_02_17",
+     "reason": "Self-intersection[466730.357170945 1507879.93616968]",
+     "area_before": 1220.64,
+     "area_after": 1219.41
+    },
+    {
+     "name": "04_mangrove_canopy_2024_02_17",
+     "reason": "Self-intersection[466666.453694042 1507854.48898496]",
+     "area_before": 23.98,
+     "area_after": 26.65
+    },
+    {
+     "name": "05_mangrove_canopy_2024_02_17",
+     "reason": "Self-intersection[466659.672746265 1507845.36291231]",
+     "area_before": 136.99,
+     "area_after": 138.05
+    },
+    {
+     "name": "water_2024_02_17",
+     "reason": "Self-intersection[466596.125090734 1507826.47450917]",
+     "area_before": 17875.48,
+     "area_after": 17881.22
+    }
+   ],
+   "dropped": []
+  },
+  "2025_02_25": {
+   "files": [
+    "assets\\sat_images_kml\\2025_02_25\\2025_02_25.kml",
+    "assets\\sat_images_kml\\2025_02_25\\2025_02_25_local_elements.kml"
+   ],
+   "unclassified": [],
+   "repaired": [
+    {
+     "name": "water_2025_02_25",
+     "reason": "Self-intersection[466745.624465334 1507855.73734173]",
+     "area_before": 32666.65,
+     "area_after": 32655.37
+    },
+    {
+     "name": "02_tree_cover_2025_02_25",
+     "reason": "Ring Self-intersection[466661.131455069 1507737.70381949]",
+     "area_before": 226.61,
+     "area_after": 226.61
+    }
+   ],
+   "dropped": []
+  }
+ }
+}

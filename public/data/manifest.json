@@ -1,0 +1,1358 @@
+{
+ "title": "Wetlands in Transition",
+ "crs": "EPSG:32643",
+ "origin_utm": [
+  466715.0,
+  1507830.0
+ ],
+ "units": "metres east / north of origin",
+ "classes": [
+  {
+   "key": "water",
+   "label": "Water",
+   "color": "#45B5D1",
+   "geometry": "polygon",
+   "definition": "Visible water surface on the date of satellite image capture."
+  },
+  {
+   "key": "muddy_shallows",
+   "label": "Muddy shallows",
+   "color": "#6F858B",
+   "geometry": "polygon",
+   "definition": "Muddy ground in shallow water that cannot be clearly identified as exposed bed."
+  },
+  {
+   "key": "bed_ground",
+   "label": "Bed ground",
+   "color": "#D8C29A",
+   "geometry": "polygon",
+   "definition": "Exposed sediment or estuary bed. Sediment visible beneath water is classified as water."
+  },
+  {
+   "key": "mangrove_canopy",
+   "label": "Mangrove canopy",
+   "color": "#39734D",
+   "geometry": "polygon",
+   "definition": "Visible mangrove canopy only, not the complete habitat or root system."
+  },
+  {
+   "key": "land_edge",
+   "label": "Land edge",
+   "color": "#A67C3D",
+   "geometry": "line",
+   "definition": "Visible boundary between land and water or exposed estuary bed."
+  },
+  {
+   "key": "tree_cover",
+   "label": "Tree cover",
+   "color": "#7FA650",
+   "geometry": "polygon",
+   "definition": "Visible band of canopy, mostly palms, behind the track."
+  },
+  {
+   "key": "track",
+   "label": "Track",
+   "color": "#B5654A",
+   "geometry": "polygon",
+   "definition": "Reddish unpaved strip along the shore, traced as a polygon because its width matters."
+  },
+  {
+   "key": "buildings",
+   "label": "Buildings",
+   "color": "#6B6F7A",
+   "geometry": "point",
+   "definition": "Visible roofs or walls."
+  },
+  {
+   "key": "boats",
+   "label": "Boats",
+   "color": "#E5A832",
+   "geometry": "point",
+   "definition": "Individual visible boats."
+  },
+  {
+   "key": "cage_farms",
+   "label": "Cage farms",
+   "color": "#C62C2C",
+   "geometry": "point",
+   "definition": "Shellfish farming areas marked in water."
+  }
+ ],
+ "rainfall_source": "NASA POWER daily PRECTOTCORR (MERRA-2), ~0.5 x 0.625 degree grid cell; regional estimate, not site measurement.",
+ "tide": "Not known for any observation.",
+ "dates": [
+  {
+   "id": "2011_04_11",
+   "iso": "2011-04-11",
+   "has_local_elements": true,
+   "counts": {
+    "water": 6,
+    "muddy_shallows": 1,
+    "bed_ground": 1,
+    "mangrove_canopy": 1,
+    "land_edge": 1,
+    "tree_cover": 1,
+    "track": 6,
+    "buildings": 6,
+    "boats": 20
+   },
+   "area_m2": {
+    "water": 12459.81,
+    "muddy_shallows": 13411.93,
+    "bed_ground": 8031.61,
+    "mangrove_canopy": 1786.38,
+    "tree_cover": 2360.51,
+    "track": 640.08
+   },
+   "imagery": {
+    "file": "imagery/2011_04_11.png",
+    "source": "assets\\sat_images_kml\\2011_04_11\\2011_04_11.png",
+    "lookat": {
+     "lon": 74.69228360400506,
+     "lat": 13.63899144341024,
+     "heading": -1.988840739351764,
+     "range_m": 203.1812794310505
+    },
+    "corners": [
+     [
+      -127.22,
+      90.34
+     ],
+     [
+      107.26,
+      98.48
+     ],
+     [
+      113.6,
+      -84.16
+     ],
+     [
+      -120.87,
+      -92.3
+     ]
+    ],
+    "size_px": [
+     837,
+     652
+    ],
+    "params": {
+     "scale": 1.0,
+     "rotation_deg": 0.0,
+     "shift_px": [
+      34,
+      40
+     ]
+    },
+    "score_initial": 7.286,
+    "score_fitted": 18.944,
+    "ground_size_m": [
+     234.61,
+     182.76
+    ],
+    "metres_per_px": 0.2803,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2010,
+    "monsoon_mm": 3556.36,
+    "monsoon_days": 122,
+    "prior30_mm": 10.89,
+    "prior7_mm": 10.74
+   },
+   "geometry": "dates/2011_04_11.json"
+  },
+  {
+   "id": "2013_02_02",
+   "iso": "2013-02-02",
+   "has_local_elements": false,
+   "counts": {
+    "water": 5,
+    "bed_ground": 1,
+    "land_edge": 1,
+    "boats": 19
+   },
+   "area_m2": {
+    "water": 17457.57,
+    "bed_ground": 17676.22
+   },
+   "imagery": {
+    "file": "imagery/2013_02_02.png",
+    "source": "assets\\sat_images_kml\\2013_02_02\\2013_02_02.png",
+    "lookat": {
+     "lon": 74.69228498822278,
+     "lat": 13.63900008326337,
+     "heading": -1.988840413428595,
+     "range_m": 203.1812794314719
+    },
+    "corners": [
+     [
+      -112.58,
+      97.44
+     ],
+     [
+      119.64,
+      103.48
+     ],
+     [
+      124.34,
+      -77.57
+     ],
+     [
+      -107.87,
+      -83.6
+     ]
+    ],
+    "size_px": [
+     835,
+     651
+    ],
+    "params": {
+     "scale": 1.01,
+     "rotation_deg": 0.5,
+     "shift_px": [
+      -11,
+      60
+     ]
+    },
+    "score_initial": 0.946,
+    "score_fitted": 2.613,
+    "ground_size_m": [
+     232.29,
+     181.1
+    ],
+    "metres_per_px": 0.2782,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2012,
+    "monsoon_mm": 2814.84,
+    "monsoon_days": 122,
+    "prior30_mm": 0.0,
+    "prior7_mm": 0.0
+   },
+   "geometry": "dates/2013_02_02.json"
+  },
+  {
+   "id": "2014_02_24",
+   "iso": "2014-02-24",
+   "has_local_elements": false,
+   "counts": {
+    "water": 5,
+    "muddy_shallows": 1,
+    "bed_ground": 1,
+    "land_edge": 1,
+    "boats": 22
+   },
+   "area_m2": {
+    "water": 26552.99,
+    "muddy_shallows": 608.52,
+    "bed_ground": 9023.55
+   },
+   "imagery": {
+    "file": "imagery/2014_02_24.png",
+    "source": "assets\\sat_images_kml\\2014_02_24\\2014_02_24.png",
+    "lookat": {
+     "lon": 74.69228284131079,
+     "lat": 13.63904081513713,
+     "heading": -1.989033051307668,
+     "range_m": 205.9272446822723
+    },
+    "corners": [
+     [
+      -120.6,
+      114.64
+     ],
+     [
+      132.75,
+      105.74
+     ],
+     [
+      125.84,
+      -90.84
+     ],
+     [
+      -127.5,
+      -81.94
+     ]
+    ],
+    "size_px": [
+     839,
+     651
+    ],
+    "params": {
+     "scale": 0.938,
+     "rotation_deg": 4.0,
+     "shift_px": [
+      3,
+      47
+     ]
+    },
+    "score_initial": 1.133,
+    "score_fitted": 1.501,
+    "ground_size_m": [
+     253.5,
+     196.7
+    ],
+    "metres_per_px": 0.3021,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2013,
+    "monsoon_mm": 3444.03,
+    "monsoon_days": 122,
+    "prior30_mm": 0.0,
+    "prior7_mm": 0.0
+   },
+   "geometry": "dates/2014_02_24.json"
+  },
+  {
+   "id": "2015_03_11",
+   "iso": "2015-03-11",
+   "has_local_elements": false,
+   "counts": {
+    "water": 4,
+    "muddy_shallows": 3,
+    "bed_ground": 1,
+    "land_edge": 1,
+    "boats": 17
+   },
+   "area_m2": {
+    "water": 15656.49,
+    "muddy_shallows": 8602.89,
+    "bed_ground": 11440.36
+   },
+   "imagery": {
+    "file": "imagery/2015_03_11.png",
+    "source": "assets\\sat_images_kml\\2015_03_11\\2015_03_11.png",
+    "lookat": {
+     "lon": 74.69228458096629,
+     "lat": 13.63900517634823,
+     "heading": -1.987717826094773,
+     "range_m": 203.1303099024653
+    },
+    "corners": [
+     [
+      -132.44,
+      111.7
+     ],
+     [
+      123.62,
+      111.64
+     ],
+     [
+      123.58,
+      -87.52
+     ],
+     [
+      -132.48,
+      -87.46
+     ]
+    ],
+    "size_px": [
+     837,
+     651
+    ],
+    "params": {
+     "scale": 0.916,
+     "rotation_deg": 2.0,
+     "shift_px": [
+      25,
+      60
+     ]
+    },
+    "score_initial": 0.402,
+    "score_fitted": 1.085,
+    "ground_size_m": [
+     256.06,
+     199.16
+    ],
+    "metres_per_px": 0.3059,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2014,
+    "monsoon_mm": 3159.63,
+    "monsoon_days": 122,
+    "prior30_mm": 12.86,
+    "prior7_mm": 3.73
+   },
+   "geometry": "dates/2015_03_11.json"
+  },
+  {
+   "id": "2016_01_01",
+   "iso": "2016-01-01",
+   "has_local_elements": false,
+   "counts": {
+    "water": 5,
+    "bed_ground": 1,
+    "land_edge": 1,
+    "boats": 19
+   },
+   "area_m2": {
+    "water": 19419.66,
+    "bed_ground": 16893.15
+   },
+   "imagery": {
+    "file": "imagery/2016_01_01.png",
+    "source": "assets\\sat_images_kml\\2016_01_01\\2016_01_01.png",
+    "lookat": {
+     "lon": 74.69228458096629,
+     "lat": 13.63900517634823,
+     "heading": -1.987717826094773,
+     "range_m": 203.1303099024653
+    },
+    "corners": [
+     [
+      -112.14,
+      113.62
+     ],
+     [
+      141.28,
+      98.95
+     ],
+     [
+      129.9,
+      -97.75
+     ],
+     [
+      -123.53,
+      -83.08
+     ]
+    ],
+    "size_px": [
+     840,
+     652
+    ],
+    "params": {
+     "scale": 0.924,
+     "rotation_deg": 5.3,
+     "shift_px": [
+      -16,
+      48
+     ]
+    },
+    "score_initial": 2.406,
+    "score_fitted": 3.033,
+    "ground_size_m": [
+     253.85,
+     197.03
+    ],
+    "metres_per_px": 0.3022,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2015,
+    "monsoon_mm": 2639.25,
+    "monsoon_days": 122,
+    "prior30_mm": 2.73,
+    "prior7_mm": 0.0
+   },
+   "geometry": "dates/2016_01_01.json"
+  },
+  {
+   "id": "2017_12_08",
+   "iso": "2017-12-08",
+   "has_local_elements": false,
+   "counts": {
+    "water": 1,
+    "bed_ground": 1,
+    "mangrove_canopy": 11,
+    "land_edge": 1,
+    "boats": 18
+   },
+   "area_m2": {
+    "water": 23103.54,
+    "bed_ground": 15427.32,
+    "mangrove_canopy": 131.46
+   },
+   "imagery": {
+    "file": "imagery/2017_12_08.png",
+    "source": "assets\\sat_images_kml\\2017_12_08\\2017_12_08.png",
+    "lookat": {
+     "lon": 74.69228458096629,
+     "lat": 13.63900517634823,
+     "heading": -1.987717826094773,
+     "range_m": 203.1303099024653
+    },
+    "corners": [
+     [
+      -122.32,
+      88.86
+     ],
+     [
+      122.93,
+      96.09
+     ],
+     [
+      128.57,
+      -95.53
+     ],
+     [
+      -116.67,
+      -102.76
+     ]
+    ],
+    "size_px": [
+     837,
+     654
+    ],
+    "params": {
+     "scale": 0.956,
+     "rotation_deg": 0.3,
+     "shift_px": [
+      0,
+      10
+     ]
+    },
+    "score_initial": 4.674,
+    "score_fitted": 21.753,
+    "ground_size_m": [
+     245.35,
+     191.71
+    ],
+    "metres_per_px": 0.2931,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2017,
+    "monsoon_mm": 2299.44,
+    "monsoon_days": 122,
+    "prior30_mm": 9.62,
+    "prior7_mm": 5.26
+   },
+   "geometry": "dates/2017_12_08.json"
+  },
+  {
+   "id": "2018_11_12",
+   "iso": "2018-11-12",
+   "has_local_elements": false,
+   "counts": {
+    "water": 11,
+    "mangrove_canopy": 25,
+    "land_edge": 1,
+    "boats": 18,
+    "cage_farms": 7
+   },
+   "area_m2": {
+    "water": 39443.97,
+    "mangrove_canopy": 443.61
+   },
+   "imagery": {
+    "file": "imagery/2018_11_12.png",
+    "source": "assets\\sat_images_kml\\2018_11_12\\2018_11_12.png",
+    "lookat": {
+     "lon": 74.6922819882308,
+     "lat": 13.63903608412299,
+     "heading": -2.392905598370948,
+     "range_m": 204.457782562203
+    },
+    "corners": [
+     [
+      -123.61,
+      88.34
+     ],
+     [
+      122.14,
+      97.75
+     ],
+     [
+      129.46,
+      -93.45
+     ],
+     [
+      -116.29,
+      -102.86
+     ]
+    ],
+    "size_px": [
+     838,
+     652
+    ],
+    "params": {
+     "scale": 0.96,
+     "rotation_deg": 0.2,
+     "shift_px": [
+      0,
+      1
+     ]
+    },
+    "score_initial": 12.495,
+    "score_fitted": 26.986,
+    "ground_size_m": [
+     245.92,
+     191.34
+    ],
+    "metres_per_px": 0.2935,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2018,
+    "monsoon_mm": 2271.73,
+    "monsoon_days": 122,
+    "prior30_mm": 34.22,
+    "prior7_mm": 0.36
+   },
+   "geometry": "dates/2018_11_12.json"
+  },
+  {
+   "id": "2019_01_31",
+   "iso": "2019-01-31",
+   "has_local_elements": false,
+   "counts": {
+    "water": 4,
+    "bed_ground": 2,
+    "mangrove_canopy": 31,
+    "land_edge": 1,
+    "boats": 15,
+    "cage_farms": 7
+   },
+   "area_m2": {
+    "water": 18804.28,
+    "bed_ground": 17217.72,
+    "mangrove_canopy": 421.73
+   },
+   "imagery": {
+    "file": "imagery/2019_01_31.png",
+    "source": "assets\\sat_images_kml\\2019_01_31\\2019_01_31.png",
+    "lookat": {
+     "lon": 74.69228506742637,
+     "lat": 13.63905402161597,
+     "heading": -2.006521605874448,
+     "range_m": 204.6911198839045
+    },
+    "corners": [
+     [
+      -123.51,
+      89.35
+     ],
+     [
+      124.12,
+      97.16
+     ],
+     [
+      130.21,
+      -95.8
+     ],
+     [
+      -117.43,
+      -103.61
+     ]
+    ],
+    "size_px": [
+     838,
+     653
+    ],
+    "params": {
+     "scale": 0.954,
+     "rotation_deg": 0.2,
+     "shift_px": [
+      0,
+      -8
+     ]
+    },
+    "score_initial": 23.401,
+    "score_fitted": 28.761,
+    "ground_size_m": [
+     247.75,
+     193.06
+    ],
+    "metres_per_px": 0.2956,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2018,
+    "monsoon_mm": 2271.73,
+    "monsoon_days": 122,
+    "prior30_mm": 0.0,
+    "prior7_mm": 0.0
+   },
+   "geometry": "dates/2019_01_31.json"
+  },
+  {
+   "id": "2019_11_26",
+   "iso": "2019-11-26",
+   "has_local_elements": false,
+   "counts": {
+    "water": 1,
+    "mangrove_canopy": 13,
+    "land_edge": 1,
+    "boats": 26,
+    "cage_farms": 6
+   },
+   "area_m2": {
+    "water": 38699.99,
+    "mangrove_canopy": 873.18
+   },
+   "imagery": {
+    "file": "imagery/2019_11_26.png",
+    "source": "assets\\sat_images_kml\\2019_11_26\\2019_11_26.png",
+    "lookat": {
+     "lon": 74.69228582649674,
+     "lat": 13.63904195747488,
+     "heading": -1.989032348733139,
+     "range_m": 205.9272447578888
+    },
+    "corners": [
+     [
+      -121.54,
+      89.03
+     ],
+     [
+      121.96,
+      97.06
+     ],
+     [
+      128.24,
+      -93.43
+     ],
+     [
+      -115.26,
+      -101.46
+     ]
+    ],
+    "size_px": [
+     836,
+     654
+    ],
+    "params": {
+     "scale": 0.976,
+     "rotation_deg": 0.1,
+     "shift_px": [
+      0,
+      0
+     ]
+    },
+    "score_initial": 21.19,
+    "score_fitted": 26.519,
+    "ground_size_m": [
+     243.63,
+     190.59
+    ],
+    "metres_per_px": 0.2914,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2019,
+    "monsoon_mm": 3074.71,
+    "monsoon_days": 122,
+    "prior30_mm": 59.57,
+    "prior7_mm": 0.33
+   },
+   "geometry": "dates/2019_11_26.json"
+  },
+  {
+   "id": "2020_01_03",
+   "iso": "2020-01-03",
+   "has_local_elements": false,
+   "counts": {
+    "water": 5,
+    "bed_ground": 1,
+    "mangrove_canopy": 15,
+    "land_edge": 1,
+    "boats": 24,
+    "cage_farms": 8
+   },
+   "area_m2": {
+    "water": 20715.55,
+    "bed_ground": 15889.7,
+    "mangrove_canopy": 750.11
+   },
+   "imagery": {
+    "file": "imagery/2020_01_03.png",
+    "source": "assets\\sat_images_kml\\2020_01_03\\2020_01_03.png",
+    "lookat": {
+     "lon": 74.69228284131077,
+     "lat": 13.639040061296125,
+     "heading": -1.989033051306913,
+     "range_m": 205.9272446815669
+    },
+    "corners": [
+     [
+      -122.28,
+      88.57
+     ],
+     [
+      122.76,
+      95.8
+     ],
+     [
+      128.37,
+      -94.56
+     ],
+     [
+      -116.66,
+      -101.78
+     ]
+    ],
+    "size_px": [
+     838,
+     651
+    ],
+    "params": {
+     "scale": 0.97,
+     "rotation_deg": 0.3,
+     "shift_px": [
+      0,
+      -2
+     ]
+    },
+    "score_initial": 26.652,
+    "score_fitted": 32.323,
+    "ground_size_m": [
+     245.14,
+     190.44
+    ],
+    "metres_per_px": 0.2925,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2019,
+    "monsoon_mm": 3074.71,
+    "monsoon_days": 122,
+    "prior30_mm": 6.52,
+    "prior7_mm": 3.26
+   },
+   "geometry": "dates/2020_01_03.json"
+  },
+  {
+   "id": "2020_12_23",
+   "iso": "2020-12-23",
+   "has_local_elements": false,
+   "counts": {
+    "water": 2,
+    "bed_ground": 2,
+    "mangrove_canopy": 8,
+    "land_edge": 1,
+    "boats": 20,
+    "cage_farms": 7
+   },
+   "area_m2": {
+    "water": 19033.98,
+    "bed_ground": 17410.24,
+    "mangrove_canopy": 1202.03
+   },
+   "imagery": {
+    "file": "imagery/2020_12_23.png",
+    "source": "assets\\sat_images_kml\\2020_12_23\\2020_12_23.png",
+    "lookat": {
+     "lon": 74.69225088209382,
+     "lat": 13.63904849851146,
+     "heading": -2.392944000029506,
+     "range_m": 202.8981761422372
+    },
+    "corners": [
+     [
+      -121.43,
+      86.33
+     ],
+     [
+      125.64,
+      92.34
+     ],
+     [
+      130.32,
+      -100.28
+     ],
+     [
+      -116.75,
+      -106.29
+     ]
+    ],
+    "size_px": [
+     835,
+     651
+    ],
+    "params": {
+     "scale": 0.948,
+     "rotation_deg": 1.0,
+     "shift_px": [
+      -16,
+      -19
+     ]
+    },
+    "score_initial": 3.426,
+    "score_fitted": 10.277,
+    "ground_size_m": [
+     247.14,
+     192.68
+    ],
+    "metres_per_px": 0.296,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2020,
+    "monsoon_mm": 3847.87,
+    "monsoon_days": 122,
+    "prior30_mm": 27.21,
+    "prior7_mm": 0.0
+   },
+   "geometry": "dates/2020_12_23.json"
+  },
+  {
+   "id": "2021_05_01",
+   "iso": "2021-05-01",
+   "has_local_elements": false,
+   "counts": {
+    "water": 5,
+    "muddy_shallows": 6,
+    "bed_ground": 1,
+    "mangrove_canopy": 15,
+    "land_edge": 1,
+    "boats": 16,
+    "cage_farms": 8
+   },
+   "area_m2": {
+    "water": 33904.32,
+    "muddy_shallows": 3014.43,
+    "bed_ground": 14028.48,
+    "mangrove_canopy": 1177.71
+   },
+   "imagery": {
+    "file": "imagery/2021_05_01.png",
+    "source": "assets\\sat_images_kml\\2021_05_01\\2021_05_01.png",
+    "lookat": {
+     "lon": 74.69225923706882,
+     "lat": 13.63903631521199,
+     "heading": -2.802656811804055,
+     "range_m": 202.8981761420045
+    },
+    "corners": [
+     [
+      -121.08,
+      89.19
+     ],
+     [
+      122.88,
+      95.59
+     ],
+     [
+      127.87,
+      -94.68
+     ],
+     [
+      -116.09,
+      -101.08
+     ]
+    ],
+    "size_px": [
+     836,
+     652
+    ],
+    "params": {
+     "scale": 0.96,
+     "rotation_deg": 1.3,
+     "shift_px": [
+      -10,
+      0
+     ]
+    },
+    "score_initial": 9.863,
+    "score_fitted": 18.37,
+    "ground_size_m": [
+     244.05,
+     190.33
+    ],
+    "metres_per_px": 0.2919,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2020,
+    "monsoon_mm": 3847.87,
+    "monsoon_days": 122,
+    "prior30_mm": 64.69,
+    "prior7_mm": 2.82
+   },
+   "geometry": "dates/2021_05_01.json"
+  },
+  {
+   "id": "2022_02_03",
+   "iso": "2022-02-03",
+   "has_local_elements": false,
+   "counts": {
+    "water": 1,
+    "mangrove_canopy": 14,
+    "land_edge": 1,
+    "boats": 28,
+    "cage_farms": 15
+   },
+   "area_m2": {
+    "water": 37323.47,
+    "mangrove_canopy": 1561.23
+   },
+   "imagery": {
+    "file": "imagery/2022_02_03.png",
+    "source": "assets\\sat_images_kml\\2022_02_03\\2022_02_03.png",
+    "lookat": {
+     "lon": 74.69226690906049,
+     "lat": 13.63906654628827,
+     "heading": -2.258552477324745,
+     "range_m": 200.1980150876118
+    },
+    "corners": [
+     [
+      -115.4,
+      86.41
+     ],
+     [
+      120.91,
+      91.6
+     ],
+     [
+      124.95,
+      -92.54
+     ],
+     [
+      -111.36,
+      -97.74
+     ]
+    ],
+    "size_px": [
+     838,
+     653
+    ],
+    "params": {
+     "scale": 0.978,
+     "rotation_deg": 1.0,
+     "shift_px": [
+      -12,
+      -13
+     ]
+    },
+    "score_initial": 8.245,
+    "score_fitted": 11.469,
+    "ground_size_m": [
+     236.37,
+     184.19
+    ],
+    "metres_per_px": 0.2821,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2021,
+    "monsoon_mm": 2660.52,
+    "monsoon_days": 122,
+    "prior30_mm": 0.01,
+    "prior7_mm": 0.0
+   },
+   "geometry": "dates/2022_02_03.json"
+  },
+  {
+   "id": "2022_03_30",
+   "iso": "2022-03-30",
+   "has_local_elements": false,
+   "counts": {
+    "water": 3,
+    "muddy_shallows": 1,
+    "bed_ground": 8,
+    "mangrove_canopy": 11,
+    "land_edge": 1,
+    "boats": 15,
+    "cage_farms": 11
+   },
+   "area_m2": {
+    "water": 12825.24,
+    "muddy_shallows": 18020.28,
+    "bed_ground": 3496.4,
+    "mangrove_canopy": 1459.46
+   },
+   "imagery": {
+    "file": "imagery/2022_03_30.png",
+    "source": "assets\\sat_images_kml\\2022_03_30\\2022_03_30.png",
+    "lookat": {
+     "lon": 74.69223602418361,
+     "lat": 13.63898609680965,
+     "heading": -2.618901088128734,
+     "range_m": 200.889876862885
+    },
+    "corners": [
+     [
+      -118.02,
+      89.04
+     ],
+     [
+      123.51,
+      96.29
+     ],
+     [
+      129.14,
+      -91.43
+     ],
+     [
+      -112.39,
+      -98.68
+     ]
+    ],
+    "size_px": [
+     835,
+     649
+    ],
+    "params": {
+     "scale": 0.96,
+     "rotation_deg": 0.9,
+     "shift_px": [
+      -27,
+      24
+     ]
+    },
+    "score_initial": 3.356,
+    "score_fitted": 14.114,
+    "ground_size_m": [
+     241.63,
+     187.81
+    ],
+    "metres_per_px": 0.2894,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2021,
+    "monsoon_mm": 2660.52,
+    "monsoon_days": 122,
+    "prior30_mm": 17.58,
+    "prior7_mm": 7.38
+   },
+   "geometry": "dates/2022_03_30.json"
+  },
+  {
+   "id": "2022_05_07",
+   "iso": "2022-05-07",
+   "has_local_elements": false,
+   "counts": {
+    "water": 5,
+    "bed_ground": 8,
+    "mangrove_canopy": 19,
+    "land_edge": 1,
+    "boats": 13,
+    "cage_farms": 8
+   },
+   "area_m2": {
+    "water": 18455.98,
+    "bed_ground": 15017.9,
+    "mangrove_canopy": 1454.61
+   },
+   "imagery": {
+    "file": "imagery/2022_05_07.png",
+    "source": "assets\\sat_images_kml\\2022_05_07\\2022_05_07.png",
+    "lookat": {
+     "lon": 74.69225559738535,
+     "lat": 13.63904912504939,
+     "heading": -2.206682443352668,
+     "range_m": 203.6549641212833
+    },
+    "corners": [
+     [
+      -121.1,
+      88.75
+     ],
+     [
+      121.72,
+      96.41
+     ],
+     [
+      127.68,
+      -92.51
+     ],
+     [
+      -115.14,
+      -100.17
+     ]
+    ],
+    "size_px": [
+     838,
+     652
+    ],
+    "params": {
+     "scale": 0.968,
+     "rotation_deg": 0.4,
+     "shift_px": [
+      -11,
+      -2
+     ]
+    },
+    "score_initial": 17.403,
+    "score_fitted": 23.336,
+    "ground_size_m": [
+     242.93,
+     189.01
+    ],
+    "metres_per_px": 0.2899,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2021,
+    "monsoon_mm": 2660.52,
+    "monsoon_days": 122,
+    "prior30_mm": 79.82,
+    "prior7_mm": 32.88
+   },
+   "geometry": "dates/2022_05_07.json"
+  },
+  {
+   "id": "2024_02_17",
+   "iso": "2024-02-17",
+   "has_local_elements": false,
+   "counts": {
+    "water": 3,
+    "bed_ground": 8,
+    "mangrove_canopy": 27,
+    "land_edge": 1,
+    "boats": 21,
+    "cage_farms": 15
+   },
+   "area_m2": {
+    "water": 17881.22,
+    "bed_ground": 16625.11,
+    "mangrove_canopy": 1621.22
+   },
+   "imagery": {
+    "file": "imagery/2024_02_17.png",
+    "source": "assets\\sat_images_kml\\2024_02_17\\2024_02_17.png",
+    "lookat": {
+     "lon": 74.69215926258589,
+     "lat": 13.63874467888269,
+     "heading": 6.728103857452504,
+     "range_m": 220.7777154313485
+    },
+    "corners": [
+     [
+      -123.68,
+      88.72
+     ],
+     [
+      122.79,
+      95.05
+     ],
+     [
+      127.72,
+      -96.61
+     ],
+     [
+      -118.75,
+      -102.95
+     ]
+    ],
+    "size_px": [
+     841,
+     654
+    ],
+    "params": {
+     "scale": 1.034,
+     "rotation_deg": -8.2,
+     "shift_px": [
+      -45,
+      105
+     ]
+    },
+    "score_initial": 4.446,
+    "score_fitted": 36.868,
+    "ground_size_m": [
+     246.55,
+     191.73
+    ],
+    "metres_per_px": 0.2932,
+    "method": "LookAt footprint refined against traces (wide search)",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2023,
+    "monsoon_mm": 2443.71,
+    "monsoon_days": 122,
+    "prior30_mm": 0.0,
+    "prior7_mm": 0.0
+   },
+   "geometry": "dates/2024_02_17.json"
+  },
+  {
+   "id": "2025_02_25",
+   "iso": "2025-02-25",
+   "has_local_elements": true,
+   "counts": {
+    "water": 3,
+    "mangrove_canopy": 6,
+    "land_edge": 1,
+    "tree_cover": 5,
+    "track": 1,
+    "buildings": 11,
+    "boats": 27,
+    "cage_farms": 9
+   },
+   "area_m2": {
+    "water": 32655.37,
+    "mangrove_canopy": 2371.2,
+    "tree_cover": 2066.55,
+    "track": 3136.03
+   },
+   "imagery": {
+    "file": "imagery/2025_02_25.png",
+    "source": "assets\\sat_images_kml\\2025_02_25\\2025_02_25.png",
+    "lookat": {
+     "lon": 74.69225145683379,
+     "lat": 13.63908297049173,
+     "heading": -2.206454748456795,
+     "range_m": 206.4651599343202
+    },
+    "corners": [
+     [
+      -123.8,
+      87.78
+     ],
+     [
+      127.02,
+      95.69
+     ],
+     [
+      133.18,
+      -99.53
+     ],
+     [
+      -117.65,
+      -107.44
+     ]
+    ],
+    "size_px": [
+     839,
+     653
+    ],
+    "params": {
+     "scale": 0.95,
+     "rotation_deg": 0.4,
+     "shift_px": [
+      -16,
+      -28
+     ]
+    },
+    "score_initial": 7.94,
+    "score_fitted": 18.196,
+    "ground_size_m": [
+     250.95,
+     195.32
+    ],
+    "metres_per_px": 0.2991,
+    "method": "LookAt footprint refined against traces",
+    "note": "Approximate registration of a Google Earth Pro screenshot; see tools/preprocess/qa for the overlay check."
+   },
+   "rainfall": {
+    "monsoon_year": 2024,
+    "monsoon_mm": 3699.89,
+    "monsoon_days": 122,
+    "prior30_mm": 0.0,
+    "prior7_mm": 0.0
+   },
+   "geometry": "dates/2025_02_25.json"
+  }
+ ]
+}
