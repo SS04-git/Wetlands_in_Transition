@@ -4,7 +4,6 @@
 
 const NS = 'http://www.w3.org/2000/svg';
 const fmt = (v) => Math.round(v).toLocaleString('en-GB');
-const pval = (p) => (p < 0.001 ? 'p < 0.001' : `p ${p.toFixed(p < 0.01 ? 3 : 2)}`);
 
 function svg(w, h, cls) {
   const s = document.createElementNS(NS, 'svg');
@@ -48,11 +47,8 @@ export function renderTrends(root, { change, label, colour, order, selectedDate,
     mod.forEach((a, i) => s.append(el('circle', { cx: X(t[i]), cy: Y(a), r: 2.6, stroke: colour(k), class: 'ml-mod' })));
     const stat = document.createElement('span');
     stat.className = 'ml-stat';
-    const sign = tr.slope_m2_per_year >= 0 ? '+' : '−';
-    stat.innerHTML = sig ? `<b>${sign}${fmt(Math.abs(tr.slope_m2_per_year))} m²/yr</b>${pval(tr.p)}` : `<b>no trend</b>${pval(tr.p)}`;
-    const now = si >= 0 ? `<span class="ml-val">this date: ${fmt(obs[si])} m² traced · ${fmt(mod[si])} m² model</span>` : '';
+    stat.innerHTML = sig ? `<b>${tr.slope_m2_per_year >= 0 ? 'growing' : 'shrinking'}</b>about ${fmt(Math.abs(tr.slope_m2_per_year))} m² a year` : '<b>no clear trend</b>goes up and down';
     row.append(name, s, stat);
-    row.insertAdjacentHTML('beforeend', now);
     root.append(row);
   }
   const axis = document.createElement('p');
@@ -64,7 +60,7 @@ export function renderTrends(root, { change, label, colour, order, selectedDate,
 /** Q2: confusion matrix, rows = traced, columns = model, as share of each traced class (all dates pooled). */
 export function renderConfusion(table, { metrics, label, colour, short }) {
   const C = metrics.confusion, K = C.classes;
-  const head = `<thead><tr><th class="cm-corner">Traced ↓ · model →</th>${K.map((k) => `<th title="${label(k)}">${short(k)}</th>`).join('')}</tr></thead>`;
+  const head = `<thead><tr><th class="cm-corner">Rows: traced · columns: model</th>${K.map((k) => `<th title="${label(k)}">${short(k)}</th>`).join('')}</tr></thead>`;
   const body = K.map((k, i) => {
     const row = C.rows_manual_cols_model[i], tot = row.reduce((a, b) => a + b, 0);
     const cells = row.map((v, j) => {
@@ -97,14 +93,14 @@ export function renderScenario(root, { change, colour, selectedDate }) {
   s.append(el('text', { x: L - 6, y: T + 4, class: 'ml-tick', 'text-anchor': 'end' }, 'm²'));
   const tEnd = t.at(-1);
   s.append(el('rect', { x: X(tEnd), y: T, width: X(x1) - X(tEnd), height: H - T - B, class: 'ml-future' }));
-  s.append(el('text', { x: X(tEnd) + 6, y: T + 11, class: 'ml-tick ml-tick--em' }, 'hypothetical'));
+  s.append(el('text', { x: X(tEnd) + 6, y: T + 11, class: 'ml-tick ml-tick--em' }, 'possible futures'));
   // fitted trend over the record
   const f = (y) => A.observed.intercept + A.observed.slope_m2_per_year * y;
   s.append(el('line', { x1: X(t[0]), x2: X(tEnd), y1: Y(Math.max(0, f(t[0]))), y2: Y(f(tEnd)), class: 'ml-fit', stroke: colour('mangrove_canopy') }));
   if (sc) {
     const [lo, hi] = sc.continuation_95_interval['2035'];
     s.append(el('path', { d: `M${X(tEnd)},${Y(sc.base_fitted_m2)} L${X(2035)},${Y(hi)} L${X(2035)},${Y(lo)} Z`, class: 'ml-band' }));
-    const names = { accelerated: 'accelerated · 1.5×', continuation: 'continued · 1×', reduced: 'reduced · 0.5×' };
+    const names = { accelerated: '1.5 times faster', continuation: 'same rate', reduced: 'half the rate' };
     for (const [name, vals] of Object.entries(sc.values)) {
       s.append(el('polyline', { points: `${X(tEnd)},${Y(sc.base_fitted_m2)} ${X(2030)},${Y(vals['2030'])} ${X(2035)},${Y(vals['2035'])}`, class: `ml-scen-line ml-scen-line--${name}` }));
       s.append(el('text', { x: X(2035) + 5, y: Y(vals['2035']) + 3, class: 'ml-tick' }, names[name]));
@@ -119,10 +115,10 @@ export function renderScenario(root, { change, colour, selectedDate }) {
 export function renderScenarioTable(table, { change }) {
   const sc = change.analysis.mangrove_canopy.scenarios;
   if (!sc) { table.innerHTML = ''; return; }
-  const rows = [['continuation', 'Trend continued (1×)'], ['accelerated', 'Accelerated (1.5×)'], ['reduced', 'Reduced (0.5×)']]
+  const rows = [['continuation', 'At the same rate'], ['accelerated', 'One and a half times faster'], ['reduced', 'At half the rate']]
     .map(([k, n]) => `<tr><td>${n}</td><td>${fmt(sc.values[k]['2030'])}</td><td>${fmt(sc.values[k]['2035'])}</td></tr>`).join('');
   const ci = sc.continuation_95_interval;
-  table.innerHTML = `<caption>Mangrove canopy in the study rectangle, m² (hypothetical; fitted 2025 value ${fmt(sc.base_fitted_m2)} m²)</caption>
-    <thead><tr><th>Scenario</th><th>2030</th><th>2035</th></tr></thead>
-    <tbody>${rows}<tr class="muted"><td>95% range of the fitted rate</td><td>${fmt(ci['2030'][0])}–${fmt(ci['2030'][1])}</td><td>${fmt(ci['2035'][0])}–${fmt(ci['2035'][1])}</td></tr></tbody>`;
+  table.innerHTML = `<caption>Mangrove canopy in the study area (m²) if it keeps growing</caption>
+    <thead><tr><th>Growth</th><th>2030</th><th>2035</th></tr></thead>
+    <tbody>${rows}<tr class="muted"><td>Likely range at the same rate</td><td>${fmt(ci['2030'][0])} to ${fmt(ci['2030'][1])}</td><td>${fmt(ci['2035'][0])} to ${fmt(ci['2035'][1])}</td></tr></tbody>`;
 }

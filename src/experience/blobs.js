@@ -73,10 +73,11 @@ const fragment = /* glsl */ `
     vec3 N = normalize(vNormalW), V = normalize(vViewDir);
     vec3 L1 = normalize(vec3(-0.5, 0.8, 0.6)), L2 = normalize(vec3(0.7, -0.2, 0.5));
     float pattern = 0.5 + vDisp * 1.6;
-    pattern += uStripe * 0.25 * sin(vPos.y * 26.0 + snoise(vPos * 3.0 + uTime * 0.2) * 3.0 + uTime * 0.8);
+    // each pattern is only worked out when this class uses it (the costly ones are skipped otherwise)
+    if (uStripe > 0.001) pattern += uStripe * 0.25 * sin(vPos.y * 26.0 + snoise(vPos * 3.0 + uTime * 0.2) * 3.0 + uTime * 0.8);
     pattern += uGrain * 0.22 * (hash(floor(vPos * 140.0)) - 0.5);
-    pattern += uCells * 0.55 * (0.5 - cellular(vPos * 6.0));
-    pattern += uMottle * 0.35 * fbm(vPos * 2.2 + uTime * 0.03);
+    if (uCells > 0.001) pattern += uCells * 0.55 * (0.5 - cellular(vPos * 6.0));
+    if (uMottle > 0.001) pattern += uMottle * 0.35 * fbm(vPos * 2.2 + uTime * 0.03);
     pattern += uBands * 0.3 * sin(vPos.y * 40.0);
     vec3 base = mix(uColorB, uColorA, clamp(pattern, 0.0, 1.0));
     float diff = 0.35 + 0.55 * max(dot(N, L1), 0.0) + 0.2 * max(dot(N, L2), 0.0);

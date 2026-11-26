@@ -32,7 +32,7 @@ export const LOOK_KEYS = Object.keys(CLASS_LOOK);
 export const lookColor = (key) => CLASS_LOOK[key]?.a ?? '#ffffff';
 
 // Rainfall (Map 6): the two blues of the printed rainfall key, set apart from the water class.
-export const RAIN_LOOK = { monsoon: '#1E7F9A', prior30: '#A9DCEB' };
+export const RAIN_LOOK = { monsoon: '#1E7F9A', prior30: '#E4F4F8' };
 
 /** Publish the colours as CSS variables (--c-water ...) so HTML keys use exactly the 3D colours. */
 export function publishCssColours(root = document.documentElement) {
@@ -91,7 +91,7 @@ export function surfaceMaterial(key, { opacity = 1 } = {}) {
       uColorA: { value: new THREE.Color(L.a) }, uColorB: { value: new THREE.Color(L.b) },
       uTex: { value: new THREE.Vector4(L.stripe, L.grain, L.cells, L.mottle) },
       uLook: { value: new THREE.Vector4(L.freq, L.bands, L.gloss, L.facet) },
-      uTime: { value: 0 }, uOpacity: { value: opacity },
+      uTime: { value: 0 }, uOpacity: { value: opacity }, uLeave: { value: 1 },
     }]),
     vertexShader: /* glsl */ `
       #include <common>
@@ -115,7 +115,7 @@ export function surfaceMaterial(key, { opacity = 1 } = {}) {
       #include <fog_pars_fragment>
       uniform vec3 uColorA, uColorB;
       uniform vec4 uTex, uLook;
-      uniform float uTime, uOpacity;
+      uniform float uTime, uOpacity, uLeave;
       varying vec3 vW, vN, vV;
       ${SURFACE_GLSL}
       void main() {
@@ -130,7 +130,7 @@ export function surfaceMaterial(key, { opacity = 1 } = {}) {
         vec3 H = normalize(L1 + V);
         float spec = pow(max(dot(N, H), 0.0), mix(8.0, 70.0, uLook.z)) * mix(0.06, 0.7, uLook.z);
         float fres = pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 3.0) * 0.25;
-        gl_FragColor = vec4(base * diff + spec + fres * uColorA, uOpacity);
+        gl_FragColor = vec4(base * diff + spec + fres * uColorA, uOpacity * uLeave);
         #include <colorspace_fragment>
         #include <fog_fragment>
       }`,

@@ -25,11 +25,13 @@ export function createGauge(root, chapters, total, onGo) {
   svg.setAttribute('preserveAspectRatio', 'none');
   svg.setAttribute('aria-hidden', 'true');
   const mk = (cls) => { const p = document.createElementNS(ns, 'path'); p.setAttribute('d', PATH); p.setAttribute('class', cls); p.setAttribute('vector-effect', 'non-scaling-stroke'); svg.append(p); return p; };
-  mk('track');
+  const track = mk('track');
   const fill = mk('fill');
-  const len = fill.getTotalLength();
-  fill.style.strokeDasharray = `${len} ${len + 20}`;
-  fill.style.strokeDashoffset = `${len}`;
+  const len = track.getTotalLength();
+  // The travelled part is drawn as the exact piece of the path from the top to the reader's
+  // position (not as a dash): with a stretched SVG and a fixed stroke width, dash lengths are
+  // measured on screen, not along the path, so a dash would land in the wrong place.
+  fill.setAttribute('d', 'M30 0');
   const ring = document.createElementNS(ns, 'g');
   ring.innerHTML = '<circle class="now" r="6.5" vector-effect="non-scaling-stroke"/><circle class="now-core" r="1.6"/>';
   svg.append(ring);
@@ -43,7 +45,7 @@ export function createGauge(root, chapters, total, onGo) {
   count.className = 'gauge-count';
   root.append(count);
 
-  const at = (frac) => fill.getPointAtLength(Math.max(0, Math.min(1, frac)) * len);
+  const at = (frac) => track.getPointAtLength(Math.max(0, Math.min(1, frac)) * len);
   const toPct = (pt) => ({ x: (pt.x / VB_W) * 100, y: (pt.y / VB_H) * 100 });
 
   const items = NAV_ITEMS.map((item) => {
@@ -78,8 +80,12 @@ export function createGauge(root, chapters, total, onGo) {
 
   return {
     setProgress(progress) {
-      fill.style.strokeDashoffset = `${len * (1 - progress)}`;
-      const pt = at(progress);
+      const p = Math.max(0, Math.min(1, progress));
+      const end = p * len, steps = Math.max(1, Math.ceil(end / 3));
+      let d = '';
+      for (let i = 0; i <= steps; i++) { const q = track.getPointAtLength((i / steps) * end); d += `${i ? 'L' : 'M'}${q.x.toFixed(2)} ${q.y.toFixed(2)}`; }
+      fill.setAttribute('d', d);
+      const pt = at(p);
       ring.setAttribute('transform', `translate(${pt.x} ${pt.y}) scale(${VB_W / root.clientWidth || 1} ${VB_H / root.clientHeight || 1})`);
       items.forEach((it) => it.el.classList.toggle('passed', progress >= it.frac - 0.001));
     },

@@ -41,27 +41,61 @@ export class Space {
     const corona = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture([[0, 'rgba(255,220,170,0.35)'], [0.4, 'rgba(255,180,120,0.08)'], [1, 'rgba(255,160,90,0)']]), blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }));
     corona.position.copy(sunPos); corona.scale.setScalar(1100);
     this.scene.add(core, corona);
+    this.sun = sun;
+    this.sunSprites = [core, corona];
+    // day and night light: at the end of the story the light swings behind the Earth, so the
+    // face turned to the camera is in night with a lit edge, and the sun itself has set
+    this.daySun = sunDir.clone();
+    this.nightSun = new THREE.Vector3(-0.82, 0.3, -0.5).normalize();
 
     // A small grey moon on the far side.
-    this.moon = new THREE.Mesh(new THREE.IcosahedronGeometry(0.2, 8), new THREE.MeshStandardMaterial({ color: 0x9a9a98, roughness: 1 }));
+    this.moon = new THREE.Mesh(new THREE.IcosahedronGeometry(0.2, 8), new THREE.MeshStandardMaterial({ color: 0x9a9a98, roughness: 1, emissive: 0xc9d3dc, emissiveIntensity: 0 }));
     this.moon.position.set(5.5, 1.2, -7);
     this.scene.add(this.moon);
+    // at night the moon is up where the sun was, with a faint halo
+    this.moonHalo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture([[0, 'rgba(220,235,245,0.55)'], [0.25, 'rgba(170,205,225,0.16)'], [1, 'rgba(120,170,200,0)']]), blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false, opacity: 0 }));
+    this.scene.add(this.moonHalo);
+    this.moonNight = new THREE.Vector3(-2.6, 1.45, -5.5);
+    this.moonDay = new THREE.Vector3();
+    this.night = 0;
 
     this.stars = this.makeStars(5200);
     this.scene.add(this.stars);
 
     // Atmosphere: back-face fresnel shell, blue rim lit on the sun side.
-    this.atmosphere = new THREE.Mesh(new THREE.SphereGeometry(1.085, 96, 96), new THREE.ShaderMaterial({
+    this.atmosphere = new THREE.Mesh(new THREE.SphereGeometry(1.045, 96, 96), new THREE.ShaderMaterial({
       uniforms: { uSun: { value: sunDir }, uStrength: { value: 1 } },
       vertexShader: `varying vec3 vN; varying vec3 vW; void main(){ vN = normalize(mat3(modelMatrix)*normal); vec4 w = modelMatrix*vec4(position,1.); vW = w.xyz; gl_Position = projectionMatrix*viewMatrix*w; }`,
       fragmentShader: `uniform vec3 uSun; uniform float uStrength; varying vec3 vN; varying vec3 vW;
-        void main(){ vec3 V = normalize(cameraPosition - vW); float rim = pow(1.0 - clamp(abs(dot(normalize(vN), V)), 0.0, 1.0), 4.5);
-          float lit = 0.35 + 0.65 * smoothstep(-0.4, 0.6, dot(vN, uSun));
-          vec3 col = mix(vec3(0.20,0.45,1.0), vec3(0.55,0.80,1.0), rim);
-          gl_FragColor = vec4(col * lit, rim * 0.8 * uStrength); }`,
+        void main(){ vec3 V = normalize(cameraPosition - vW); float rim = pow(1.0 - clamp(abs(dot(normalize(vN), V)), 0.0, 1.0), 6.0);
+          // soft and thin, and only where the sun reaches, so the shadowed edge has no dark band
+          float lit = smoothstep(-0.25, 0.6, dot(vN, uSun));
+          vec3 col = mix(vec3(0.30,0.55,1.0), vec3(0.62,0.84,1.0), rim);
+          gl_FragColor = vec4(col * lit, rim * 0.5 * lit * uStrength); }`,
       side: THREE.BackSide, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false,
     }));
     this.scene.add(this.atmosphere);
+
+    // Halo: a soft glow around the Earth that makes it stand out against space. It is brightest
+    // right at the Earth's edge and fades smoothly to nothing as it spreads outward (no ring at
+    // its outer edge); stronger on the sunlit side, fainter but still present on the night side.
+    // It rides with the atmosphere shell, so it follows the Earth's position and size.
+    this.halo = new THREE.Mesh(new THREE.SphereGeometry(1.24 / 1.045, 96, 96), new THREE.ShaderMaterial({
+      uniforms: { uSun: { value: sunDir }, uStrength: { value: 1 } },
+      vertexShader: `varying vec3 vNv; varying vec3 vPv; varying vec3 vNw;
+        void main(){ vNv = normalize(normalMatrix * normal); vNw = normalize(mat3(modelMatrix) * normal);
+          vec4 mv = modelViewMatrix * vec4(position, 1.0); vPv = mv.xyz; gl_Position = projectionMatrix * mv; }`,
+      fragmentShader: `uniform vec3 uSun; uniform float uStrength; varying vec3 vNv; varying vec3 vPv; varying vec3 vNw;
+        void main(){
+          // back faces of a larger sphere: 0 at the halo's outer edge, rising towards the Earth's edge
+          float toward = clamp(-dot(normalize(vNv), normalize(-vPv)), 0.0, 1.0);
+          float glow = pow(smoothstep(0.0, 0.62, toward), 2.4);
+          float lit = 0.28 + 0.72 * smoothstep(-0.45, 0.7, dot(normalize(vNw), uSun));
+          vec3 col = mix(vec3(0.32, 0.58, 1.0), vec3(0.62, 0.84, 1.0), glow);
+          gl_FragColor = vec4(col * lit, glow * 0.66 * lit * uStrength); }`,
+      side: THREE.BackSide, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false,
+    }));
+    this.atmosphere.add(this.halo);
 
     // Cloud layer on the globe (procedural, drifts slowly).
     this.clouds = new THREE.Mesh(new THREE.SphereGeometry(1.012, 128, 128), new THREE.ShaderMaterial({
@@ -93,6 +127,7 @@ export class Space {
     const earth = gltf.scene;
     earth.scale.setScalar(1 / 1.1276455); // the GLB mesh node carries a 1.1276 scale
     this.globe.add(earth);
+    this.earthLoaded = true;
   }
 
   makeStars(n) {
@@ -126,9 +161,39 @@ export class Space {
 
   setSize(aspect, pr) { this.camera.aspect = aspect; this.camera.updateProjectionMatrix(); this.stars.material.uniforms.uPR.value = pr; }
 
+  /** n: 0 = day (the opening), 1 = night (the end of the story). Moves the light, the sun and the moon. */
+  setNight(n, time) {
+    this.night = n;
+    this.sunDir.copy(this.daySun).lerp(this.nightSun, n).normalize();
+    this.sun.position.copy(this.sunDir).multiplyScalar(10);
+    this.sunSprites.forEach((sp) => { sp.material.opacity = 1 - 0.92 * n; });
+    this.moonDay.set(6.5 * Math.cos(time * 0.02), 1.6, -12 + 2 * Math.sin(time * 0.02));
+    this.moon.position.copy(this.moonDay).lerp(this.moonNight, n);
+    this.moon.scale.setScalar(1 + 0.25 * n);
+    this.moon.rotation.y = time * 0.01;
+    this.moon.material.emissiveIntensity = 0.16 * n;
+    this.moonHalo.position.copy(this.moon.position);
+    this.moonHalo.scale.setScalar(1.6);
+    this.moonHalo.material.opacity = 0.7 * n;
+  }
+
+  /** "Return to the start": from the night view, the Earth turns back to the opening view over a
+   *  few seconds (blended in update), so only the text needs to change. */
+  beginReturn() {
+    this.ret = {
+      t0: this.lastTime ?? 0, q: this.globe.quaternion.clone(), x: this.globe.position.x, s: this.globe.scale.x,
+      z: this.camera.position.z, n: this.night,
+    };
+  }
+
   /** approach: 0 = resting in space, 1 = Kundapur filling the view. */
-  update(time, approach, captured) {
+  update(time, approach, captured, away = 0) {
+    this.lastTime = time;
+    // before the Earth's model has arrived, only space is shown; then the Earth fades in
+    this.earthIn = Math.min(1, (this.earthIn ?? 0) + (this.earthLoaded ? 0.02 : 0));
+    this.globe.visible = this.atmosphere.visible = this.earthIn > 0.001;
     const a = THREE.MathUtils.clamp(approach, 0, 1);
+    if (away > 0.0005) { this.ret = null; return this.updateAway(time, THREE.MathUtils.clamp(away, 0, 1), captured); }
     if (a < 0.0005) {
       this.restQ.setFromAxisAngle(new THREE.Vector3(0, 1, 0), time * 0.06).premultiply(this.tilt);
       this.globe.quaternion.copy(this.restQ);
@@ -150,9 +215,51 @@ export class Space {
     this.clouds.material.uniforms.uTime.value = time;
     this.clouds.material.uniforms.uOpacity.value = THREE.MathUtils.lerp(0.85, 0.35, a);
     this.atmosphere.material.uniforms.uStrength.value = 1 - 0.4 * a;
+    // the halo fades as the camera dives in towards Kundapur (it would surround the camera)
+    this.halo.material.uniforms.uStrength.value = 1 - THREE.MathUtils.smoothstep(a, 0.25, 0.7);
     this.marker.material.opacity = THREE.MathUtils.smoothstep(a, 0.55, 0.85) * (0.6 + 0.4 * Math.sin(time * 4));
     this.stars.material.uniforms.uTime.value = time;
-    this.moon.position.set(6.5 * Math.cos(time * 0.02), 1.6, -12 + 2 * Math.sin(time * 0.02));
+    let night = 0;
+    if (this.ret) {
+      // the turn back from the night view: a little more spin, then the opening at rest
+      const k = THREE.MathUtils.clamp((time - this.ret.t0) / 2.8, 0, 1), e = k * k * (3 - 2 * k);
+      const spin = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), (1 - e) * 1.6);
+      this.globe.quaternion.slerpQuaternions(this.ret.q, spin.multiply(this.globe.quaternion.clone()), e);
+      this.globe.position.x = THREE.MathUtils.lerp(this.ret.x, this.globe.position.x, e);
+      this.globe.scale.setScalar(THREE.MathUtils.lerp(this.ret.s, this.globe.scale.x, e));
+      this.camera.position.z = THREE.MathUtils.lerp(this.ret.z, this.camera.position.z, e);
+      this.atmosphere.position.x = this.globe.position.x;
+      this.atmosphere.scale.copy(this.globe.scale);
+      night = this.ret.n * (1 - e);
+      if (k >= 1) this.ret = null;
+    }
+    this.setNight(night, time);
+    this.captured = captured;
+  }
+
+  /** The way back (end of the story): from Kundapur, the Earth turns to another face as the
+   *  camera draws back, and comes to rest on the right, as at the start but on a different side. */
+  updateAway(time, w, captured) {
+    const e = w * w * (3 - 2 * w);
+    this.awayQ ??= new THREE.Quaternion();
+    // half a turn and a little tilt: the far side of the Earth from the estuary
+    const turn = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI * 0.92 * e + time * 0.035 * e);
+    const lean = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), THREE.MathUtils.degToRad(-14) * e);
+    this.awayQ.copy(lean).multiply(turn).multiply(this.target);
+    this.globe.quaternion.copy(this.awayQ);
+    this.camera.position.set(0, 0, THREE.MathUtils.lerp(1.18, 4.2, Math.pow(e, 0.8)));
+    this.camera.lookAt(0, 0, 0);
+    this.globe.scale.setScalar(THREE.MathUtils.lerp(1.0, 0.7, e));
+    this.globe.position.x = THREE.MathUtils.lerp(0, 0.8, e);
+    this.atmosphere.position.x = this.globe.position.x;
+    this.atmosphere.scale.copy(this.globe.scale);
+    this.clouds.material.uniforms.uTime.value = time;
+    this.clouds.material.uniforms.uOpacity.value = THREE.MathUtils.lerp(0.35, 0.85, e);
+    this.atmosphere.material.uniforms.uStrength.value = THREE.MathUtils.lerp(0.6, 1, e);
+    this.halo.material.uniforms.uStrength.value = THREE.MathUtils.smoothstep(e, 0.3, 0.9);
+    this.marker.material.opacity = 0;
+    this.stars.material.uniforms.uTime.value = time;
+    this.setNight(e, time);   // the day ends as the Earth turns away
     this.captured = captured;
   }
 }

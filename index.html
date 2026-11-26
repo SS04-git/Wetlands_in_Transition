@@ -9,25 +9,48 @@
   <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Georgia and Calibri, as in the docbook (Georgia and Arial in the printed maps). Carlito is the free
+       font with Calibri's letter widths, loaded for screens that do not have Calibri installed. -->
+  <link href="https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/src/styles/experience.css">
 </head>
 <body>
   <div id="atmo" aria-hidden="true"><i class="g1"></i><i class="g2"></i><i class="g3"></i><div class="vignette"></div><div class="grain"></div></div>
   <canvas id="world" aria-label="Three-dimensional view of the Kundapur estuary"></canvas>
   <div id="labels" aria-hidden="true"></div>
+  <div id="callouts" aria-hidden="true"></div>
+  <div id="veil" aria-hidden="true"></div>
 
+  <!-- Loading: a black screen where the project's point is drawn while the site loads. Seventeen
+       waterlines, one for each date, appear one after another in dots (warm for 2011, cool for 2025)
+       and none lies where the last one did. Drawn on its own small canvas (loader.js), then the
+       screen fades away to the Earth. -->
   <div id="loader" role="status" aria-live="polite">
-    <p class="loader-title">Wetlands in Transition</p>
-    <span class="loader-bar"><i></i></span>
-    <p class="loader-note" id="loader-note">Loading the traced observations</p>
+    <canvas id="loader-art" aria-hidden="true"></canvas>
+    <div class="loader-copy">
+      <p class="loader-kicker">Panchagangavali estuary · Kundapur, Karnataka</p>
+      <p class="loader-title">Wetlands in Transition</p>
+      <p class="loader-sub">One edge between land and water, seen on 17 dates</p>
+    </div>
+    <div class="loader-foot">
+      <p class="loader-count" id="loader-count">Waterline 0 of 17</p>
+      <p class="loader-note"><span id="loader-note">Finding the Earth</span><span class="loader-pct" id="loader-pct">0%</span></p>
+    </div>
   </div>
 
   <nav class="gauge" id="gauge" aria-label="Chapters"></nav>
+  <button type="button" class="sound" id="sound" aria-pressed="false" title="A calm, smooth sound, made in the browser"><i aria-hidden="true"></i><span>Sound off</span></button>
   <details class="legend" id="legend" open><summary>Legend</summary><div class="lg-body"></div></details>
   <nav class="datestrip" id="datestrip" aria-label="Observation date"></nav>
 
   <div class="beats">
+    <!-- ===== Guide hints: short help for first-time visitors, at the moment it is needed ===== -->
+    <p class="hint" data-in="5.45" data-out="6.5">Keep scrolling to travel on. Drag the view to look around.</p>
+    <p class="hint" data-in="7.0" data-out="7.85">Each of these was traced: drawn by hand over a satellite image of every date, one kind of thing at a time.</p>
+    <p class="hint" data-in="11.35" data-out="12.0">The key at the top right names every colour on the map.</p>
+    <p class="hint" data-in="12.1" data-out="12.65">Around the maps, an imagined tide rises and falls over the flats, a reminder that the edge never stays still.</p>
+    <p class="hint" data-in="16.75" data-out="17.45">Try the slider to change the rule.</p>
+    <p class="hint" data-in="25.7" data-out="26.4">Use the date buttons to switch between 2011 and 2025.</p>
     <!-- ===== Opening ===== -->
     <section class="beat beat--hero" data-in="0" data-out="1.0">
       <h1>Wetlands in Transition</h1>
@@ -47,6 +70,7 @@
       <p class="data">25 Feb 2025 · Google Earth Pro</p>
       <h2>Blue waters, Kundapur.</h2>
       <p>This study follows how the estuary changes with the tide, the seasons and the years, and how that change is represented in formal land-use planning.</p>
+      <p class="question">One question runs through the six maps that follow: where does the land end and the water begin?</p>
       <p class="note">Each dot carries the colour of the satellite image at that point. The frame, about 250 by 195 metres, is the view in which every date was traced.</p>
     </section>
 
@@ -55,7 +79,6 @@
       <div class="specimen-head">
         <p class="specimen-count" id="specimen-count"></p>
         <p class="specimen-def" id="specimen-def"></p>
-        <p class="specimen-stat" id="specimen-stat"></p>
       </div>
       <h2 class="specimen-name" id="specimen-name"></h2>
       <p class="specimen-inset" id="specimen-inset"></p>
@@ -63,97 +86,116 @@
 
     <!-- ===== Map 1: the estuary as a landscape ===== -->
     <section class="beat" data-in="11.25" data-out="12.0">
-      <p class="kicker">Map 1</p>
-      <h2>The estuary as a landscape.</h2>
-      <p>One connected place, before any comparison is made: the estuary on 25 February 2025, its traced classes lifted apart so each can be read on its own.</p>
+      <p class="kicker">Map 1 · The estuary as a landscape</p>
+      <h2>One day, pulled apart.</h2>
+      <p class="question">What is here on a single day?</p>
+      <p>The satellite photo of 25 February 2025 comes first. Watch each kind of thing being traced over it, one at a time. Then every part is lifted into its own layer, like the pages of a book held apart.</p>
     </section>
     <section class="beat" data-in="12.05" data-out="12.7">
       <p class="kicker">Map 1 · What to look for</p>
       <ul class="observe">
-        <li style="--dot:var(--c-water)">Water covers most of the frame on this date. No exposed bed was traced.</li>
-        <li style="--dot:var(--c-land-edge)">The land edge, a single line, marks where land meets water or bed.</li>
-        <li style="--dot:var(--c-boats)">Boats and cage farms are points: positions, not areas.</li>
+        <li style="--dot:var(--c-water)">Water: on this day it covers almost the whole frame. No bare estuary bed was showing.</li>
+        <li style="--dot:var(--c-land-edge)">Land edge: one thin line where the land stops and the water or bed begins.</li>
+        <li style="--dot:var(--c-boats)">Boats and cage farms: each is a single dot that marks where it was, not how big it is.</li>
       </ul>
     </section>
     <section class="beat beat--top" data-in="12.8" data-out="13.45">
       <p class="kicker">Map 1 · Mangrove canopy</p>
-      <h2>Mangroves on the central bed.</h2>
-      <p>Only the visible canopy is traced, not the full habitat or its roots. On this date it was traced as six patches.</p>
+      <h2>Mangroves in the middle of the water.</h2>
+      <p>Six patches of mangrove sit on the bed at the centre of the estuary. Only their leafy tops were traced, the part you can see from above, not the roots or the whole habitat.</p>
     </section>
     <section class="beat beat--right beat--interactive" data-in="13.55" data-out="14.35">
       <p class="kicker">Map 1 · The shore</p>
-      <h2>Boats at the water's edge, cage farms offshore.</h2>
-      <p>On this date the boats line up along the water's edge, just inside the land edge, and the cage farms sit offshore in the open water.</p>
-      <p class="note">The printed map sets these traces over a recent satellite base, which is not from the observation date. The traces are the evidence.</p>
-      <button type="button" class="open-map" data-map="1">Open Map 1</button>
+      <h2>Boats along the shore, cages out on the water.</h2>
+      <p>The boats sit in a line at the water's edge, just inside the land edge. Further out, the cage farms float in open water: cages where fish are raised.</p>
+      <p class="note">The printed map shows these traces over a recent satellite photo, which was not taken on this date. The traces themselves are the evidence.</p>
+      <p class="takeaway"><b>In short</b>Even a single day holds water, mangroves, boats and cage farms, with the land edge running through them.</p>
+      <p class="next">Next: which places stay wet, and which change.</p>
+      <button type="button" class="open-map" data-map="1">See the printed Map 1</button>
     </section>
 
     <!-- ===== Map 2: patterns of wetness and vegetation ===== -->
     <section class="beat" data-in="15.5" data-out="16.55">
-      <p class="kicker">Map 2</p>
-      <h2>Patterns of wetness and vegetation.</h2>
-      <p>The study area is divided into 1.5 m cells, and each of the seventeen observations is checked cell by cell.</p>
-      <p class="note">Each ball is one date on which that cell was traced as water. Height is a count of dates, not depth or elevation.</p>
+      <p class="kicker">Map 2 · Patterns of wetness and vegetation</p>
+      <h2>Seventeen days, stacked up.</h2>
+      <p class="question">Which places are always wet, and which change?</p>
+      <p class="counter"><b id="pers-count">0</b> of 17 dates counted</p>
+      <p>The estuary is cut into small squares, each 1.5 m across. For each of the 17 dates, every square that was under water gets one ball. So the columns grow date by date.</p>
+      <div class="col-key" aria-hidden="true">
+        <span><i style="--n:1"></i>water on 1 date</span>
+        <span><i style="--n:5"></i>now and then</span>
+        <span><i style="--n:9"></i>on all 17 dates</span>
+      </div>
+      <p class="note">Height counts dates. It is not the depth of the water or the height of the ground.</p>
     </section>
     <section class="beat beat--interactive" data-in="16.65" data-out="17.55">
-      <p class="kicker">Map 2 · Algorithmic relaxation</p>
-      <h2>How often must a place be water to be called water?</h2>
+      <p class="kicker">Map 2 · Where do you draw the line?</p>
+      <h2>Where would you draw the water's edge?</h2>
       <label class="threshold">
         <span>Water on at least <output id="threshold-out">1</output> of 17 dates</span>
         <input type="range" id="threshold" min="1" max="17" step="1" value="1">
       </label>
       <p class="data" id="threshold-area"></p>
-      <p>Relaxation loosens the rule into a trade-off. A yes or no becomes a matter of degree.</p>
-      <p class="note">Calculated from the traced geometry for this site; figures may differ slightly from the printed map.</p>
+      <p>A map has to decide where the water ends. Move the slider to choose a rule: a square counts as water if it was wet on at least that many dates. Only the squares that pass stay lit.</p>
+      <p>Ask for just 1 date and the water looks huge. Ask for all 17 and it shrinks. Neither is wrong: the edge depends on the rule.</p>
+      <p class="note">The printed map calls this algorithmic relaxation: turning a yes or no into a matter of degree. Worked out from the traced shapes for this site, so the figures may differ slightly from the printed map.</p>
     </section>
     <section class="beat" data-in="17.65" data-out="18.2">
       <p class="kicker">Map 2 · <span id="pers-mode">Mangrove canopy persistence</span></p>
-      <h2>Canopy, counted date by date.</h2>
-      <p>Mangrove canopy was traced in 2011 and on every date from December 2017, but on none of the four observations between 2013 and 2016.</p>
+      <h2>Mangroves that came back.</h2>
+      <p>The same columns, now counting mangroves: one ball for every date a square showed mangrove canopy.</p>
+      <p>Mangroves were seen in 2011, then missing from all four images between 2013 and 2016, then seen on every date from December 2017 onwards. The tallest columns mark where they were seen most often.</p>
     </section>
     <section class="beat beat--interactive" data-in="18.3" data-out="18.85">
-      <p class="kicker">Map 2 · Exposed sediment frequency</p>
-      <h2>The ground that changes between dates.</h2>
-      <p>A band of mid-tone cells marks ground that changes between dates, which is the zone a fixed boundary cannot describe.</p>
-      <p class="note">Tide level was not recorded, so a cell's count can mix seasonal change with the state of the tide.</p>
-      <button type="button" class="open-map" data-map="2">Open Map 2</button>
+      <p class="kicker">Map 2 · Ground that comes and goes</p>
+      <h2>Dry one day, under water the next.</h2>
+      <p>Now the columns count bare ground: one ball for every date a square showed dry estuary bed.</p>
+      <p>Look at the band of middle-height columns. That is ground that was dry on some dates and under water on others, exactly what a single fixed line on a map cannot show.</p>
+      <p class="note">The tide was not recorded, so some of this coming and going may simply be high and low tide.</p>
+      <p class="takeaway"><b>In short</b>The edge is not one line but a band that is sometimes wet and sometimes dry.</p>
+      <p class="next">Next: the estuary across seventeen dates.</p>
+      <button type="button" class="open-map" data-map="2">See the printed Map 2</button>
     </section>
 
     <!-- ===== Map 3: the estuary through time ===== -->
     <section class="beat beat--right" data-in="19.85" data-out="20.6">
-      <p class="kicker">Map 3</p>
-      <h2>The estuary through time.</h2>
-      <p>The printed map compares six observations at the same extent, scale and colours, from 11 April 2011 to 17 February 2024.</p>
-      <p class="note">Differences are read as differences between observations, not as long-term change.</p>
+      <p class="kicker">Map 3 · The estuary through time</p>
+      <h2>Six snapshots on a carousel.</h2>
+      <p class="question">How does the estuary differ from one date to the next?</p>
+      <p>Six dates from 11 April 2011 to 17 February 2024, all at the same size and in the same colours so they can be compared fairly. Each one lifts into its layers as it turns to the front.</p>
+      <p class="note">Each snapshot is one moment. A difference between two of them is not proof of a long-term trend.</p>
     </section>
     <section class="beat" data-in="20.75" data-out="21.35">
       <p class="kicker">Map 3 · All seventeen</p>
-      <h2>Seventeen clear dates, from 22 available images.</h2>
-      <p>Spaced evenly here so each can be read. Cloud marks where a monsoon falls between two observations.</p>
-      <p class="note"><span class="key-dot"></span>Dates compared in the printed map</p>
+      <h2>Seventeen clear days, out of 22 images.</h2>
+      <p>Every usable date is stacked like a pile of glass slides, the oldest at the bottom. Where a monsoon passed between two dates, a band of cloud sits between their slides.</p>
+      <p class="note"><span class="key-dot"></span>Dates shown in the printed map</p>
     </section>
     <section class="beat beat--readout" data-in="21.45" data-out="22.7">
       <p class="kicker">Map 3 · In focus</p>
       <p class="readout" id="stack-date"></p>
       <p class="data" id="stack-detail"></p>
-      <p class="note">The tide level at the time of each image is not known, so part of any difference may be tidal.</p>
+      <p class="note">The tide at the moment each image was taken is not known, so part of any difference may simply be the tide.</p>
     </section>
     <section class="beat beat--interactive" data-in="22.75" data-out="23.6">
       <p class="kicker">Map 3 · Across the record</p>
       <ul class="observe">
-        <li style="--dot:var(--c-mangrove-canopy)">Mangrove canopy is traced in 2011, absent from the traces of 2013 to 2016, and present on every date from December 2017.</li>
-        <li style="--dot:var(--c-cage-farms)">Cage farms first appear in November 2018 and are traced on every later date.</li>
-        <li style="--dot:var(--c-boats)">Boats range from 13 to 28 per observation.</li>
+        <li style="--dot:var(--c-mangrove-canopy)">Mangroves: seen in 2011, missing from the images of 2013 to 2016, and back on every date from December 2017.</li>
+        <li style="--dot:var(--c-cage-farms)">Cage farms: first seen in November 2018, and on every date since.</li>
+        <li style="--dot:var(--c-boats)">Boats: between 13 and 28 on any one date.</li>
       </ul>
-      <button type="button" class="open-map" data-map="3">Open Map 3</button>
+      <p class="takeaway"><b>In short</b>No single date can stand for the estuary.</p>
+      <p class="next">Next: the people who live and work along the edge.</p>
+      <button type="button" class="open-map" data-map="3">See the printed Map 3</button>
     </section>
 
     <!-- ===== Map 4: the estuary as a lived landscape ===== -->
     <section class="beat" data-in="24.5" data-out="25.45">
-      <p class="kicker">Map 4</p>
-      <h2>The estuary as a lived landscape.</h2>
-      <p>Settlement, track and tree cover along the shoreline, in 2011 below and 2025 above. The estuary is a working landscape for the Kharvi community: fishing, clam collection, and gathering, sorting and cleaning shellfish.</p>
-      <p class="note">The map shows what is visible from above. It does not say who uses these areas or how.</p>
+      <p class="kicker">Map 4 · The estuary as a lived landscape</p>
+      <h2>Where people meet the water.</h2>
+      <p class="question">How do people live and work along the edge?</p>
+      <p>Two strips of the same shore, 2011 below and 2025 above. Houses, the track, trees, boats and fish cages are built up in 3D, so the shore reads as a place where people live and work. For the Kharvi community, this is where fishing, clam collecting and the sorting and cleaning of shellfish happen.</p>
+      <p class="note">The map shows only what can be seen from above. It does not say who uses these places or how.</p>
     </section>
     <section class="beat beat--top beat--interactive" data-in="25.55" data-out="27.35">
       <p class="kicker">Map 4 · 2011 and 2025</p>
@@ -162,105 +204,219 @@
         <button type="button" data-lived="0">11 Apr 2011</button>
         <button type="button" data-lived="1">25 Feb 2025</button>
       </div>
-      <p>Cage farms are separate cages set in the water to raise fish.</p>
-      <p class="note">Buildings, boats and cage farms were traced as points, so their forms here are symbols at an indicative size, not measured outlines. The track is raised from its traced outline. The 2011 track looks narrower, but the images differ in resolution, so this is not treated as a finding.</p>
-      <button type="button" class="open-map" data-map="4">Open Map 4</button>
+      <p>Switch between the two years and look for what changed along the shore. Cage farms are cages floating in the water where fish are raised.</p>
+      <p class="note">Buildings, boats and cage farms were marked as single points, so their shapes here are symbols, not measured outlines. The 2011 track looks narrower, but the two images are not equally sharp, so this is not counted as a change.</p>
+      <p class="takeaway"><b>In short</b>The changing edge is also where people work.</p>
+      <p class="next">Next: how the town plan draws this place.</p>
+      <button type="button" class="open-map" data-map="4">See the printed Map 4</button>
     </section>
 
-    <!-- ===== Map 5: between plan and ground ===== -->
-    <section class="beat" data-in="28.5" data-out="29.0">
+    <!-- ===== Map 5: between plan and ground (six short steps, ending side by side) ===== -->
+    <section class="beat" data-in="28.45" data-out="28.85">
       <p class="kicker">Map 5</p>
       <h2>The estuary between plan and ground.</h2>
-      <p>On the ground: the traces of 25 February 2025, with water, mangrove canopy, the land edge, boats and cage farms.</p>
+      <p class="question">Does the town plan see the zone between land and water?</p>
+      <p>Two pictures of the same place. First, the ground as it was traced on 25 February 2025: water, mangroves, the land edge, boats and cage farms.</p>
     </section>
-    <section class="beat beat--right" data-in="29.05" data-out="29.55">
+    <section class="beat" data-in="28.9" data-out="29.3">
       <p class="kicker">Map 5 · On the plan</p>
       <h2>Kundapura Master Plan 2031.</h2>
-      <p>Existing land use, Drawing No. 2 (provisional, 1:15,000), printed here as halftone dots. The plan has no seasonal or tidal information.</p>
+      <p>The town's official plan for how land is used. It gives every place one of four labels: developed, agriculture, marshy or water.</p>
+      <p class="note">Existing land use, Drawing No. 2 (provisional, 1:15,000), shown here as dots. The plan says nothing about seasons or tides.</p>
     </section>
-    <section class="beat beat--interactive" data-in="29.7" data-out="31.25">
-      <p class="kicker">Map 5 · Four categories</p>
+    <section class="beat" data-in="29.35" data-out="29.75">
+      <p class="kicker">Map 5 · The study area on the plan</p>
+      <h2>The same place, drawn twice.</h2>
+      <p>The red box marks the study area on the plan, at the edge of the river. The dotted line joins it to the traces on the ground.</p>
+      <p class="note">The plan was not pinned to real map coordinates, so it sits beside the traces rather than on top of them, and not at the same scale.</p>
+    </section>
+    <section class="beat" data-in="29.8" data-out="30.25">
+      <p class="kicker">Map 5 · Laid over the ground</p>
+      <h2>The plan, laid over the ground.</h2>
+      <p>The box is lifted out of the plan and stretched over the traces. Inside it, the plan is almost all one colour, the blue it uses for the river. As it fades, the ground shows through: water, mangrove canopy, boats and cage farms.</p>
+      <p class="note">Stretched to fit for comparison only. The two are not at the same scale.</p>
+    </section>
+    <section class="beat beat--interactive" data-in="30.3" data-out="30.65">
+      <p class="kicker">Map 5 · Four labels</p>
+      <h2>The plan in 100 squares.</h2>
+      <p>The whole planning area, cut into 100 squares of 1% each and built as a small model: buildings for developed land, furrowed fields for agriculture, moving water for the water sheet.</p>
+      <p>Developed and agriculture take two thirds. Marshy Area, the plan's only in-between label, gets just 2 of the 100 squares. Here they shift between land and water, which no other square on the plan is allowed to do.</p>
       <ul class="plan-legend" id="plan-legend"></ul>
-      <p>Marshy Area is 1.61% of the 1,741.74 ha planning area. The plan's four categories leave no room for the zones between land and water.</p>
-      <p class="note">Where plan and observation differ, it is treated as something to investigate, not as an error. The crop is not georeferenced, so it sits beside the traces rather than over them. One ball is 1% of the planning area.</p>
-      <button type="button" class="open-map" data-map="5">Open Map 5</button>
+      <p class="note">Each square is 1% of the 1,741.74 ha planning area, rounded to whole squares.</p>
+    </section>
+    <section class="beat beat--interactive" data-in="30.7" data-out="31.15">
+      <p class="kicker">Map 5 · Side by side</p>
+      <h2>Plan and ground, side by side.</h2>
+      <p><b>Left, the plan.</b> Each area has one colour that never changes.</p>
+      <p><b>Right, the ground.</b> The same stretch of river as traced on one day: water, mangrove canopy, boats and cage farms.</p>
+      <p>The red box and the dotted line show where the two meet. Inside the box the plan is almost all river blue, while the ground shows mangroves and a shifting edge.</p>
+      <p class="takeaway"><b>In short</b>The plan draws fixed areas where the ground shows a moving edge.</p>
+      <p class="next">Next: the monsoon that the images cannot see.</p>
+      <p class="note">Where plan and observation differ, it is treated as something to investigate, not as an error.</p>
+      <button type="button" class="open-map" data-map="5">See the printed Map 5</button>
     </section>
 
     <!-- ===== Map 6: the estuary and the monsoon ===== -->
-    <section class="beat" data-in="32.3" data-out="33.2">
-      <p class="kicker">Map 6</p>
-      <h2>The estuary and the monsoon.</h2>
-      <p>The monsoon cannot be seen in the imagery, so Map 6 brings it in as rainfall: the June to September monsoon before each observation, and the 30 days before it.</p>
+    <section class="beat beat--right" data-in="32.3" data-out="33.2">
+      <p class="kicker">Map 6 · The estuary and the monsoon</p>
+      <h2>The season the camera cannot see.</h2>
+      <p class="question">What happens in the months the images cannot show?</p>
+      <p>From June to September, rain and cloud hide the estuary from satellites, so the monsoon is missing from every image. Here it comes back as rain. Each of the 17 dates has two columns of balls:</p>
+      <ul class="rain-key">
+        <li><i class="key key--mon"></i><b>Blue</b> counts the rain of the monsoon before that date. One ball is 100 mm.</li>
+        <li><i class="key key--d30"></i><b>White</b> counts the rain in the 30 days just before it. One ball is 5 mm.</li>
+      </ul>
     </section>
-    <section class="beat beat--readout" data-in="33.3" data-out="35.3">
+    <section class="beat beat--right beat--readout" data-in="33.3" data-out="35.3">
       <p class="kicker">Map 6 · In focus</p>
       <p class="readout" id="rain-date"></p>
       <p class="data" id="rain-detail"></p>
-      <ul class="observe">
-        <li style="--dot:var(--c-prior30)">Wettest 30 days before an observation: 79.8 mm, before 7 May 2022. Five observations had none.</li>
-        <li style="--dot:var(--c-monsoon)">Monsoon totals range from 2,272 mm (2018) to 3,848 mm (2020).</li>
+      <ul class="rain-key rain-key--small">
+        <li><i class="key key--mon"></i><b>Blue</b> monsoon rain · one ball = 100 mm</li>
+        <li><i class="key key--d30"></i><b>White</b> the 30 days before · one ball = 5 mm</li>
       </ul>
-      <p class="note">NASA POWER (MERRA-2) describes regional rainfall on a grid of about 50 km, not rain falling on the estuary itself.</p>
-      <button type="button" class="open-map" data-map="6">Open Map 6</button>
+      <ul class="observe">
+        <li style="--dot:var(--c-prior30)">Wettest month before a date: 79.8 mm in the 30 days before 7 May 2022. Before five of the dates, no rain fell at all.</li>
+        <li style="--dot:var(--c-monsoon)">Monsoon totals: from 2,272 mm in 2018 to 3,848 mm in 2020.</li>
+      </ul>
+      <p class="note">The rainfall comes from NASA POWER (MERRA-2), averaged over squares about 50 km wide, so it describes the region rather than the rain on the estuary itself.</p>
+      <p class="takeaway"><b>In short</b>Every image follows a monsoon that the images themselves cannot show.</p>
+      <p class="next">Next: can a computer do the tracing?</p>
+      <button type="button" class="open-map" data-map="6">See the printed Map 6</button>
     </section>
 
     <!-- ===== Manual and automated tracing: three questions (tools/ml/classify.py, change.py).
          Every figure is filled at runtime from public/data/model/metrics.json and change.json. ===== -->
-    <section class="beat beat--interactive beat--model" data-in="36.5" data-out="37.55">
-      <p class="kicker">Model · 1 · What is changing?</p>
-      <h2>The canopy spreads; water and bed keep trading places.</h2>
-      <p>Area of each class on the 17 dates, inside the rectangle that every date covers. <span class="ml-key ml-key--obs"></span>traced by hand, <span class="ml-key ml-key--mod"></span>read by the model from the same image. Select a class to single it out.</p>
-      <div class="ml-trends" id="ml-trends" role="group" aria-label="Classes"></div>
-      <p class="note" id="ml-trans-note"></p>
+    <!-- Twelve short steps: an introduction, then three questions. Each step holds one idea and
+         fully leaves the screen before the next arrives. -->
+    <section class="beat beat--model" data-in="36.55" data-out="37.05">
+      <p class="kicker">Manual and automated tracing</p>
+      <h2>Can a computer do the tracing?</h2>
+      <p>For every map so far, I traced 17 satellite images by hand, marking each patch as water, mangroves, mud and so on.</p>
+      <p>Then I taught a computer to do the same. It looked at my tracing, learnt what each kind of ground looks like, and traced the images on its own. Below, this is called <b>the model</b>.</p>
+      <p>Putting the two side by side answers three questions:</p>
+      <ol class="ml-qs"><li>What is changing?</li><li>Can the computer see it?</li><li>What might happen next?</li></ol>
     </section>
-    <section class="beat beat--interactive beat--model" data-in="37.65" data-out="38.2">
-      <p class="kicker">Model · 2 · How reliably can it be identified?</p>
+    <section class="beat beat--interactive beat--model" data-in="37.35" data-out="37.85">
+      <p class="kicker">Question 1 of 3 · What is changing?</p>
+      <h2>The canopy spreads. Water and bed keep trading places.</h2>
+      <p>Each row is one kind of ground. Each dot is how much of it there was on one date, from 2011 on the left to 2025 on the right. A row that climbs is growing.</p>
+      <p class="note"><span class="ml-key ml-key--obs"></span>traced by hand <span class="ml-key ml-key--mod"></span>traced by the model. Select a row to see that kind of ground on its own.</p>
+      <div class="ml-trends" id="ml-trends" role="group" aria-label="Classes"></div>
+    </section>
+    <section class="beat beat--model" data-in="38.15" data-out="38.65">
+      <p class="kicker">Question 1 of 3 · Where it changes</p>
+      <h2>Most of the ground keeps switching.</h2>
+      <p>A place that is water on one date is often bare bed on the next, and back again.</p>
+      <div class="ml-figs" id="ml-trans-figs"></div>
+      <p class="note">On the right, each ball is one change: a place that was one kind of ground on one date and another kind on the next.</p>
+    </section>
+    <section class="beat beat--interactive beat--model" data-in="38.95" data-out="39.45">
+      <p class="kicker">Question 2 of 3 · Can the computer see it?</p>
+      <h2>Could a computer trace what I traced by hand?</h2>
+      <p>The model learnt from the colour and texture of the images. To test it fairly, each date was traced by a version of the model that had never seen that date.</p>
+      <p class="note">On the right, a line sweeps across the estuary: on one side is my tracing, on the other the model's. Where the two agree, nothing changes as the line passes. Or look at one at a time:</p>
       <div class="switch" role="group" aria-label="View">
         <button type="button" data-model-view="manual">Traced by hand</button>
         <button type="button" data-model-view="model">Model</button>
         <button type="button" data-model-view="both">Both</button>
         <button type="button" data-model-view="diff">Differences</button>
       </div>
-      <p class="readout readout--small" id="model-date"></p>
-      <p class="data" id="model-date-detail"></p>
-      <table class="metrics" id="model-table"></table>
-      <p class="data" id="model-summary"></p>
     </section>
-    <section class="beat beat--interactive beat--model" data-in="38.25" data-out="38.8">
-      <p class="kicker">Model · 2 · Where it goes wrong</p>
-      <table class="metrics confusion" id="ml-confusion"></table>
-      <p class="data" id="ml-confusion-note"></p>
+    <section class="beat beat--interactive beat--model" data-in="39.75" data-out="40.25">
+      <p class="kicker">Question 2 of 3 · Date by date</p>
+      <p class="readout readout--small" id="model-date"></p>
+      <div class="ml-figs" id="model-date-fig"></div>
+      <p class="note">The higher the number, the closer the model came to my tracing. Choose any of the 17 dates on the timeline below the estuary.</p>
+    </section>
+    <section class="beat beat--interactive beat--model" data-in="40.55" data-out="41.05">
+      <p class="kicker">Question 2 of 3 · One kind of ground at a time</p>
+      <h2>Hand-drawn against the model.</h2>
+      <p class="note">Choose a kind of ground, then a view. "Differences" shows only the places where the two disagree.</p>
+      <div class="ml-chips" id="ml-class-chips" role="group" aria-label="Class to compare"></div>
+      <div class="switch" role="group" aria-label="View">
+        <button type="button" data-model-view="manual">Hand-drawn</button>
+        <button type="button" data-model-view="model">Model</button>
+        <button type="button" data-model-view="both">Both</button>
+        <button type="button" data-model-view="diff">Differences</button>
+      </div>
+      <div class="ml-compare" id="ml-compare"></div>
+    </section>
+    <section class="beat beat--model" data-in="41.35" data-out="41.85">
+      <p class="kicker">Question 2 of 3 · All 17 dates together</p>
+      <h2>Good at water, poor at muddy shallows.</h2>
+      <div class="ml-figs" id="model-summary"></div>
+      <p class="ml-bars-title">How well the model matched me for each kind of ground, from 0 (never) to 1 (every time)</p>
+      <div class="ml-bars" id="model-classes"></div>
+    </section>
+    <section class="beat beat--model" data-in="42.15" data-out="42.65">
+      <p class="kicker">Question 2 of 3 · Where it goes wrong</p>
+      <h2>Muddy shallows cannot be read from the image.</h2>
+      <p id="ml-confusion-note"></p>
+      <div class="ml-bars" id="ml-muddy"></div>
+    </section>
+    <section class="beat beat--model" data-in="42.95" data-out="43.45">
+      <p class="kicker">Question 2 of 3 · Why the two disagree</p>
+      <h2>Not every mistake is the model's.</h2>
+      <p id="ml-confusion-more"></p>
       <p class="note" id="model-note"></p>
     </section>
-    <section class="beat beat--interactive beat--model" data-in="38.9" data-out="39.6">
-      <p class="kicker">Model · 3 · What might happen next?</p>
-      <h2>If the canopy keeps growing.</h2>
+    <section class="beat beat--interactive beat--model" data-in="43.75" data-out="44.25">
+      <p class="kicker">Question 3 of 3 · What might happen next?</p>
+      <h2>If the mangrove canopy keeps growing.</h2>
       <p id="ml-scen-lede"></p>
       <div class="ml-scen" id="ml-scen"></div>
+      <p class="note">Beyond 2025 the lines are possible rates, not forecasts.</p>
     </section>
-    <section class="beat beat--interactive beat--model" data-in="39.65" data-out="40.3">
-      <p class="kicker">Model · 3 · Scenarios, not predictions</p>
+    <section class="beat beat--model" data-in="44.55" data-out="45.05">
+      <p class="kicker">Question 3 of 3 · How sure is the trend?</p>
+      <h2>The growth is real, not chance.</h2>
+      <p id="ml-scen-stats"></p>
+      <p id="ml-scen-check"></p>
+    </section>
+    <section class="beat beat--model" data-in="45.35" data-out="45.85">
+      <p class="kicker">Question 3 of 3 · Scenarios, not predictions</p>
+      <h2>Three possible paths for the canopy.</h2>
+      <p class="note">How much canopy there would be in 2030 and 2035 if it kept growing at today's rate, half as fast again, or at half the rate.</p>
       <table class="metrics" id="ml-scen-table"></table>
-      <p class="data" id="ml-scen-check"></p>
-      <ul class="ml-kinds">
-        <li><b>Measured</b> the hand tracings and the images</li>
-        <li><b>Modelled</b> the classifications, every accuracy figure and the fitted trend</li>
-        <li><b>Hypothetical</b> the three scenarios: the fitted rate continued at 1×, 1.5× and 0.5×</li>
-      </ul>
       <p class="note" id="ml-scen-note"></p>
     </section>
 
     <!-- ===== Conclusion ===== -->
-    <section class="beat beat--hero" data-in="40.6" data-out="99">
+    <!-- first, what the lines on the estuary are; then the statement they support -->
+    <section class="beat" data-in="46.3" data-out="47.05">
+      <p class="kicker">Before leaving Kundapur</p>
+      <h2>17 dates, 17 waterlines.</h2>
+      <p>Each line marks where the traced water ended on one of the 17 dates, drawn one after another from 2011 to 2025. If the edge between land and water were a fixed line, they would all fall in the same place. They do not.</p>
+      <p class="edge-key"><span>2011</span><i></i><span>2025</span></p>
+    </section>
+    <section class="beat beat--hero" data-in="47.15" data-out="48.1">
       <h2>The edge between land and water is not a line.</h2>
       <p class="lede">It moves with the tide and the seasons. Planning and mapping need to acknowledge the transitional nature of wetlands, rather than impose permanent boundaries on a landscape that is inherently fluid.</p>
       <p class="note">Tide levels at the time of each image are not known. Rainfall is regional. No usable monsoon imagery exists. Imagery: Google Earth Pro (© Google and imagery providers).</p>
     </section>
+    <!-- ===== The way back ===== -->
+    <section class="beat beat--hero beat--end beat--interactive" data-in="50.5" data-out="99">
+      <p class="data">Wetlands in Transition</p>
+      <h2>From up here the estuary is out of sight, but it keeps moving.</h2>
+      <p class="lede">The Panchagangavali estuary, Kundapur, Karnataka. Seventeen observations, six maps and one edge that will not stay still.</p>
+      <button type="button" class="open-map" id="begin-again">Return to the start</button>
+    </section>
   </div>
 
   <dialog id="map-viewer">
-    <form method="dialog"><button class="close" aria-label="Close map">Close</button></form>
-    <img id="map-viewer-img" alt="">
+    <div class="mv-bar">
+      <p class="mv-title"></p>
+      <div class="mv-tools">
+        <button type="button" data-mv="fit" aria-pressed="true">Whole map</button>
+        <button type="button" data-mv="width">Fill the width</button>
+        <button type="button" data-mv="out" aria-label="Zoom out">&minus;</button>
+        <button type="button" data-mv="in" aria-label="Zoom in">+</button>
+        <form method="dialog"><button class="close" aria-label="Close map">Close</button></form>
+      </div>
+    </div>
+    <div class="mv-stage"><img id="map-viewer-img" alt="" draggable="false"></div>
+    <p class="mv-status" aria-live="polite"></p>
   </dialog>
 
   <main id="scroll-track"></main>

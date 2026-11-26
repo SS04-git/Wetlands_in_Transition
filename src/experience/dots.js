@@ -28,7 +28,15 @@ const vertex = /* glsl */ `
   uniform float uHighlight;      // class index, or -1
   uniform float uDim;            // opacity of the other classes while one is highlighted
   uniform float uHiSize;         // size boost of the highlighted class
+  uniform float uGrey;           // how far the other classes turn grey while one is highlighted
   uniform float uTime, uSize, uPixelRatio, uOpacity, uScatter, uBob, uUseRGB, uRise, uGain;
+  uniform float uLeave;          // 0 while a tunnel carries this map away (estuary.js, update)
+  uniform float uTraceOn, uTraceT;             // Map 1: classes drawn in one after another
+  uniform float uTraceRank[${MAX_CLASSES}];    // the order each class is drawn in
+  uniform float uClipY;          // Map 2: balls above this height are not counted yet
+  uniform vec3 uSplit;           // model chapter: x = on, y = the line's position, z = which side shows (+1 east, -1 west)
+  uniform float uClassWave[${MAX_CLASSES}];   // gentle swell on water-like classes
+  uniform float uClassBob[${MAX_CLASSES}];    // boats bob, cage farms sway
   varying vec3 vColor;
   varying float vAlpha;
   varying float vGloss;
@@ -41,12 +49,27 @@ const vertex = /* glsl */ `
     p.y += lvl * uRise;
     p.y += uClassLift[cj] * (0.3 + 0.7 * aRand.z);
     p.y += sin(uTime * 0.9 + aRand.x * 6.2831) * uBob * (0.4 + aRand.y);
+    // the water breathes: long, slow swells travel across it (the traced positions do not move
+    // sideways, only up and down by a little), and boats bob on it
+    float wv = uClassWave[cj];
+    if (wv > 0.0) p.y += wv * (0.6 * sin(position.x * 0.045 + uTime * 1.1) + 0.4 * sin(position.z * 0.06 - uTime * 0.8));
+    float bb = uClassBob[cj];
+    if (bb > 0.0) { p.y += bb * sin(uTime * 1.3 + aRand.x * 6.2831); p.x += bb * 0.35 * sin(uTime * 0.7 + aRand.y * 6.2831); }
     vec3 dir = normalize(vec3(aRand.y - 0.5, aRand.z * 0.8 + 0.2, aRand.w - 0.5));
     p += dir * uScatter * (0.35 + aRand.x);
     float classA = ci < ${MAX_CLASSES} ? uClassAlpha[ci] : 1.0;
     float hi = (uHighlight >= 0.0 && abs(aClass - uHighlight) < 0.5) ? 1.0 : 0.0;
     float dimOthers = (uHighlight >= 0.0 && hi < 0.5) ? uDim : 1.0;
-    vAlpha = uOpacity * classA * dimOthers;
+    vAlpha = uOpacity * classA * dimOthers * uLeave;
+    // Map 1, tracing: each class is drawn in turn, sweeping west to east like a pen across the image
+    if (uTraceOn > 0.5) {
+      float prog = clamp(uTraceT - uTraceRank[cj], 0.0, 1.0);
+      float xn = (position.x + 125.0) / 250.0;
+      vAlpha *= smoothstep(xn - 0.04, xn, prog * 1.04);
+    }
+    // Map 2, counting: a column shows only the balls counted so far
+    if (position.y > uClipY) vAlpha = 0.0;
+    if (uSplit.x > 0.5) vAlpha *= smoothstep(-0.6, 0.6, (position.x - uSplit.y) * uSplit.z);
     vColor = uPalette[cj];
     vGloss = uLook[cj].z;
     if (uUseRGB > 0.5) { vColor = aColor * uGain; vGloss = 0.3; }
@@ -58,14 +81,16 @@ const vertex = /* glsl */ `
       float pat = classPattern(w, uTex[cj], uLook[cj], aRand.y, uTime);
       vColor = mix(uPalette[cj], mix(uShade[cj], uPalette[cj] * 1.12, pat), uTexAmt * 0.7);
     }
-    vColor *= 1.0 + hi * 0.22; // the class in focus brightens within its own colour
+    vColor *= 1.0 + hi * 0.4; // the class in focus brightens within its own colour
+    // while one class is singled out, the others turn grey as well as fading, so it stands out
+    if (uHighlight >= 0.0 && hi < 0.5) vColor = mix(vColor, vec3(dot(vColor, vec3(0.3, 0.59, 0.11))), 0.75 * uGrey);
     float pass = (uThreshold <= 0.0 || aValue >= uThreshold) ? 1.0 : 0.0;
     vAlpha *= mix(0.07, 1.0, pass);
     vColor = mix(vec3(dot(vColor, vec3(0.3, 0.59, 0.11))) * 0.8, vColor, pass);
     vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
     gl_Position = projectionMatrix * mvPosition;
     float cs = ci < ${MAX_CLASSES} ? uClassSize[ci] : 1.0;
-    float s = uSize * cs * (0.7 + 0.6 * aRand.w) * (1.0 + hi * uHiSize);
+    float s = uSize * cs * (0.7 + 0.6 * aRand.w) * (1.0 + hi * uHiSize * (0.85 + 0.15 * sin(uTime * 2.4)));
     gl_PointSize = clamp(s * uPixelRatio * (900.0 / -mvPosition.z), 0.0, 64.0);
     if (vAlpha < 0.004) gl_PointSize = 0.0;
     #include <fog_vertex>
@@ -114,10 +139,11 @@ export function dotMaterial(palette, opts = {}) {
       uTex: { value: pad(L.tex, () => new THREE.Vector4()) },
       uLook: { value: pad(L.look, () => new THREE.Vector4(1, 0, 0.3, 0)) },
       uClassLift: { value: new Array(MAX_CLASSES).fill(0) },
+      uClassWave: { value: new Array(MAX_CLASSES).fill(0) }, uClassBob: { value: new Array(MAX_CLASSES).fill(0) },
       uTexAmt: { value: opts.tex ?? 1 }, uRamp: { value: opts.ramp ? 1 : 0 },
-      uHighlight: { value: -1 }, uDim: { value: 0.28 }, uHiSize: { value: 0.35 },
+      uHighlight: { value: -1 }, uDim: { value: 0.28 }, uHiSize: { value: 0.35 }, uGrey: { value: 1 },
       uTime: { value: 0 }, uSize: { value: opts.size ?? 1.6 }, uPixelRatio: { value: 1 },
-      uOpacity: { value: 0 }, uScatter: { value: 0 }, uBob: { value: opts.bob ?? 0 },
+      uOpacity: { value: 0 }, uLeave: { value: 1 }, uTraceOn: { value: 0 }, uTraceT: { value: 0 }, uTraceRank: { value: new Array(MAX_CLASSES).fill(0) }, uClipY: { value: 1e9 }, uSplit: { value: new THREE.Vector3(0, 0, 1) }, uScatter: { value: 0 }, uBob: { value: opts.bob ?? 0 },
       uUseRGB: { value: opts.rgb ? 1 : 0 }, uRise: { value: 1 }, uGain: { value: opts.gain ?? 1 }, uThreshold: { value: 0 }, uFlat: { value: opts.flat ? 1 : 0 },
     }]),
     vertexShader: vertex,

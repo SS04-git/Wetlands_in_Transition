@@ -29,29 +29,36 @@ export function createLegend(root, { manifest, planCategories, MAP_CLASSES, PLAN
     return `<li class="lg-ramp" data-mode="${i}"><span>${name}</span><i class="ramp" style="--a:${a};--b:${b}"></i></li>`;
   };
 
+  // The model chapter shows only the key for the view on screen.
+  const modelRows = modelClasses ? rows(modelClasses.filter((k) => k !== 'land')) +
+    `<li><i class="sw sw--area" style="--a:${LAND_COLOUR}"></i><span>Land beyond the traced edge</span></li>` : '';
+  const MODEL_PARTS = modelClasses ? {
+    manual: group('Traced by hand, this date', modelRows),
+    model: group('Read by the model, this date', modelRows),
+    both: group('Either side of the moving line: traced by hand, and read by the model', modelRows),
+    diff: group('Model against my tracing, this date', `<li><i class="sw sw--area" style="--a:#6d7a80"></i><span>Both agree</span></li>
+      <li><i class="sw sw--ball" style="background:conic-gradient(${CLASS_LOOK.water.a}, ${CLASS_LOOK.bed_ground.a}, ${CLASS_LOOK.mangrove_canopy.a}, ${LAND_COLOUR}, ${CLASS_LOOK.water.a})"></i><span>They differ: a larger dot, in the class the model chose</span></li>`, 'lg-group--wide'),
+    trans: group('All 17 dates, traced by hand', `<li><i class="sw sw--area" style="--a:${CLASS_LOOK.water.a}"></i><span>One ball for each time the ground changed class between two dates</span></li>`, 'lg-group--wide'),
+    growth: group('Mangrove canopy, all 17 dates', `<li><i class="sw sw--ball" style="background:linear-gradient(90deg, ${CLASS_LOOK.mangrove_canopy.b}, #c9dcb4)"></i><span>Deep green: canopy traced early. Pale: canopy that appeared recently</span></li>`, 'lg-group--wide'),
+  } : {};
+
   const LEGENDS = {
     map1: group('25 February 2025', rows(MAP_CLASSES.map1)) + absentNote(MAP_CLASSES.map1),
     map2: `<div class="lg-group"><ul class="lg-ramps">
-        ${ramp('water', 'Water persistence', 0)}
-        ${ramp('mangrove_canopy', 'Mangrove canopy persistence', 1)}
-        ${ramp('bed_ground', 'Exposed sediment frequency', 2)}
+        ${ramp('water', 'How often water', 0)}
+        ${ramp('mangrove_canopy', 'How often mangroves', 1)}
+        ${ramp('bed_ground', 'How often bare ground', 2)}
       </ul><p class="lg-scale"><span>0%</span><span>50%</span><span>100% (every observation)</span></p>
-      <p class="lg-note">Colour: share of the 17 dates. Height: one ball per date.</p></div>`,
+      <p class="lg-note">Pale: on a few of the 17 dates. Deep: on all of them. One ball per date.</p></div>`,
     map3: group('17 observations, 2011 to 2025', rows(MAP_CLASSES.map3)),
     map4: group('11 April 2011 and 25 February 2025', rows(MAP_CLASSES.map4)) +
       '<p class="lg-note">Beneath each year: the satellite image of that date, softened.</p>',
     map5: group('On the plan', planCategories.map((c, i) => `<li><i class="sw sw--block" style="--a:${PLAN_COLOURS[i]};--b:${PLAN_COLOURS[i]}"></i><span>${c.name}</span></li>`).join(''), 'lg-group--plan') +
       group('On the ground, 25 February 2025', rows(MAP_CLASSES.map5)) + absentNote(MAP_CLASSES.map5),
     map6: group('17 observations', rows(MAP_CLASSES.map6)) +
-      group('Rainfall (mm)', `<li><i class="sw sw--ball" style="--a:${RAIN_LOOK.monsoon};--b:${RAIN_LOOK.monsoon}"></i><span>Monsoon, June to September · one ball = 100 mm</span></li>
-        <li><i class="sw sw--ball" style="--a:${RAIN_LOOK.prior30};--b:${RAIN_LOOK.prior30}"></i><span>30 days before the date · one ball = 5 mm</span></li>`, 'lg-group--wide'),
-    model: modelClasses ? group('Classified by the model', rows(modelClasses.filter((k) => k !== 'land')) +
-        `<li><i class="sw sw--area" style="--a:${LAND_COLOUR}"></i><span>Land beyond the traced land edge</span></li>`) +
-      group('Disagreement view', `<li><i class="sw sw--area" style="--a:#6d7a80"></i><span>Model agrees with the tracing</span></li>
-        <li><i class="sw sw--ball" style="background:conic-gradient(${CLASS_LOOK.water.a}, ${CLASS_LOOK.bed_ground.a}, ${CLASS_LOOK.mangrove_canopy.a}, ${LAND_COLOUR}, ${CLASS_LOOK.water.a})"></i><span>Model differs: a larger dot, in the class the model chose</span></li>`, 'lg-group--wide') +
-      group('All 17 dates, traced by hand', `<li><i class="sw sw--area" style="--a:${CLASS_LOOK.water.a}"></i><span>Changes of class: one ball per change between consecutive dates, in the cell's most frequent class</span></li>
-        <li><i class="sw sw--ball" style="background:linear-gradient(90deg, ${CLASS_LOOK.mangrove_canopy.b}, #c9dcb4)"></i><span>Mangrove canopy: one ball per date traced; deep = first traced early, pale = recently</span></li>`, 'lg-group--wide') +
-      '<p class="lg-note">Land is not a traced class: it is the side of the traced land edge away from the water. Land edge, boats, cage farms and buildings were not modelled.</p>' : '',
+      group('Rainfall (mm)', `<li><i class="sw sw--ball" style="--a:${RAIN_LOOK.monsoon};--b:${RAIN_LOOK.monsoon}"></i><span>Blue: monsoon rain · 1 ball = 100 mm</span></li>
+        <li><i class="sw sw--ball" style="--a:${RAIN_LOOK.prior30};--b:${RAIN_LOOK.prior30}"></i><span>White: 30 days before · 1 ball = 5 mm</span></li>`, 'lg-group--wide'),
+    model: modelClasses ? ' ' : '',
   };
   const TITLES = { model: 'Model · Legend' };
 
@@ -66,9 +73,15 @@ export function createLegend(root, { manifest, planCategories, MAP_CLASSES, PLAN
       const html = LEGENDS[id];
       root.classList.toggle('show', !!html);
       if (html) {
+        this.modelView = null;
         body.innerHTML = html;
         root.querySelector('summary').textContent = TITLES[id] ?? `Map ${id.slice(3)} · Legend`;
       }
+    },
+    setModelView(v) {
+      if (current !== 'model' || !MODEL_PARTS[v] || v === this.modelView) return;
+      this.modelView = v;
+      body.innerHTML = MODEL_PARTS[v];
     },
     setPersMode(m) {
       if (current !== 'map2') return;

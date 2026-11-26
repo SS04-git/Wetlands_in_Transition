@@ -1,12 +1,12 @@
-// Observation-date timeline of the model chapter: the 17 dates as a quiet strip of ticks, always
-// visible while the chapter is on screen. The active date carries its full label; each tick's height
+// Observation-date picker of the model chapter: the 17 dates as a strip of ticks under the estuary,
+// shown in the steps that look at one date at a time. The active date carries its full label; each tick's height
 // is the model's agreement with the tracing on that date (from metrics.json). Click a tick, or use
 // the arrow keys / the small arrows at either end, to change the date.
 import { formatDate } from './data.js';
 
 export function createDateStrip(root, { dates, agreement, onSelect }) {
   root.innerHTML = `
-    <p class="ds-cap"><span class="ds-kicker">Observation date</span><span class="ds-hint" aria-hidden="true">← →</span></p>
+    <p class="ds-cap"><span class="ds-kicker">Choose an observation date</span><span class="ds-hint">Click a date, or use ‹ › to step through all 17</span></p>
     <div class="ds-row">
       <button type="button" class="ds-step" data-step="-1" aria-label="Previous observation date">‹</button>
       <div class="ds-ticks" role="listbox" aria-label="Observation dates" tabindex="0"></div>
@@ -23,8 +23,12 @@ export function createDateStrip(root, { dates, agreement, onSelect }) {
     b.style.setProperty('--h', a == null ? 0.3 : a.toFixed(3));
     b.setAttribute('aria-label', `${formatDate(d.iso)}${a == null ? '' : `, model agreement ${Math.round(a * 100)}%`}`);
     b.title = formatDate(d.iso);
+    // each date has its own slot: the year above the first date of each year, the bar (the
+    // model's agreement that day), and the day and month underneath
     const yr = d.iso.slice(0, 4);
-    b.innerHTML = `<i></i><span class="ds-year">${yr !== lastYear ? yr : ''}</span>`;
+    const dm = new Date(`${d.iso}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    b.innerHTML = `<span class="ds-year">${yr !== lastYear ? yr : ''}</span><i></i><span class="ds-day">${dm}</span>`;
+    if (yr !== lastYear) b.classList.add('ds-newyear');
     lastYear = yr;
     b.addEventListener('click', () => onSelect(d.id));
     ticks.append(b);
