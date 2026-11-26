@@ -4,13 +4,13 @@ import { defineConfig } from 'vite';
 
 const root = import.meta.dirname;
 
-// The experience fetches the Earth model and the full-resolution maps at runtime from /assets.
+// The experience fetches the Earth model, the full-resolution maps and the nature sound at runtime from /assets.
 // Vite only bundles what is imported, so copy those (unchanged) into the build output.
 const copyRuntimeAssets = () => ({
   name: 'copy-runtime-assets',
   apply: 'build',
   closeBundle() {
-    for (const rel of ['assets/earth.opt.glb', 'assets/maps']) {
+    for (const rel of ['assets/earth.opt.glb', 'assets/maps', 'assets/audio']) {
       const from = resolve(root, rel);
       if (existsSync(from)) cpSync(from, resolve(root, 'dist', rel), { recursive: true });
     }

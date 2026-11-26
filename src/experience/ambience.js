@@ -1,40 +1,61 @@
-// Optional sound: smooth and calm, made in the browser (no audio files and no noise). Off until
-// the visitor turns it on with the switch. Only pure, soft tones:
-//   - a warm, open major chord that breathes slowly and drifts, every twenty seconds or so, to
-//     another bright chord and back (never minor, never detuned, so it stays settled and light);
-//   - once in a while a single soft high note from the same key, swelling in and fading away,
-//     like light on water.
-// Nothing sudden: every change takes seconds. Inside a tunnel the sound is softened, as if
+// Optional sound, off until the visitor turns it on with the switch. It follows the journey:
+//   - in space: a calm, deep chord of pure tones that breathes very slowly (made in the browser);
+//   - through the clouds: a soft, low rush of air as the camera flies down through them;
+//   - at Kundapur: the recording of nature (assets/audio), looped, fading in as the clouds open
+//     over the estuary and out again when the story leaves through the clouds at the end.
+// Every change is a slow crossfade, and inside the tunnels everything is softened, as if
 // underwater.
 
-// C major, kept in a warm middle register: C, F, C again, then G with C held (resolving home)
-const CHORDS = [
-  [130.81, 196.0, 261.63, 329.63],   // C  G  C  E
-  [174.61, 220.0, 261.63, 349.23],   // F  A  C  F
-  [130.81, 196.0, 293.66, 329.63],   // C  G  D  E (open, airy)
-  [196.0, 261.63, 293.66, 392.0],    // G  C  D  G (suspended, settles back to C)
-];
-const NOTES = [523.25, 587.33, 659.25, 783.99, 880.0];   // C D E G A: the major pentatonic, high
+const NATURE_URL = '/assets/audio/freesound_community-backyard-nature-14737.mp3';
+// a deep, open chord: D, A, D, E, F sharp (D major with an added ninth), never minor
+const SPACE = [73.42, 110.0, 146.83, 164.81, 185.0];
 
 export class Ambience {
-  constructor() { this.on = false; this.ctx = null; this.chord = 0; this.nextChord = 0; this.nextNote = 0; }
+  constructor() { this.on = false; this.ctx = null; this.nature = null; }
 
   build() {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     const master = ctx.createGain(); master.gain.value = 0;
-    const soft = ctx.createBiquadFilter(); soft.type = 'lowpass'; soft.frequency.value = 2400; soft.Q.value = 0.2;
-    soft.connect(master); master.connect(ctx.destination);
-    // the chord: four pure sine voices, each breathing at its own slow pace
-    this.voices = CHORDS[0].map((f, i) => {
-      const o = ctx.createOscillator(), g = ctx.createGain(), sway = ctx.createOscillator(), swayD = ctx.createGain();
+    const soften = ctx.createBiquadFilter(); soften.type = 'lowpass'; soften.frequency.value = 18000; soften.Q.value = 0.2;
+    soften.connect(master); master.connect(ctx.destination);
+
+    // space: pure sine voices, each swelling and settling at its own slow pace
+    const spaceBus = ctx.createGain(); spaceBus.gain.value = 0;
+    const spaceTone = ctx.createBiquadFilter(); spaceTone.type = 'lowpass'; spaceTone.frequency.value = 1200;
+    spaceBus.connect(spaceTone); spaceTone.connect(soften);
+    SPACE.forEach((f, i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain(), lfo = ctx.createOscillator(), depth = ctx.createGain();
       o.type = 'sine'; o.frequency.value = f;
-      g.gain.value = [0.2, 0.15, 0.11, 0.08][i];
-      sway.frequency.value = 0.04 + i * 0.013; swayD.gain.value = g.gain.value * 0.45;
-      sway.connect(swayD); swayD.connect(g.gain); sway.start();
-      o.connect(g); g.connect(soft); o.start();
-      return o;
+      g.gain.value = [0.26, 0.2, 0.14, 0.09, 0.07][i];
+      lfo.frequency.value = 0.025 + i * 0.011; depth.gain.value = g.gain.value * 0.5;
+      lfo.connect(depth); depth.connect(g.gain); lfo.start();
+      o.connect(g); g.connect(spaceBus); o.start();
     });
-    Object.assign(this, { ctx, master, soft });
+
+    // the clouds: a deep, rounded rush of air (low frequencies only, so it is smooth, not hissy)
+    const len = ctx.sampleRate * 6, buf = ctx.createBuffer(2, len, ctx.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const d = buf.getChannelData(ch); let last = 0;
+      for (let i = 0; i < len; i++) { last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02; d[i] = last * 3.5; }
+      const x = ctx.sampleRate * 0.5;
+      for (let i = 0; i < x; i++) { const k = i / x; d[i] = d[i] * k + d[len - x + i] * (1 - k); }
+    }
+    const air = ctx.createBufferSource(); air.buffer = buf; air.loop = true; air.start();
+    const airTone = ctx.createBiquadFilter(); airTone.type = 'lowpass'; airTone.frequency.value = 520; airTone.Q.value = 0.3;
+    const airBus = ctx.createGain(); airBus.gain.value = 0;
+    air.connect(airTone); airTone.connect(airBus); airBus.connect(soften);
+
+    // Kundapur: the nature recording, loaded when the sound is first turned on
+    const natureBus = ctx.createGain(); natureBus.gain.value = 0; natureBus.connect(soften);
+    fetch(NATURE_URL).then((r) => r.arrayBuffer()).then((a) => ctx.decodeAudioData(a)).then((b) => {
+      const s = ctx.createBufferSource(); s.buffer = b; s.loop = true;
+      // skip the very ends of the file, so the loop has no click
+      s.loopStart = Math.min(0.05, b.duration / 10); s.loopEnd = Math.max(s.loopStart + 1, b.duration - 0.05);
+      s.connect(natureBus); s.start(0, s.loopStart);
+      this.nature = s;
+    }).catch((e) => console.warn('Nature sound could not be loaded', e));
+
+    Object.assign(this, { ctx, master, soften, spaceBus, airBus, airTone, natureBus });
     document.addEventListener('visibilitychange', () => {
       if (!this.ctx) return;
       if (document.hidden) this.ctx.suspend(); else if (this.on) this.ctx.resume();
@@ -49,42 +70,23 @@ export class Ambience {
     const now = this.ctx.currentTime;
     if (this.on) this.ctx.resume();
     this.master.gain.cancelScheduledValues(now);
-    this.master.gain.setTargetAtTime(this.on ? 0.28 : 0, now, 1.8);   // fades in slowly
-    if (this.on) { this.nextChord = now + 20; this.nextNote = now + 6; }
+    this.master.gain.setTargetAtTime(this.on ? 0.7 : 0, now, 1.5);   // fades in slowly
     return this.on;
   }
 
-  /** One soft high note that swells in and fades, with its octave very faintly above. */
-  note(now) {
-    const { ctx } = this;
-    const f = NOTES[Math.floor(Math.random() * NOTES.length)];
-    const o = ctx.createOscillator(), g = ctx.createGain();
-    const pan = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
-    o.type = 'sine'; o.frequency.value = f;
-    g.gain.setValueAtTime(0, now);
-    g.gain.linearRampToValueAtTime(0.05, now + 1.2);          // a slow swell, no strike
-    g.gain.setTargetAtTime(0, now + 1.4, 1.1);                // then a long, gentle fade
-    o.connect(g);
-    if (pan) { pan.pan.value = Math.random() * 1.0 - 0.5; g.connect(pan); pan.connect(this.soft); } else g.connect(this.soft);
-    o.start(now); o.stop(now + 7);
-  }
-
-  /** The same calm sound throughout; softened inside the tunnels. */
+  /** Follow the journey: space, then the clouds, then Kundapur's nature; softened in tunnels. */
   update(S) {
     if (!this.ctx || !this.on) return;
     const now = this.ctx.currentTime;
+    const clouds = Math.min(1, S.cloudOp ?? 0);
+    // at Kundapur once the estuary is there and the clouds have opened
+    const here = Math.min(1, S.estuary ?? 0) * (1 - clouds);
     const tp = (S.tunnel ?? 0) - Math.floor(S.tunnel ?? 0);
     const inTunnel = tp > 0.001 && tp < 0.999 ? Math.sin(Math.PI * tp) : 0;
-    this.soft.frequency.setTargetAtTime(2400 - 1700 * inTunnel, now, 0.5);
-    // move to the next chord, gliding over a few seconds
-    if (now > this.nextChord) {
-      this.chord = (this.chord + 1) % CHORDS.length;
-      CHORDS[this.chord].forEach((f, i) => this.voices[i].frequency.setTargetAtTime(f, now, 2.5));
-      this.nextChord = now + 18 + Math.random() * 6;
-    }
-    if (now > this.nextNote) {
-      if (inTunnel < 0.3) this.note(now);
-      this.nextNote = now + 9 + Math.random() * 9;
-    }
+    this.spaceBus.gain.setTargetAtTime(0.3 * (1 - here) * (1 - 0.5 * clouds), now, 1.5);
+    this.airBus.gain.setTargetAtTime(0.5 * clouds, now, 0.8);
+    this.airTone.frequency.setTargetAtTime(380 + 260 * clouds, now, 0.8);   // the rush opens a little in the thick of the clouds
+    this.natureBus.gain.setTargetAtTime(0.85 * here, now, 2.0);
+    this.soften.frequency.setTargetAtTime(18000 - 17200 * inTunnel, now, 0.4);
   }
 }

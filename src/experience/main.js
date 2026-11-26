@@ -661,7 +661,7 @@ async function init() {
   // the loading screen fades away to the Earth
   $('#loader').classList.add('done');
   setTimeout(() => loaderArt.stop(), 1800);   // once the screen has faded, the drawing stops
-  if (import.meta.env.DEV) window.__wit = { S, tl, estuary, space, cosmos, clouds, renderer, gsap, goto: (t) => { window.scrollTo(0, scrollYForTime(tl, t)); } };
+  if (import.meta.env.DEV) window.__wit = { S, tl, estuary, space, cosmos, clouds, renderer, gsap, ambience, goto: (t) => { window.scrollTo(0, scrollYForTime(tl, t)); } };
 }
 
 init().catch((err) => {
