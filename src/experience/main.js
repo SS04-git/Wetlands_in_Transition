@@ -2,7 +2,6 @@
 //   space -> cloud layer -> estuary (all six maps and the model chapter); the tunnels between
 //   chapters are made of the maps' own dots (estuary.js, buildTunnel).
 import { createMapViewer } from './mapviewer.js';
-import { startSolarLoader } from './solar.js';
 import { startLoaderArt } from './loader.js';
 import { fitBeats } from './fit.js';
 import * as THREE from 'three';
@@ -54,11 +53,13 @@ let estuary, tl, data;
 // ---- Loading (see index.html): the opening title on black with a progress line; the black lifts when ready ----
 const loading = { shown: 0, target: 0, alpha: 0, booting: true };
 document.body.classList.add('loading');
-const loaderArt = startSolarLoader($('#loader-art'), () => loading.shown);
+const loaderArt = startLoaderArt($('#loader-art'), () => loading.shown, (n) => {
+  const el = $('#loader-count'); if (el) el.textContent = n >= 17 ? 'All 17 waterlines' : `Waterline ${Math.max(1, n)} of 17`;
+}, { y: 0.56, calm: true, perLine: 0.24 });
 document.documentElement.style.overflow = 'hidden';   // no scrolling until the story is ready
 function setLoader(f, note) {
   loading.target = Math.max(loading.target, f);
-  if (note) $('#loader-note').textContent = note;
+  if (note) { loading.note = note; if (note !== 'Ready') $('#loader-note').textContent = note; }   // 'Ready' waits for the last line
 }
 
 // Automatic quality: the page watches its own frame time and, when frames run slow, renders at a
@@ -636,9 +637,13 @@ async function init() {
   renderer.setAnimationLoop((now) => {
     if (!loading.booting) return;
     timer.update(now);
-    loading.shown += (loading.target - loading.shown) * 0.05;
-    $('#loader-pct').textContent = `${Math.round(loading.shown * 100)}%`;
-    const fill = $('#loader-fill'); if (fill) fill.style.width = `${(loading.shown * 100).toFixed(1)}%`;
+    const lt = performance.now() / 1000, ldt = Math.min(0.25, lt - (loading.last ?? lt)); loading.last = lt;
+    loading.shown += (loading.target - loading.shown) * (1 - Math.exp(-ldt * 3));   // the same pace at any frame rate
+    // the number follows the lines as well as the loading, so 100% and 'Ready' arrive with the last line
+    const pct = Math.min(loading.shown, loaderArt.progress);
+    $('#loader-pct').textContent = `${Math.round(pct * 100)}%`;
+    const fill = $('#loader-fill'); if (fill) fill.style.width = `${(pct * 100).toFixed(1)}%`;
+    if (loading.note === 'Ready' && pct > 0.995) $('#loader-note').textContent = 'Ready';
     renderer.clear();
     space.update(timer.getElapsed(), 0);
     renderer.render(space.scene, space.camera);
@@ -671,18 +676,16 @@ async function init() {
   renderer.compile(clouds.scene, clouds.camera);
   renderer.compile(cosmos.scene, cosmos.camera);
   setLoader(1, 'Ready');
-  // let Earth go once round its orbit before the story opens (never more than about nine seconds)
+  // let all 17 waterlines be drawn before the story opens (never more than about nine seconds)
   await new Promise((res) => { const t0 = performance.now(); const wait = () => { if ((loading.shown > 0.99 && loaderArt.done) || performance.now() - t0 > 9000) res(); else requestAnimationFrame(wait); }; wait(); });
-  // close in on Earth; the loading screen starts to fade part way through, into the opening's Earth
-  const closing = loaderArt.zoomToEarth();
-  await new Promise((res) => setTimeout(res, 450));
+  await new Promise((res) => setTimeout(res, 900));   // a moment with all 17 lines glowing together
   loading.booting = false;
   renderer.setAnimationLoop(render);
   document.body.classList.remove('loading');
   document.documentElement.style.overflow = '';
   // the loading screen fades away to the Earth
   $('#loader').classList.add('done');
-  closing.then(() => setTimeout(() => loaderArt.stop(), 1600));   // once the screen has faded, the drawing stops
+  setTimeout(() => loaderArt.stop(), 1800);   // once the screen has faded, the drawing stops
   if (import.meta.env.DEV) window.__wit = { S, tl, estuary, space, cosmos, clouds, renderer, gsap, ambience, goto: (t) => { window.scrollTo(0, scrollYForTime(tl, t)); } };
 }
 
