@@ -2,6 +2,7 @@
 //   space -> cloud layer -> estuary (all six maps and the model chapter); the tunnels between
 //   chapters are made of the maps' own dots (estuary.js, buildTunnel).
 import { createMapViewer } from './mapviewer.js';
+import { startSolarLoader } from './solar.js';
 import { startLoaderArt } from './loader.js';
 import { fitBeats } from './fit.js';
 import * as THREE from 'three';
@@ -53,7 +54,7 @@ let estuary, tl, data;
 // ---- Loading (see index.html): the opening title on black with a progress line; the black lifts when ready ----
 const loading = { shown: 0, target: 0, alpha: 0, booting: true };
 document.body.classList.add('loading');
-const loaderArt = startLoaderArt($('#loader-art'), () => loading.shown, (n) => { const el = $('#loader-count'); if (el) el.textContent = n >= 17 ? 'All 17 waterlines' : `Waterline ${n} of 17`; });
+const loaderArt = startSolarLoader($('#loader-art'), () => loading.shown);
 document.documentElement.style.overflow = 'hidden';   // no scrolling until the story is ready
 function setLoader(f, note) {
   loading.target = Math.max(loading.target, f);
@@ -189,20 +190,39 @@ function bindControls() {
     ev.currentTarget.setAttribute('aria-pressed', String(on));
     ev.currentTarget.querySelector('span').textContent = on ? 'Sound on' : 'Sound off';
   });
-  gauge = createGauge($('#gauge'), CHAPTERS, TOTAL, (id) => {
+  const goChapter = (id) => {
     const c = CHAPTERS.find((x) => x.id === id);
     jumpToTime(tl, c.at + (c.id === 'model' ? 0.3 : c.map && c.map > 1 ? 0.05 : 0.1), $('#veil'));
-  });
+  };
+  gauge = createGauge($('#gauge'), CHAPTERS, TOTAL, goChapter);
+  // the whole picture: each map's tile goes back to that map
+  document.querySelectorAll('[data-goto]').forEach((b) => b.addEventListener('click', () => goChapter(b.dataset.goto)));
   const files = {
     1: 'Map 1 - The Estuary as a Landscape.png', 2: 'Map 2 - Patterns of Wetness and Vegetation.png',
     3: 'Map 3 - The Estuary Through Time.png', 4: 'Map 4 - The Estuary as a Lived Landscape.png',
     5: 'Map 5 - The Estuary Between Plan and Ground.png', 6: 'Map 6 - The Estuary and the Monsoon.png',
   };
   const mapViewer = createMapViewer($('#map-viewer'));
-  document.querySelectorAll('.open-map[data-map]').forEach((b) => b.addEventListener('click', () => {
-    const n = b.dataset.map;
-    mapViewer.open(`/assets/maps/${n}/${encodeURIComponent(files[n])}`, files[n].replace('.png', '').replace(' - ', ' · '));
+  const openMap = (n) => mapViewer.open(`/assets/maps/${n}/${encodeURIComponent(files[n])}`, files[n].replace('.png', '').replace(' - ', ' · '));
+  document.querySelectorAll('.open-map[data-map]').forEach((b) => b.addEventListener('click', () => openMap(b.dataset.map)));
+  // About this project: a panel over the story; its six maps open the printed sheets
+  const about = $('#about');
+  let aboutLines = null;
+  $('#about-open')?.addEventListener('click', () => {
+    about.showModal(); about.scrollTop = 0;
+    // the 17 waterlines draw themselves across the top of the page, as on the loading screen
+    aboutLines?.stop(); aboutLines = startLoaderArt($('#about-lines'), () => 1, null, { y: 0.3 });
+  });
+  about?.addEventListener('close', () => { aboutLines?.stop(); aboutLines = null; });
+  about?.querySelectorAll('[data-about-map]').forEach((b) => b.addEventListener('click', () => openMap(b.dataset.aboutMap)));
+  // the index scrolls the page itself (not the story behind it)
+  about?.querySelectorAll('[data-ab-go]').forEach((b) => b.addEventListener('click', () => {
+    const el = about.querySelector(`#${b.dataset.abGo}`);
+    about.scrollTo({ top: el.offsetTop - 30, behavior: 'smooth' });
   }));
+  // the colours of the ten kinds of ground, as a little row of dots
+  const dots = $('#about-dots');
+  if (dots) dots.innerHTML = SPECIMEN_ORDER.map((k) => `<span style="background:${CLASS_LOOK[k]?.a ?? '#8fdcef'}"></span>`).join('');
   const slider = $('#threshold');
   slider.addEventListener('input', () => { userThreshold = +slider.value; });
   document.querySelectorAll('[data-lived]').forEach((b) => b.addEventListener('click', () => { userLived = +b.dataset.lived; }));
@@ -651,16 +671,18 @@ async function init() {
   renderer.compile(clouds.scene, clouds.camera);
   renderer.compile(cosmos.scene, cosmos.camera);
   setLoader(1, 'Ready');
-  // let all 17 waterlines be drawn before the story opens (never more than about nine seconds)
+  // let Earth go once round its orbit before the story opens (never more than about nine seconds)
   await new Promise((res) => { const t0 = performance.now(); const wait = () => { if ((loading.shown > 0.99 && loaderArt.done) || performance.now() - t0 > 9000) res(); else requestAnimationFrame(wait); }; wait(); });
-  await new Promise((res) => setTimeout(res, 700));   // a moment with all 17 lines on screen
+  // close in on Earth; the loading screen starts to fade part way through, into the opening's Earth
+  const closing = loaderArt.zoomToEarth();
+  await new Promise((res) => setTimeout(res, 450));
   loading.booting = false;
   renderer.setAnimationLoop(render);
   document.body.classList.remove('loading');
   document.documentElement.style.overflow = '';
   // the loading screen fades away to the Earth
   $('#loader').classList.add('done');
-  setTimeout(() => loaderArt.stop(), 1800);   // once the screen has faded, the drawing stops
+  closing.then(() => setTimeout(() => loaderArt.stop(), 1600));   // once the screen has faded, the drawing stops
   if (import.meta.env.DEV) window.__wit = { S, tl, estuary, space, cosmos, clouds, renderer, gsap, ambience, goto: (t) => { window.scrollTo(0, scrollYForTime(tl, t)); } };
 }
 

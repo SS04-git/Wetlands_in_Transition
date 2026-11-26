@@ -12,7 +12,8 @@ const WARM = [231, 176, 106], COOL = [143, 220, 239];   // the conclusion's wate
 const mix = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * t));
 const ease = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
 
-export function startLoaderArt(canvas, getProgress, onCount) {
+export function startLoaderArt(canvas, getProgress, onCount, opts = {}) {
+  const baseY = opts.y ?? 0.64;   // where the lines sit, as a share of the height
   const ctx = canvas.getContext('2d');
   let W = 0, H = 0, raf = 0, drawn = 0, lastT = 0, lastCount = -1, stopped = false;
 
@@ -28,7 +29,7 @@ export function startLoaderArt(canvas, getProgress, onCount) {
   // the shared shape of the shore, and each date's departure from it
   const shore = (u) => amp() * (0.14 * Math.sin(u * 3.6 + 0.4) + 0.06 * Math.sin(u * 8.3 + 1.1) + 0.022 * Math.sin(u * 17.0 + 2.0));
   const shift = (u, i) => amp() * (0.09 * Math.sin(u * 2.9 + i * 1.71) + 0.05 * Math.sin(i * 2.37 + 0.5) + 0.018 * Math.sin(u * 11.0 + i));
-  const lineY = (u, i, t) => H * 0.64 + shore(u) + shift(u, i) + Math.sin(t * 0.6 + i * 0.9 + u * 2.6) * 1.4;
+  const lineY = (u, i, t) => H * baseY + shore(u) + shift(u, i) + Math.sin(t * 0.6 + i * 0.9 + u * 2.6) * 1.4;
   // the ends of each line fade out, so the lines float rather than stop
   const fadeEnds = (u) => Math.min(1, u / 0.08, (1 - u) / 0.08);
 

@@ -21,24 +21,21 @@
   <div id="callouts" aria-hidden="true"></div>
   <div id="veil" aria-hidden="true"></div>
 
-  <!-- Loading: a black screen where the project's point is drawn while the site loads. Seventeen
-       waterlines, one for each date, appear one after another in dots (warm for 2011, cool for 2025)
-       and none lies where the last one did. Drawn on its own small canvas (loader.js), then the
-       screen fades away to the Earth. -->
+  <!-- Loading: an overview of the solar system (solar.js). Earth travels once round its orbit as
+       the site loads; then the view closes in on Earth and fades into the opening. -->
   <div id="loader" role="status" aria-live="polite">
     <canvas id="loader-art" aria-hidden="true"></canvas>
     <div class="loader-copy">
       <p class="loader-kicker">Panchagangavali estuary · Kundapur, Karnataka</p>
       <p class="loader-title">Wetlands in Transition</p>
-      <p class="loader-sub">One edge between land and water, seen on 17 dates</p>
     </div>
     <div class="loader-foot">
-      <p class="loader-count" id="loader-count">Waterline 0 of 17</p>
       <p class="loader-note"><span id="loader-note">Finding the Earth</span><span class="loader-pct" id="loader-pct">0%</span></p>
     </div>
   </div>
 
   <nav class="gauge" id="gauge" aria-label="Chapters"></nav>
+  <button type="button" class="about-btn" id="about-open" aria-haspopup="dialog">About this project</button>
   <button type="button" class="sound" id="sound" aria-pressed="false" title="Calm space and clouds, then the sounds of nature at Kundapur"><i aria-hidden="true"></i><span>Sound off</span></button>
   <details class="legend" id="legend" open><summary>Legend</summary><div class="lg-body"></div></details>
   <nav class="datestrip" id="datestrip" aria-label="Observation date"></nav>
@@ -382,6 +379,7 @@
       <p class="note" id="ml-scen-note"></p>
     </section>
 
+
     <!-- ===== Conclusion ===== -->
     <!-- first, what the lines on the estuary are; then the statement they support -->
     <section class="beat" data-in="46.3" data-out="47.05">
@@ -403,6 +401,97 @@
       <button type="button" class="open-map" id="begin-again">Return to the start</button>
     </section>
   </div>
+
+  <!-- About this project: a page of its own over the story (the story does not move or change) -->
+  <dialog id="about" aria-labelledby="about-title">
+    <form method="dialog" class="ab-closeform"><button class="ab-close" aria-label="Close About">Close</button></form>
+    <header class="ab-hero">
+      <canvas class="ab-lines" id="about-lines" aria-hidden="true"></canvas>
+      <div class="ab-hero-in">
+        <p class="kicker">About this project</p>
+        <h1 id="about-title">Wetlands in Transition</h1>
+        <p class="ab-lede">Mapping change and development in the Panchagangavali estuary, Kundapur, Karnataka.</p>
+        <ul class="ab-stats">
+          <li><b>17</b><span>dates traced by hand</span></li>
+          <li><b>2011&ndash;2025</b><span>fourteen years of change</span></li>
+          <li><b>10</b><span>kinds of ground</span></li>
+          <li><b>6</b><span>printed A3 maps</span></li>
+          <li><b>250 &times; 195 m</b><span>the frame of every date</span></li>
+        </ul>
+      </div>
+    </header>
+    <div class="ab-body">
+      <nav class="ab-index" aria-label="On this page">
+        <button type="button" data-ab-go="ab-what">What this is</button>
+        <button type="button" data-ab-go="ab-how">How it was made</button>
+        <button type="button" data-ab-go="ab-read">Reading the website</button>
+        <button type="button" data-ab-go="ab-maps">The six maps</button>
+        <button type="button" data-ab-go="ab-sources">Sources and limits</button>
+      </nav>
+      <div class="ab-main">
+        <section class="ab-sec" id="ab-what">
+          <h3>What this is</h3>
+          <div class="ab-what">
+            <div>
+              <p>A study of the Panchagangavali estuary at Kundapur, Karnataka, where the river meets the Arabian Sea. It is an ecological and livelihood hub for the Kharvi community, who fish, collect clams and gather, sort and clean shellfish along its edges.</p>
+              <p>The study follows how the edge between land and water changes with the tide, the seasons and the years, and how that change is drawn in formal land-use planning.</p>
+            </div>
+            <blockquote class="ab-quote">Where does the land end and the water begin?</blockquote>
+          </div>
+        </section>
+        <section class="ab-sec" id="ab-how">
+          <h3>How it was made</h3>
+          <ol class="ab-steps">
+            <li><span class="ab-num">01</span><b>Seventeen images</b><p>Satellite images of the same frame were collected from Google Earth Pro. Rain and cloud hide the estuary from June to September, so every usable date falls between November and May.</p></li>
+            <li><span class="ab-num">02</span><b>Traced by hand</b><p>On each date the ground was traced into water, muddy shallows, bed ground, mangrove canopy, the land edge, tree cover, track, buildings, boats and cage farms.</p></li>
+            <li><span class="ab-num">03</span><b>Six maps</b><p>The tracings were compared across the dates, set beside the Kundapura Master Plan 2031 and the monsoon rainfall, and drawn as six A3 maps.</p></li>
+            <li><span class="ab-num">04</span><b>A computer test</b><p>A computer model was taught to trace the same images, to see how reliably the change can be read from them.</p></li>
+          </ol>
+        </section>
+        <section class="ab-sec" id="ab-read">
+          <h3>Reading the website</h3>
+          <ul class="ab-read">
+            <li><i class="ic ic-scroll" aria-hidden="true"></i><b>Scroll</b><span>to move through the story, from space down to the estuary and back.</span></li>
+            <li><i class="ic ic-drag" aria-hidden="true"></i><b>Drag</b><span>the view to look around the estuary.</span></li>
+            <li><i class="ic ic-dots" id="about-dots" aria-hidden="true"></i><b>Dots</b><span>draw the estuary. Each colour is one kind of ground, named in the key at the top right.</span></li>
+            <li><i class="ic ic-line" aria-hidden="true"><svg viewBox="0 0 20 60"><path d="M12 0 C 4 12, 15 22, 9 34 S 5 50, 10 60"/><circle cx="10.4" cy="16" r="2.4"/><circle cx="9.2" cy="34" r="2.4"/><circle cx="8.6" cy="50" r="2.4"/></svg></i><b>The line on the right</b><span>is a map of the story. Select a mark to jump to that chapter.</span></li>
+          </ul>
+        </section>
+        <section class="ab-sec" id="ab-maps">
+          <h3>The six maps</h3>
+          <p>Each chapter ends with the printed map it was built from. Open any of them here at full A3 size, then zoom in to the detail of the print.</p>
+          <ol class="ab-maps">
+            <li><button type="button" data-about-map="1"><span class="rc-img"><img src="/thumbs/map-1.jpg" alt="" loading="lazy" width="900" height="636"><span class="rc-num">1</span><span class="rc-go">Open the full A3 map</span></span><span class="rc-n">Map 1</span><span class="ab-mt">The estuary as a landscape</span><span class="rc-t">A single day already holds water, mangroves, boats and cage farms.</span></button></li>
+            <li><button type="button" data-about-map="2"><span class="rc-img"><img src="/thumbs/map-2.jpg" alt="" loading="lazy" width="900" height="636"><span class="rc-num">2</span><span class="rc-go">Open the full A3 map</span></span><span class="rc-n">Map 2</span><span class="ab-mt">Patterns of wetness and vegetation</span><span class="rc-t">The edge is not one line but a band, sometimes wet and sometimes dry.</span></button></li>
+            <li><button type="button" data-about-map="3"><span class="rc-img"><img src="/thumbs/map-3.jpg" alt="" loading="lazy" width="900" height="636"><span class="rc-num">3</span><span class="rc-go">Open the full A3 map</span></span><span class="rc-n">Map 3</span><span class="ab-mt">The estuary through time</span><span class="rc-t">No single date can stand for the estuary.</span></button></li>
+            <li><button type="button" data-about-map="4"><span class="rc-img"><img src="/thumbs/map-4.jpg" alt="" loading="lazy" width="900" height="636"><span class="rc-num">4</span><span class="rc-go">Open the full A3 map</span></span><span class="rc-n">Map 4</span><span class="ab-mt">The estuary as a lived landscape</span><span class="rc-t">The changing edge is also where people work.</span></button></li>
+            <li><button type="button" data-about-map="5"><span class="rc-img"><img src="/thumbs/map-5.jpg" alt="" loading="lazy" width="900" height="636"><span class="rc-num">5</span><span class="rc-go">Open the full A3 map</span></span><span class="rc-n">Map 5</span><span class="ab-mt">Between plan and ground</span><span class="rc-t">The plan draws fixed areas where the ground shows a moving edge.</span></button></li>
+            <li><button type="button" data-about-map="6"><span class="rc-img"><img src="/thumbs/map-6.jpg" alt="" loading="lazy" width="900" height="636"><span class="rc-num">6</span><span class="rc-go">Open the full A3 map</span></span><span class="rc-n">Map 6</span><span class="ab-mt">The estuary and the monsoon</span><span class="rc-t">Every image follows a monsoon the images themselves cannot show.</span></button></li>
+          </ol>
+        </section>
+        <section class="ab-sec ab-two" id="ab-sources">
+          <div>
+            <h3>Sources</h3>
+            <ul class="ab-list">
+              <li><b>Satellite imagery</b> Google Earth Pro (&copy; Google and imagery providers).</li>
+              <li><b>Rainfall</b> NASA POWER (MERRA-2), averaged over squares about 50 km wide.</li>
+              <li><b>Planning</b> Kundapura Master Plan 2031, existing land use, Drawing No. 2 (provisional, 1:15,000).</li>
+              <li><b>Sound at Kundapur</b> "Backyard nature", Freesound community.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Limits</h3>
+            <ul class="ab-list">
+              <li>Tide levels at the time of each image are not known.</li>
+              <li>Rainfall is regional, not measured at the estuary.</li>
+              <li>No usable monsoon imagery exists.</li>
+            </ul>
+          </div>
+        </section>
+        <footer class="ab-credit"><span>Made by Sara Saju</span><span>Wetlands in Transition</span></footer>
+      </div>
+    </div>
+  </dialog>
 
   <dialog id="map-viewer">
     <div class="mv-bar">

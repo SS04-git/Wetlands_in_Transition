@@ -24,6 +24,7 @@ function set(beat, s) {
 export function fitBeats(root = document) {
   const portrait = innerWidth < innerHeight;
   for (const beat of root.querySelectorAll('.beat')) {
+    if (beat.classList.contains('beat--recap')) continue;   // laid out on its own, full screen
     set(beat, 1);
     if (portrait) continue;
     const A = room(beat);

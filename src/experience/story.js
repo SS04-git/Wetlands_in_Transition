@@ -346,8 +346,11 @@ export function buildTimeline(S, { stackHeight, mangroveCentre, planBoxCentre = 
   const nextIn = new Map(textSteps.map((el, i) => [el, i + 1 < textSteps.length ? +textSteps[i + 1].dataset.in : Infinity]));
   document.querySelectorAll('[data-in]').forEach((el) => {
     const a = +el.dataset.in, b = +el.dataset.out;
+    // a step with its own (short) fade, for one held on a slow stretch of scrolling
+    const fade = el.dataset.fade ? +el.dataset.fade : 0;
     if (a <= 0) gsap.set(el, { autoAlpha: 1, y: 0 });
-    else tl.fromTo(el, { autoAlpha: 0, y: 22 }, { autoAlpha: 1, y: 0, duration: 0.28, ease: 'power2.out', immediateRender: false }, a);
+    else tl.fromTo(el, { autoAlpha: 0, y: 22 }, { autoAlpha: 1, y: 0, duration: fade || 0.28, ease: 'power2.out', immediateRender: false }, a);
+    if (fade) { tl.to(el, { autoAlpha: 0, y: -16, duration: fade, ease: 'power2.in' }, b); return; }
     if (b < TOTAL) {
       const n = nextIn.get(el) ?? Infinity;
       const end = Math.min(b + 0.22, n - 0.02);            // gone before the next step appears
